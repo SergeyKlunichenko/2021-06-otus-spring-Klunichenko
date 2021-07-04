@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="parser"  class="ru.otus.gpb.klunichenko.questionnaire.dao.ParserCsvImpl">
+        <constructor-arg  name="delim" value=";"/>
+    </bean>
+
+
+    <bean id="questionnaireService"  class="ru.otus.gpb.klunichenko.questionnaire.service.QuestionnaireServiceImpl">
+        <!--
+        <property name="fileCsvName" ref="questions.csv"/>
+        <property name="delim" ref=";"/>
+        -->
+        <constructor-arg name="fileInit" value="questions.csv"/>
+        <constructor-arg name="parser" ref="parser"/>
+
+    </bean>
+
+
+
+
+</beans>
