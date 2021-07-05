@@ -10,11 +10,7 @@
 
 
     <bean id="questionnaireService"  class="ru.otus.gpb.klunichenko.questionnaire.service.QuestionnaireServiceImpl">
-        <!--
-        <property name="fileCsvName" ref="questions.csv"/>
-        <property name="delim" ref=";"/>
-        -->
-        <constructor-arg name="fileInit" value="questions.csv"/>
+        <constructor-arg name="fileInit" value="questlist.csv"/>
         <constructor-arg name="parser" ref="parser"/>
 
     </bean>

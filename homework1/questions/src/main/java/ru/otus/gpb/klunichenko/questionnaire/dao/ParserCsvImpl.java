@@ -1,8 +1,6 @@
 package ru.otus.gpb.klunichenko.questionnaire.dao;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
+import java.io.*;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +20,10 @@ public class ParserCsvImpl implements  Parser{
     }
 
     public void parse() throws Exception {
+        /*
         URL resource = getClass().getClassLoader().getResource(fileName);
+
+        System.out.printf("load file %s\r\n", resource.toURI().toString());
 
         if(resource == null){
             throw new Exception(String.format("The file \"%s\" with the questions was not found", fileName));
@@ -31,6 +32,12 @@ public class ParserCsvImpl implements  Parser{
         File fileCsv = new File(resource.getFile());
         FileReader reader = new FileReader(fileCsv);
         BufferedReader br = new BufferedReader(reader);
+         */
+
+        InputStream resource = getClass().getClassLoader().getResourceAsStream(fileName);
+        Reader reader = new InputStreamReader(resource);
+        BufferedReader br = new BufferedReader(reader);
+
         String line;
         while((line = br.readLine()) != null){
             //System.out.println(line);
