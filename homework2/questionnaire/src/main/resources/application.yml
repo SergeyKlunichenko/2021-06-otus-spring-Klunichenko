@@ -1,0 +1,3 @@
+questions:
+    delim:;
+    filequest:questlist.csv
