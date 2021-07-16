@@ -1,29 +1,26 @@
 package ru.otus.gpb.klunichenko.questionnaire.domain;
 
-import ru.otus.gpb.klunichenko.questionnaire.tools.ConsoleQuest;
-
-import java.util.Scanner;
-
 public class Question {
     private String  question;
     private String correctAnswerToQuestion;
     private String  answer;
     private String variantOfAnswer;
-    private ConsoleQuest console;
+//    private ConsoleQuest console;
     private boolean right = false;
 
 
-    public  Question(String[] fields,  ConsoleQuest console){
+
+    public  Question(String[] fields){
         this.question       = fields[0];
         this.correctAnswerToQuestion = fields[1];
         this.variantOfAnswer = fields[2];
-        this.console        =  console;
 
     }
 
-    public String getQuestion() {
-        return question;
+    public String getQuestion(){
+        return question; //String.format("%s(%s):", question, variantOfAnswer);
     }
+
 
     public void setQuestion(String question) {
         this.question = question;
@@ -43,9 +40,12 @@ public class Question {
 
     public void setAnswer(String answer) {
         this.answer = answer;
+        this.right  = this.answer.equals(this.correctAnswerToQuestion);
+
     }
 
 
+/*
     public void askToQuestion(){
         console.printf("%s(%s):", question, variantOfAnswer);
 
@@ -54,11 +54,25 @@ public class Question {
 
         this.right  = this.answer.equals(this.correctAnswerToQuestion);
     }
-
+*/
+/*
     public  void printResult(){
 
         console.printf( "%s - %s (%s)\r\n" , this.question,   this.right?"Correct answer":"Wrong answer", this.answer);
 
+    }
+
+ */
+    public String getResult(){
+        return String.format("%s - %s (%s)" , this.question,   this.right?"Correct answer":"Wrong answer", this.answer);
+    }
+
+    public String getVariantOfAnswer() {
+        return variantOfAnswer;
+    }
+
+    public void setVariantOfAnswer(String variantOfAnswer) {
+        this.variantOfAnswer = variantOfAnswer;
     }
 
 }
