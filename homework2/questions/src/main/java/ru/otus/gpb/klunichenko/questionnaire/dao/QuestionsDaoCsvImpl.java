@@ -21,24 +21,17 @@ public class QuestionsDaoCsvImpl implements QuestionsDao {
         this.fileName = fileName;
     }
 
-
     public List<Question> getAll() throws IOException {
-        InputStream resource = null;
-        try {
-            resource = getClass().getClassLoader().getResourceAsStream(fileName);
+        try (InputStream resource = getClass().getClassLoader().getResourceAsStream(fileName)) {
             Reader reader = new InputStreamReader(resource);
             BufferedReader br = new BufferedReader(reader);
 
             String line;
             while ((line = br.readLine()) != null) {
-                rows.add(new Question(line.split(delim)));
-            }
-        } finally {
-            if (resource != null) {
-                resource.close();
+                String[] fields = line.split(delim);
+                rows.add(new Question(fields[0], fields[1], fields[2]));
             }
         }
-
         return rows;
     }
 

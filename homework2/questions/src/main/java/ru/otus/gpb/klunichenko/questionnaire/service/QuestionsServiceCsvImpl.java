@@ -13,44 +13,28 @@ import java.util.List;
 
 @Service
 public class QuestionsServiceCsvImpl implements QuestionsService {
-    final private List<Question> questions; // = new ArrayList<Question>();
-    final private IOService ioService;
-    //final private User user;
-    private List<AnswerToQuestion> answers;
-    public QuestionsServiceCsvImpl(QuestionsDao questionsDao, IOService ioService, UserService userService) throws IOException {
+    private QuestionsDao questionsDao;
+    private IOService ioService;
+    public QuestionsServiceCsvImpl(QuestionsDao questionsDao, IOService ioService)  {
         this.ioService = ioService;
-        questions = questionsDao.getAll();
-
-
-
-
+        this.questionsDao = questionsDao;
     }
 
-
-    /**************************************
-     *
-     */
-    public void askToQuestions(){
-        answers = new ArrayList<AnswerToQuestion>();
+    public List<AnswerToQuestion> askToQuestions() throws  IOException {
+        List<AnswerToQuestion> answers = new ArrayList();
+        List<Question> questions = questionsDao.getAll();
         for(Question question:questions){
             ioService.printf("%s(%s)", question.getQuestionText(), question.getVariantOfAnswer());
             String answerText = ioService.readLine();
-
             answers.add(new AnswerToQuestion(question, answerText ));
-
-
         }
-
+        return answers;
     }
 
-    public void printResult(){
-        ioService.println("------------------------------------------------------------------");
-        ioService.println("Result:");
-
+    public void printResult(List<AnswerToQuestion> answers){
         for(AnswerToQuestion answer: answers){
             ioService.println(answer.getResult());
         }
-
     }
 
 

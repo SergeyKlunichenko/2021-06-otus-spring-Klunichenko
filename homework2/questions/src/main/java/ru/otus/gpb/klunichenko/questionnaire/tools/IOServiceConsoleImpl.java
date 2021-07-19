@@ -6,25 +6,20 @@ import java.util.Scanner;
 
 @Service
 public class IOServiceConsoleImpl implements IOService {
-    /*******************************
-     *
-     */
+    Scanner scanner;
+    public IOServiceConsoleImpl(){
+        scanner = new Scanner(System.in);
+
+    }
     public void println(String message){
         System.out.println(message);
     }
 
-    /********************************
-     *
-     */
     public void printf(String format, String  ... args){
         System.out.printf(format, args);
     }
 
-    /******************************
-     *
-     */
     public String readLine(){
-        Scanner scn = new Scanner(System.in);
-        return scn.nextLine();
+        return scanner.nextLine();
     }
 }
