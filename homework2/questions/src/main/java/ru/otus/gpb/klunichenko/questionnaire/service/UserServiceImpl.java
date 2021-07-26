@@ -1,13 +1,14 @@
 package ru.otus.gpb.klunichenko.questionnaire.service;
 
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import ru.otus.gpb.klunichenko.questionnaire.config.Messages;
 import ru.otus.gpb.klunichenko.questionnaire.domain.User;
 import ru.otus.gpb.klunichenko.questionnaire.tools.IOService;
 
 import java.io.IOException;
 
-@Component
+@Service
 public class UserServiceImpl implements UserService{
     private  IOService ioService;
     private Messages messages;
@@ -17,12 +18,17 @@ public class UserServiceImpl implements UserService{
     }
 
     public User login() {
-        User user = new User(messages);
+        User user = new User();
+        String name ;
         ioService.println("Please enter your surname and name");
+
         ioService.printf("Surname:");
-        user.setSurname(ioService.readLine());
+        name = ioService.readLine();
+        user.setSurname(name.equals("")? messages.getMessage("UserUnknow") : name);
+
         ioService.printf("Name:");
-        user.setName(ioService.readLine());
+        name = ioService.readLine();
+        user.setName(name.equals("")? messages.getMessage("UserNoname") : name);
 
         if(user.getSurname().equals(messages.getMessage("UserUnknow")) || user.getName().equals(messages.getMessage("UserNoname"))){
             return login();

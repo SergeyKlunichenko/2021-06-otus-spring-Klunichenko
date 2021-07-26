@@ -5,18 +5,14 @@ import ru.otus.gpb.klunichenko.questionnaire.config.Messages;
 public class User {
     private String name;
     private String surname;
-    private Messages messages;
 
-    public User(Messages messages){
-        this.messages = messages;
-    }
 
     public String getSurname() {
         return surname;
     }
 
     public void setSurname(String surname) {
-        this.surname = surname.equals("")? messages.getMessage("UserUnknow"):surname;
+        this.surname = surname;
     }
 
     public String getName() {
@@ -24,6 +20,6 @@ public class User {
     }
 
     public void setName(String name) {
-        this.name = name.equals("")?messages.getMessage("UserNoname"):name;
+        this.name = name;
     }
 }

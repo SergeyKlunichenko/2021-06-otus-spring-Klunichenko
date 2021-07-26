@@ -1,7 +1,7 @@
 package ru.otus.gpb.klunichenko.questionnaire.domain;
 
 public class AnswerToQuestion {
-    private Question question;
+    final private  Question question;
     final private String answerToQuestionText;
 
     public AnswerToQuestion(Question question, String answerToQuestionText){

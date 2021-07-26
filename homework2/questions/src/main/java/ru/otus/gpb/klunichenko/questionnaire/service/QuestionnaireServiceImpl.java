@@ -10,9 +10,9 @@ import java.util.List;
 
 @Service
 public class QuestionnaireServiceImpl implements  QuestionnaireService{
-    private QuestionsService questions;
-    private IOService ioService;
-    private UserService userService;
+    private  final QuestionsService questions;
+    private  IOService ioService;
+    private  UserService userService;
 
     public QuestionnaireServiceImpl(QuestionsService questions, IOService ioService, UserService userService) {
         this.ioService = ioService;
