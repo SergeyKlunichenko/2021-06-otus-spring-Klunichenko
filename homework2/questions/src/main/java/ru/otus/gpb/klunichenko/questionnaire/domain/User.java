@@ -1,11 +1,9 @@
 package ru.otus.gpb.klunichenko.questionnaire.domain;
 
-import ru.otus.gpb.klunichenko.questionnaire.config.Messages;
 
 public class User {
     private String name;
     private String surname;
-
 
     public String getSurname() {
         return surname;

@@ -4,22 +4,22 @@ import org.springframework.stereotype.Service;
 import ru.otus.gpb.klunichenko.questionnaire.dao.QuestionsDao;
 import ru.otus.gpb.klunichenko.questionnaire.domain.AnswerToQuestion;
 import ru.otus.gpb.klunichenko.questionnaire.domain.Question;
-import ru.otus.gpb.klunichenko.questionnaire.domain.User;
 import ru.otus.gpb.klunichenko.questionnaire.tools.IOService;
+import ru.otus.gpb.klunichenko.questionnaire.tools.Logger;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class QuestionsServiceCsv implements QuestionsService {
     private  final QuestionsDao questionsDao;
-    private  IOService ioService;
+    private  final IOService ioService;
     public QuestionsServiceCsv(QuestionsDao questionsDao, IOService ioService)  {
         this.ioService = ioService;
         this.questionsDao = questionsDao;
     }
 
+    @Logger
     public List<AnswerToQuestion> askToQuestions() {
         List<AnswerToQuestion> answers = new  ArrayList<>();
         List<Question> questions = questionsDao.getAll();
@@ -30,7 +30,7 @@ public class QuestionsServiceCsv implements QuestionsService {
         }
         return answers;
     }
-
+    @Logger
     public void printResult(List<AnswerToQuestion> answers){
         for(AnswerToQuestion answer: answers){
             ioService.println(answer.getResult());

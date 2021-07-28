@@ -1,8 +1,8 @@
 package ru.otus.gpb.klunichenko.questionnaire.domain;
 
 public class AnswerToQuestion {
-    final private  Question question;
-    final private String answerToQuestionText;
+    private final   Question question;
+    private final    String answerToQuestionText;
 
     public AnswerToQuestion(Question question, String answerToQuestionText){
         this.question               = question;

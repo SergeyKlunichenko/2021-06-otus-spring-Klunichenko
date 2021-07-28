@@ -1,18 +1,19 @@
 package ru.otus.gpb.klunichenko.questionnaire.service;
 
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Repository;
 import ru.otus.gpb.klunichenko.questionnaire.domain.AnswerToQuestion;
 import ru.otus.gpb.klunichenko.questionnaire.domain.User;
 import ru.otus.gpb.klunichenko.questionnaire.tools.IOService;
+import ru.otus.gpb.klunichenko.questionnaire.tools.Logger;
 
 import java.util.List;
 
 
-@Service
+@Repository
 public class QuestionnaireServiceImpl implements  QuestionnaireService{
     private  final QuestionsService questions;
-    private  IOService ioService;
-    private  UserService userService;
+    private  final IOService ioService;
+    private  final UserService userService;
 
     public QuestionnaireServiceImpl(QuestionsService questions, IOService ioService, UserService userService) {
         this.ioService = ioService;
@@ -21,6 +22,7 @@ public class QuestionnaireServiceImpl implements  QuestionnaireService{
     }
 
     @Override
+    @Logger
     public void execute() {
         User user =         userService.login();
         try {

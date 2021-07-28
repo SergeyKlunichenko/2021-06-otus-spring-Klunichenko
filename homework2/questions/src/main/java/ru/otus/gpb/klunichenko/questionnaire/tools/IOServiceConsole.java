@@ -6,7 +6,7 @@ import java.util.Scanner;
 
 @Service
 public class IOServiceConsole implements IOService {
-    Scanner scanner;
+    private  final  Scanner scanner;
     public IOServiceConsole(){
         scanner = new Scanner(System.in);
 
