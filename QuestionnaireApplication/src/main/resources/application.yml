@@ -1,0 +1,25 @@
+properties: 
+   delim: ;
+   filequest: questlist.csv
+
+questions:
+   - question: Солнце восходит на востоке и заходит на западе?
+     answer: Да
+     answers: Да,Нет
+   - question: Какого цвета листья у живого дерева?;
+     answer: Зеленые;
+     answers: Зеленые, Белые, Черные, Розовые
+   - question: Какой цвет глаз у Фреди Меркури?;
+     answer: Карие;
+     answers: Карие, Голубые, Розовые, Зелены
+   - question: Сколько пальцев на руке?;
+     answer: 5;
+     answers: 1,2,3,4,5
+   - question: Ты знаешь английский язык?;
+     answer: хз;
+     answers: Да,Нет,хз
+
+
+
+
+
