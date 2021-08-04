@@ -1,6 +1,11 @@
 properties: 
    delim: ;
    filequest: questlist.csv
+   locale: ru-RU
+
+spring:
+    messages:
+        basename: i18n/messages
 
 questions:
    - question: Солнце восходит на востоке и заходит на западе?
