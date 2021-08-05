@@ -17,17 +17,17 @@ public class UserServiceImpl implements UserService{
     public User login() {
         User user = new User();
         String name ;
-        ioService.println(messageService.getMessage("loginMessage"));
+        ioService.println(messageService.getMessage("messages.login.loginMessage"));
 
-        ioService.printf(messageService.getMessage("label.Surname")+":");
+        ioService.printf(messageService.getMessage("messages.login.label.Surname")+":");
         name = ioService.readLine();
-        user.setSurname(name.equals("")? messageService.getMessage("UserUnknow") : name);
+        user.setSurname(name.equals("")? messageService.getMessage("messages.login.UserUnknow") : name);
 
-        ioService.printf(messageService.getMessage("label.Name")+":");
+        ioService.printf(messageService.getMessage("messages.login.label.Name")+":");
         name = ioService.readLine();
-        user.setName(name.equals("")? messageService.getMessage("UserNoname") : name);
+        user.setName(name.equals("")? messageService.getMessage("messages.login.UserNoname") : name);
 
-        if(user.getSurname().equals(messageService.getMessage("UserUnknow")) || user.getName().equals(messageService.getMessage("UserNoname"))){
+        if(user.getSurname().equals(messageService.getMessage("messages.login.UserUnknow")) || user.getName().equals(messageService.getMessage("messages.login.UserNoname"))){
             return login();
         }
 

@@ -1,4 +1,4 @@
-package ru.otus.gpb.klunichenko.questionnaire.tools;
+package ru.otus.spring.tools;
 
 import org.springframework.stereotype.Component;
 

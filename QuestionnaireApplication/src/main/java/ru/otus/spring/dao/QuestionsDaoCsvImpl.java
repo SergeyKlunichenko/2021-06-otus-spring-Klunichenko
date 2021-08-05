@@ -13,8 +13,6 @@ import java.util.List;
 public class QuestionsDaoCsvImpl implements QuestionsDao {
 
     private final AppConfig config;
-    private final List<Question> rows = new ArrayList<Question>();
-
     public QuestionsDaoCsvImpl(AppConfig config){
         this.config = config;
     }
@@ -23,8 +21,10 @@ public class QuestionsDaoCsvImpl implements QuestionsDao {
     public List<Question> getAll() throws QuestionaireException {
         List<Question> rows = new ArrayList<>();
         String fileName = config.getFilequest();
-        String locale = config.getLocale();
-        fileName = fileName.replace(".", "_"+locale+".").replace("-", "_");
+        String locale = config.getLocale().trim();
+        if(!locale.equals("") ) {
+            fileName = fileName.replace(".", "_" + locale + ".").replace("-", "_");
+        }
 
         try (InputStream resource = getClass().getClassLoader().getResourceAsStream(fileName)) {
             if(resource == null){

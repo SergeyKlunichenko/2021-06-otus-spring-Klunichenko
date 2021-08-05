@@ -7,8 +7,8 @@ import org.springframework.stereotype.Component;
 @ConfigurationProperties(prefix="properties")
 @Component
 public class AppConfig {
-    String delim;
-    String filequest;
+    private  String  delim = "";
+    private  String  filequest = "";
 
     public String getLocale() {
         return locale;

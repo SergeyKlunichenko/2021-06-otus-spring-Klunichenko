@@ -14,19 +14,10 @@ import java.util.Scanner;
 public class IOServiceConsole implements IOService {
     private  final  Scanner scanner;
     private  final MessageSource messageSource;
-    private  final String locale;
 
     public IOServiceConsole(MessageSource messageSource, AppConfig config){
         scanner = new Scanner(System.in);
         this.messageSource = messageSource;
-        this.locale = config.getLocale();
-
-        printf("locale=%s", locale);
-
-    }
-
-    public void printmsgln(String var1, @Nullable Object[] var2){
-
     }
 
     public void println(String message){

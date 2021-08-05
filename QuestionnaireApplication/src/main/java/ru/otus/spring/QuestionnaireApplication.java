@@ -14,6 +14,8 @@ public class QuestionnaireApplication {
         QuestionnaireService service = context.getBean(QuestionnaireService.class);
         service.execute();
 
+        System.exit(0);
+
     }
 
 }

@@ -1,7 +1,7 @@
 properties: 
    delim: ;
    filequest: questlist.csv
-   locale: ru-RU
+   locale: 
 
 spring:
     messages:
