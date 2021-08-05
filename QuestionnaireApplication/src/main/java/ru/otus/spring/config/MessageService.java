@@ -9,7 +9,6 @@ public class MessageService {
     private final Locale locale;
     private final MessageSource msg;
     public MessageService(MessageSource msg,  AppConfig config){
-        System.out.println("config.getLocale()="+config.getLocale());
         this.locale = Locale.forLanguageTag(config.getLocale());
         this.msg    =   msg;
     }
