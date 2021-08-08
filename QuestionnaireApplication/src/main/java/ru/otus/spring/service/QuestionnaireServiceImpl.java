@@ -18,7 +18,7 @@ public class QuestionnaireServiceImpl implements  QuestionnaireService{
     private  final QuestionsService questions;
     private  final MessageService messageService;
     public QuestionnaireServiceImpl(QuestionsService questions, IOService ioService, UserService userService, MessageService messageService) {
-        this.ioService = ioService ; //new IOServiceConsole(System.in);
+        this.ioService = ioService ;
         this.questions  = questions;
         this.userService = userService;
         this.messageService = messageService;

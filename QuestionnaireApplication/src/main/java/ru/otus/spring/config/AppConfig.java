@@ -3,6 +3,8 @@ package ru.otus.spring.config;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
+import java.util.Locale;
+
 
 @ConfigurationProperties(prefix="properties")
 @Component
@@ -27,11 +29,12 @@ public class AppConfig {
         this.delim = delim;
     }
 
-    public String getFilequest() {
-        return filequest;
+    public String getFileQuest() {
+        String loc =     Locale.forLanguageTag(locale).getLanguage();
+        return filequest.replace("{locale}", loc.equals("")?"en":loc) ;
     }
 
-    public void setFilequest(String filequest) {
+    public void setFileQuest(String filequest) {
         this.filequest = filequest;
     }
 

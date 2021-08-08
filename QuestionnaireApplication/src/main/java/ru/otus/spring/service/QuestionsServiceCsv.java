@@ -27,13 +27,16 @@ public class QuestionsServiceCsv implements QuestionsService {
         for(Question question:questions){
             ioService.printf("%s(%s)", question.getQuestionText(), question.getVariantOfAnswer());
             String answerText = ioService.readLine();
-            answers.add(new AnswerToQuestion(question, answerText, messageService ));
+            answers.add(new AnswerToQuestion(   question,   answerText) );
         }
         return answers;
     }
     public void printResult(List<AnswerToQuestion> answers){
         for(AnswerToQuestion answer: answers){
-            ioService.println(answer.getResult());
+            Question question = answer.getQuestion();
+            String resultOfAnswerToQuestion = answer.getAnswerToQuestionText().equals(question.getCorrectAnswerToQuestion())?messageService.getMessage("messages.answer.correct"):messageService.getMessage("messages.answer.wrong");
+            String result = String.format("%s - %s (%s)", question.getQuestionText(), resultOfAnswerToQuestion, answer.getAnswerToQuestionText());
+            ioService.println(result);
         }
     }
 

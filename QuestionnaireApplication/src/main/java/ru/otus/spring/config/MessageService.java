@@ -6,18 +6,20 @@ import java.util.Locale;
 
 @Service
 public class MessageService {
+
+
     private final Locale locale;
     private final MessageSource msg;
     public MessageService(MessageSource msg,  AppConfig config){
         this.locale = Locale.forLanguageTag(config.getLocale());
         this.msg    =   msg;
-    }
-    public String getMessage(String msgCode){
-        return msg.getMessage(msgCode,  null, locale);
-    }
 
+    }
     public String getMessage(String msgCode, String... strings){
         return msg.getMessage(msgCode, strings, locale);
     }
 
+    public Locale getLocale() {
+        return locale;
+    }
 }

@@ -13,9 +13,6 @@ public class QuestionnaireApplication {
         ApplicationContext context = SpringApplication.run(QuestionnaireApplication.class, args);
         QuestionnaireService service = context.getBean(QuestionnaireService.class);
         service.execute();
-
-        System.exit(0);
-
     }
 
 }
