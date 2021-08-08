@@ -19,7 +19,4 @@ public class MessageService {
         return msg.getMessage(msgCode, strings, locale);
     }
 
-    public Locale getLocale() {
-        return locale;
-    }
 }

@@ -27,9 +27,6 @@ public class QuestionsDaoCsvImpl implements QuestionsDao {
     public List<Question> getAll() throws QuestionaireException {
         List<Question> rows = new ArrayList<>();
         String fileName = config.getFileQuest();
-        //String locale = config.getLocale().trim();
-
-//System.out.println("Открытие файла с вопросником:"+fileName);
         ioService.println(messageService.getMessage("messages.questions.openfile", fileName));
 
         try (InputStream resource = getClass().getClassLoader().getResourceAsStream(fileName)) {
