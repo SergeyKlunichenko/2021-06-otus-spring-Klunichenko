@@ -15,23 +15,19 @@ import java.util.List;
 public class QuestionsDaoCsvImpl implements QuestionsDao {
 
     private final AppConfig config;
-    private final MessageService messageService;
-    private final IOService ioService;
-    public QuestionsDaoCsvImpl(AppConfig config, MessageService messageService, IOService ioService){
+    public QuestionsDaoCsvImpl(AppConfig config){
         this.config = config;
-        this.messageService = messageService;
-        this.ioService = ioService;
     }
 
 
     public List<Question> getAll() throws QuestionaireException {
         List<Question> rows = new ArrayList<>();
         String fileName = config.getFileQuest();
-        ioService.println(messageService.getMessage("messages.questions.openfile", fileName));
+        System.out.printf("A file %s with questions has been opened\n", fileName)    ;
 
         try (InputStream resource = getClass().getClassLoader().getResourceAsStream(fileName)) {
             if(resource == null){
-                throw new QuestionaireException(messageService.getMessage("messages.questions.fileNotFound", fileName));
+                throw new QuestionaireException(String.format("The file with questions %s was not found\n", fileName));
             }
 
             Reader reader = new InputStreamReader(resource);
@@ -42,8 +38,6 @@ public class QuestionsDaoCsvImpl implements QuestionsDao {
                 String[] fields = line.split(config.getDelim());
                 rows.add(new Question(fields[0], fields[1], fields[2]));
             }
-        } catch (IOException e){
-            throw new QuestionaireException(e);
         } catch (Exception ex) {
             throw new QuestionaireException(ex);
         }

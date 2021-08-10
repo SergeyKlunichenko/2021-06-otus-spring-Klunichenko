@@ -11,11 +11,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class QuestionsServiceCsv implements QuestionsService {
+public class QuestionsServiceImpl implements QuestionsService {
     private  final QuestionsDao questionsDao;
     private  final IOService ioService;
     private  final MessageService messageService;
-    public QuestionsServiceCsv(QuestionsDao questionsDao, IOService ioService, MessageService messageService)  {
+    public QuestionsServiceImpl(QuestionsDao questionsDao, IOService ioService, MessageService messageService)  {
         this.ioService = ioService;
         this.questionsDao = questionsDao;
         this.messageService = messageService;

@@ -33,7 +33,7 @@ public class QuestionnaireServiceImpl implements  QuestionnaireService{
             List<AnswerToQuestion> answers = questions.askToQuestions();
 
             ioService.println("------------------------------------------------------------------");
-            ioService.println(messageService.getMessage("messages.questions.result", null));
+            ioService.println(messageService.getMessage("messages.questions.result"));
 
             questions.printResult(answers);
             ioService.println(messageService.getMessage("messages.questions.thank", new String[]{user.getSurname(), user.getName()}));
