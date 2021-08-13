@@ -1,0 +1,12 @@
+spring:
+  shell:
+    interactive:
+      enabled: false
+  messages:
+      basename: i18n/messages
+
+properties: 
+   delim: ;
+   filequest: questlist-{locale}.csv
+   locale: ru
+
