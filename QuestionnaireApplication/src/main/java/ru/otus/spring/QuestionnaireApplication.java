@@ -10,11 +10,6 @@ import ru.otus.spring.service.QuestionnaireService;
 public class QuestionnaireApplication {
 
     public static void main(String[] args) {
-        /*
-        ApplicationContext context = SpringApplication.run(QuestionnaireApplication.class, args);
-        QuestionnaireService service = context.getBean(QuestionnaireService.class);
-        service.execute();
-        */
         SpringApplication.run(QuestionnaireApplication.class, args);
 
     }

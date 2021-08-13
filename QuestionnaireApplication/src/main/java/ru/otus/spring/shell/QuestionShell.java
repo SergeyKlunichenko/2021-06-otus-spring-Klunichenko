@@ -53,7 +53,6 @@ public class QuestionShell {
 
 
     private Availability isUserLogin() {
-        //return user == null? Availability.unavailable(messageService.getMessage("messages.login.label.loginMessage")):Availability.available();
         return user == null? Availability.unavailable(": Login please"):Availability.available();
     }
 
