@@ -40,22 +40,40 @@ public class BookDaoJdbc implements BookDao{
 
     @Override
     public List<Book> getAll() {
-        return jdbc.query("select id, name, autorid, genreid from books", new Mapper(genreDao, autorDao)) ; //jdbc.query();
+        return jdbc.query("select b.id, b.name, b.genreid,  g.name genre, b.autorid autorid , a.name autor" +
+                            "  from books b, genres g , autors a" +
+                            "  where   g.id = b.genreid" +
+                            "      and a.id = b.autorid", new Mapper()) ; //jdbc.query();
     }
 
     @Override
     public Book findById(long id) throws BookStoreException{
         try {
-            return jdbcnp.queryForObject("select id, name, genreid, autorid from books where id = :id", Map.of("id", id), new Mapper(genreDao, autorDao));
+            return jdbcnp.queryForObject("select b.id, b.name, b.genreid,  g.name genre, b.autorid autorid , a.name autor" +
+                    "  from books b, genres g , autors a" +
+                    "  where    g.id = b.genreid" +
+                    "       and a.id = b.autorid" +
+                    "       and b.id = :id", Map.of("id", id), new Mapper());
         } catch(EmptyResultDataAccessException e){
             throw new BookStoreException("Не найдена книга по id=%s", id);
-    }
-
-
+        }
     }
 
     @Override
-    public long insert(Book book) {
+    public Book findByName(String name) throws BookStoreException {
+        try {
+            return jdbcnp.queryForObject("select b.id, b.name, b.genreid,  g.name genre, b.autorid autorid , a.name autor" +
+                    "  from books b, genres g , autors a" +
+                    "  where    g.id = b.genreid" +
+                    "       and a.id = b.autorid" +
+                    "       and b.name = :name", Map.of("name", name), new Mapper());
+        } catch(EmptyResultDataAccessException e){
+            throw new BookStoreException("Не найдена книга \"%s\"", name);
+        }
+    }
+
+    @Override
+    public Book insert(Book book) throws BookStoreException{
 
         MapSqlParameterSource params = new MapSqlParameterSource()
                                         .addValue("name", book.getName())
@@ -67,37 +85,43 @@ public class BookDaoJdbc implements BookDao{
 
         jdbcnp.update("insert into books(name, genreid, autorid) values (:name, :genreid, :autorid)", params, keyHolder);
 
-        return keyHolder.getKey().longValue();
+        book = findById(keyHolder.getKey().longValue());
+
+        return book;
     }
 
     @Override
-    public void deleteById(long id) {
+    public Book update(Book book) {
+        MapSqlParameterSource params = new MapSqlParameterSource()
+                .addValue("id", book.getId())
+                .addValue("name", book.getName())
+                .addValue("autorid", book.getAutor().getId())
+                .addValue("genreid", book.getGenre().getId());
+
+
+        jdbcnp.update("update books set name=:name, autorid=:autorid, genreid=:genreid where id = :id", params);
+
+        return book;
+    }
+
+    @Override
+    public void deleteById(long id) throws BookStoreException{
+        Book book = findById(id);
         jdbcnp.update("delete from books where id =:id", Map.of("id", id));
     }
 
     @Override
-    public void deleteByName(String name) {
-         jdbcnp.update("delete from books where name =:name", Map.of("name", name));
+    public void deleteByName(String name) throws BookStoreException{
+        Book book = findByName(name);
+        jdbcnp.update("delete from books where name =:name", Map.of("name", name));
     }
 
     private static class Mapper implements RowMapper<Book>{
-        private final GenreDao genreDao;
-        private final AutorDao autorDao;
-        public Mapper( GenreDao  genreDao, AutorDao autorDao){
-            this.genreDao   = genreDao;
-            this.autorDao   = autorDao;
-        }
 
         @Override
         public Book mapRow(ResultSet resultSet, int i) throws SQLException {
-            Genre genre = null;
-            Autor autor = null;
-            try {
-                genre = genreDao.findById(resultSet.getLong("genreid"));
-                autor = autorDao.findById(resultSet.getLong("autorid"));
-            } catch (BookStoreException e) {
-                e.printStackTrace();
-            }
+            Genre genre = new Genre(resultSet.getLong("genreid"), resultSet.getString("genre"));//genreDao.findById(resultSet.getLong("genreid"));
+            Autor autor = new Autor(resultSet.getLong("autorid"), resultSet.getString("autor"));
             return new Book(resultSet.getLong("id"), resultSet.getString("name"), autor, genre);
         }
     }

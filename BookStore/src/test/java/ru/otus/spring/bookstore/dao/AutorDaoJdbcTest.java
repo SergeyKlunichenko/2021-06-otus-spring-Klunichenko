@@ -46,8 +46,10 @@ class AutorDaoJdbcTest {
 
     @DisplayName("найти автора по имени "+ACTUAL_AUTOR_NAME)
     @Test
-    void findByNameTest() {
+    void findByNameTest() throws Exception{
         assertThatCode(()->autorDao.findByName(ACTUAL_AUTOR_NAME)).doesNotThrowAnyException();
+        assertThat(autorDao.findByName(ACTUAL_AUTOR_NAME).getName()).isEqualTo(ACTUAL_AUTOR_NAME);
+
     }
 
     @DisplayName("добавлять автора "+INSERT_AUTOR_NAME+"в БД")

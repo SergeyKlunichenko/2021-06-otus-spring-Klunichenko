@@ -3,6 +3,11 @@ CREATE TABLE autors(ID BIGINT PRIMARY KEY  auto_increment, NAME VARCHAR(255));
 DROP TABLE IF EXISTS genres;
 CREATE TABLE genres(ID BIGINT PRIMARY KEY  auto_increment, NAME VARCHAR(255));
 DROP TABLE IF EXISTS books;
-CREATE TABLE books(ID BIGINT PRIMARY KEY  auto_increment, NAME VARCHAR(255), AUTORID BIGINT , GENREID BIGINT );
-
+CREATE TABLE books(ID BIGINT PRIMARY KEY  auto_increment
+					, NAME VARCHAR(255)
+					, AUTORID BIGINT 
+					, foreign key (autorid) references autors(id)
+					, GENREID BIGINT 
+					, foreign key (genreid) references genres(id)
+				  );
 

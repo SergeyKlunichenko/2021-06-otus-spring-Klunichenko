@@ -19,6 +19,7 @@ public class BookStoreApplication {
 
 	public static void main(String[] args) throws  Exception{
 		ApplicationContext context = SpringApplication.run(BookStoreApplication.class, args);
+		Console.main(args);
 	}
 
 }

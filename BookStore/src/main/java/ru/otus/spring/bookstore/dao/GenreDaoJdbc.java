@@ -55,7 +55,7 @@ public class GenreDaoJdbc implements GenreDao{
         try {
             return  jdbcnp.queryForObject("select id, name from genres where name=:name", Map.of("name", name), new Mapper());
         } catch(EmptyResultDataAccessException e){
-            throw new BookStoreException("Не найден жанр %s", name);
+            throw new BookStoreException("Не найден жанр \"%s\"", name);
         }
     }
 
