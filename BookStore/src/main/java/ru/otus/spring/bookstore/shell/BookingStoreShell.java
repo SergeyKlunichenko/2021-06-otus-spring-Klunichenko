@@ -25,6 +25,11 @@ public class BookingStoreShell {
     @Autowired
     IOService ioService;
 
+    public BookingStoreShell(BookStoreService bookStoreService, IOService ioService) {
+        this.bookStoreService = bookStoreService;
+        this.ioService = ioService;
+    }
+
     @ShellMethod(key="console", value="H2 Console")
     public String execConsole(){
         String[] arg = {};
@@ -78,7 +83,7 @@ public class BookingStoreShell {
     @ShellMethod(key={"ag", "addgenre"} , value="Adding genre")
     public String addGenre(){
         try {
-            return "Добавлен жанр:" + bookStoreService.addGenre(null);
+            return "Добавлен жанр:" + bookStoreService.addGenre();
         } catch (Exception e){
             return e.getMessage();
         }

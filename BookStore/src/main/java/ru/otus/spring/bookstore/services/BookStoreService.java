@@ -17,16 +17,17 @@ import java.util.Scanner;
 
 @Service
 public class BookStoreService {
-    @Autowired
-    BookDao bookDao;
-    @Autowired
-    GenreDao genreDao;
-    @Autowired
-    AutorDao autorDao;
+    private final BookDao bookDao;
+    private final GenreDao genreDao;
+    private final AutorDao autorDao;
+    private final IOService ioService;
 
-    @Autowired
-    IOService ioService;
-    private String name;
+    public BookStoreService(BookDao bookDao, GenreDao genreDao, AutorDao autorDao, IOService ioService) {
+        this.bookDao = bookDao;
+        this.genreDao = genreDao;
+        this.autorDao = autorDao;
+        this.ioService = ioService;
+    }
 
     public List<Book> getAllBooks() {
         return bookDao.getAll();
@@ -40,10 +41,18 @@ public class BookStoreService {
         return autorDao.getAll();
     }
 
+
+
     public Book addBook() throws BookStoreException{
-        Genre genre = genreDao.findByName(ioService.readLine("Жанр:"));
-        Autor autor = autorDao.findByName(ioService.readLine("Авто:"));
-        Book book   = new Book(0, ioService.readLine("Книга:"), autor , genre);
+        String genreName = ioService.readLine("Жанр:");
+        Genre genre = genreDao.findByName(genreName);
+
+        String autorName = ioService.readLine("Автор:");
+        Autor autor = autorDao.findByName(autorName);
+
+        String bookName =  ioService.readLine("Книга:");
+        Book book   = new Book(0,bookName, autor , genre);
+
         return bookDao.insert(book);
     }
 
@@ -77,9 +86,9 @@ public class BookStoreService {
         bookDao.deleteByName(name);
     }
 
-
     public void deleteBookById() throws BookStoreException {
-        bookDao.deleteById(Long.parseLong(ioService.readLine("Удалить книгу c ID:")));
+        long id = Long.parseLong(ioService.readLine("Удалить книгу c ID:"));
+        bookDao.deleteById(id);
     }
 
     public void deleteBookById(long id) throws BookStoreException {
@@ -87,19 +96,17 @@ public class BookStoreService {
     }
 
     public Genre addGenre() throws BookStoreException{
-        return genreDao.findById(genreDao.insert(new Genre(0, ioService.readLine("Жанр:"))));
-    }
-
-    public Genre addGenre(String name) throws BookStoreException{
-        return genreDao.findById(genreDao.insert(new Genre(0, name == null?ioService.readLine("Жанр:"):name)));
+        String name = ioService.readLine("Жанр:");
+        Genre  genre     = new Genre(0, name);
+        long id  = genreDao.insert(genre);
+        return genreDao.findById(id);
     }
 
     public Autor addAutor() throws BookStoreException{
-        return autorDao.findById(autorDao.insert(new Autor(0, ioService.readLine("Автор:"))));
-    }
-
-    public Autor addAutor(String name) throws BookStoreException{
-        return autorDao.findById(autorDao.insert(new Autor(0, name)));
+        String name = ioService.readLine("Автор:");
+        Autor  autor = new Autor(0, name);
+        long id = autorDao.insert(autor);
+        return autorDao.findById(id);
     }
 
 

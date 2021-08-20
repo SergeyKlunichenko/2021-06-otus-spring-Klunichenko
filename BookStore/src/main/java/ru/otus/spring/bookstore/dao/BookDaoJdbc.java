@@ -24,13 +24,11 @@ public class BookDaoJdbc implements BookDao{
     private final JdbcOperations jdbc;
     private final NamedParameterJdbcOperations jdbcnp;
     private final GenreDao genreDao;
-    private final AutorDao autorDao;
 
-    public BookDaoJdbc(NamedParameterJdbcOperations jdbcnp,  GenreDao  genreDao, AutorDao autorDao) {
+    public BookDaoJdbc(NamedParameterJdbcOperations jdbcnp,  GenreDao  genreDao){  //, AutorDao autorDao) {
         this.jdbcnp     = jdbcnp;
         this.jdbc       = jdbcnp.getJdbcOperations();
         this.genreDao   = genreDao;
-        this.autorDao   = autorDao;
     }
 
     @Override
@@ -62,11 +60,13 @@ public class BookDaoJdbc implements BookDao{
     @Override
     public Book findByName(String name) throws BookStoreException {
         try {
-            return jdbcnp.queryForObject("select b.id, b.name, b.genreid,  g.name genre, b.autorid autorid , a.name autor" +
-                    "  from books b, genres g , autors a" +
-                    "  where    g.id = b.genreid" +
-                    "       and a.id = b.autorid" +
-                    "       and b.name = :name", Map.of("name", name), new Mapper());
+            return jdbcnp.queryForObject("" +
+                    "select b.id, b.name, b.genreid,  g.name genre, b.autorid autorid , a.name autor" +
+                    "  from books b" +
+                    "  join genres g on g.id = b.genreid" +
+                    "  join autors a on a.id = b.autorid" +
+                    "  where  b.name = :name"
+                    , Map.of("name", name), new Mapper());
         } catch(EmptyResultDataAccessException e){
             throw new BookStoreException("Не найдена книга \"%s\"", name);
         }
@@ -106,13 +106,11 @@ public class BookDaoJdbc implements BookDao{
 
     @Override
     public void deleteById(long id) throws BookStoreException{
-        Book book = findById(id);
         jdbcnp.update("delete from books where id =:id", Map.of("id", id));
     }
 
     @Override
     public void deleteByName(String name) throws BookStoreException{
-        Book book = findByName(name);
         jdbcnp.update("delete from books where name =:name", Map.of("name", name));
     }
 
