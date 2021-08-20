@@ -1,17 +1,11 @@
 package ru.otus.spring.bookstore.shell;
 
 import org.h2.tools.Console;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.lang.Nullable;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
-import ru.otus.spring.bookstore.dao.AutorDao;
-import ru.otus.spring.bookstore.dao.BookDao;
-import ru.otus.spring.bookstore.dao.GenreDao;
 import ru.otus.spring.bookstore.domain.Autor;
 import ru.otus.spring.bookstore.domain.Book;
 import ru.otus.spring.bookstore.domain.Genre;
-import ru.otus.spring.bookstore.exceptions.BookStoreException;
 import ru.otus.spring.bookstore.services.BookStoreService;
 import ru.otus.spring.bookstore.tools.IOService;
 
@@ -20,10 +14,8 @@ import java.util.stream.Collectors;
 @ShellComponent
 public class BookingStoreShell {
 
-    @Autowired
-    BookStoreService bookStoreService;
-    @Autowired
-    IOService ioService;
+    private  final BookStoreService bookStoreService;
+    private  final IOService ioService;
 
     public BookingStoreShell(BookStoreService bookStoreService, IOService ioService) {
         this.bookStoreService = bookStoreService;
@@ -110,43 +102,4 @@ public class BookingStoreShell {
         bookStoreService.deleteBookById(id);
         return "OK";
     }
-
-/*
-
-
-
-
-    @ShellMethod(key ={"dbn", "delbookname"}, value="Delete a book by name")
-    public String delBookByName(){
-        //Book book = new Book(3, "Руслан и Людмила",  autorDao.findByName("Пушкин Александр Сергеевич"), genreDao.findByName("Стихи"));
-        bookDao.deleteByName("Руслан и Людмила");
-        return "OK";
-    }
-
-    @ShellMethod(key ={"dbi", "delbookid"}, value="Delete a book by id")
-    public String delBookById(){
-        //Book book = new Book(3, "Руслан и Людмила",  autorDao.findByName("Пушкин Александр Сергеевич"), genreDao.findByName("Стихи"));
-        bookDao.deleteById(1);
-        return "OK";
-    }
-
-    @ShellMethod(key="init", value="Инициализация")
-    public String init(){
-        try {
-            autorDao.insert(new Autor(3, "Пушкин Александр Сергеевич"));
-            System.out.println(autorDao.getAll().stream().map(Autor::toString).collect(Collectors.joining("\n")));
-
-            genreDao.insert(new Genre(3, "Приключения"));
-            genreDao.insert(new Genre(4, "Стихи"));
-            System.out.println(genreDao.getAll().stream().map(Genre::toString).collect(Collectors.joining("\n")));
-            Book book = new Book(0, "Руслан и Людмила", autorDao.findByName("Пушкин Александр Сергеевич"), genreDao.findByName("Стихи"));
-            long id = bookDao.insert(book);
-            System.out.printf("Добавлена книга с ид="+id);
-            System.out.println(bookDao.getAll().stream().map(Book::toString).collect(Collectors.joining("\n")));
-        } catch (Exception e){
-            e.printStackTrace(System.out);
-        }
-        return "OK";
-    }
- */
 }
