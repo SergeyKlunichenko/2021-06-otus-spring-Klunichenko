@@ -23,7 +23,6 @@ import static org.assertj.core.api.Assertions.assertThatCode;
 @DisplayName("Репозитория для работы с книгами ")
 @DataJpaTest
 @Import({BookRepositoryJpa.class, GenreRepositoryJpa.class, AutorRepositoryJpa.class})
-//@Import(GenreRepositoryJpa.class)
 class BookRepositoryJpaTest {
 
     private static final long EXPECTED_NOTE_ID = 1;
@@ -40,7 +39,6 @@ class BookRepositoryJpaTest {
     public static final long   UPDATE_BOOK_ID = 1;
 
     private static final long EXPECTED_BOOK_ID = 1;
-    private static final int EXPECTED_COUNT_NOTE_OF_BOOK = 1;
     private static final int EXPECTED_NUMBER_OF_BOOKS = 2;
 
     @Autowired
@@ -93,24 +91,13 @@ class BookRepositoryJpaTest {
         Genre genre = genreRepository.findByName(UPDATE_BOOK_GENRE);
         Autor autor = autorRepository.findByName(UPDATE_BOOK_AUTOR);
 
-        System.out.printf("\n\n\n\0 book.name=%s\n", book.getName());
-
-
         book.setGenre(genre);
         book.setAutor(autor);
         book.setName(UPDATE_BOOK_NAME);
 
-        System.out.printf("1 book.name=%s\n", book.getName());
-
         Book updatedBook = bookRepositoryJpa.updateBook(book);
 
-        System.out.printf("2 book.name=%s\n", book.getName());
-        System.out.printf("2 updatedBook.name=%s\n\n\n\n\n",updatedBook.getName());
-
-
         assertThat(book).usingRecursiveComparison().isEqualTo(updatedBook);
-
-
     }
 
 
@@ -120,28 +107,21 @@ class BookRepositoryJpaTest {
         bookRepositoryJpa.addNoteToBookById(EXPECTED_BOOK_ID, NEW_NOTE_TEXT);
         Book book = bookRepositoryJpa.findById(EXPECTED_BOOK_ID);
         assertThat(book.getNotes().size()).isEqualTo(NEW_NUMBER_OF_NOTES);
-
     }
-
-
 
     @DisplayName("После удаления книги книги не должно быть в базе")
     @Test
     void deleteBookById() {
-        //bookRepositoryJpa.deleteBookById(EXPECTED_BOOK_ID);
-        //Book boo = bookRepositoryJpa.findById(EXPECTED_BOOK_ID);
         assertThatCode(()->bookRepositoryJpa.findById(EXPECTED_BOOK_ID)).doesNotThrowAnyException();
         bookRepositoryJpa.deleteBookById(EXPECTED_BOOK_ID);
         assertThatCode(()->bookRepositoryJpa.findById(EXPECTED_BOOK_ID)).withThreadDumpOnError();
-
-
     }
+
     @DisplayName("после удаления примечания список примечаний должен стать пустым")
     @Test
     void deleteNoteFromBookById() {
         bookRepositoryJpa.deleteNoteFromBookById(EXPECTED_NOTE_ID);
         Book book =  bookRepositoryJpa.findById(EXPECTED_BOOK_ID);
         assertThat(book.getNotes().size()).isEqualTo(0);
-
     }
 }
