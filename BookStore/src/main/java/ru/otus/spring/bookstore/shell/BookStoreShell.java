@@ -66,6 +66,13 @@ public class BookStoreShell {
         return "OK";
     }
 
+    @ShellMethod(key={"ub", "updatebook"} , value="Update a book(id, \"название\", \"жанр\", \"автор\")")
+    public String updateBook(long id, String name, String genrename, String autorname){
+        Book book =  bookStoreService.updateBook(id, name, genrename, autorname);
+        ioService.println(book);
+        return "OK";
+    }
+
 
     @ShellMethod(key={"dbi", "delbook"} , value="Delete a  book by id")
     public String deleteBookById(long id){

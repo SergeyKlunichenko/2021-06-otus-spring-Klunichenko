@@ -41,7 +41,21 @@ public class BookStoreService {
         Autor autor = autorRepository.findByName(autorname);
         List<Note> notes = new ArrayList<>();
         Book book = new Book(0, name, autor, genre, notes);
+        bookRepository.updateBook(book);
         return book;
+    }
+
+    public Book updateBook(long id, String name, String genrename, String autorname){
+        Book book = bookRepository.findById(id);
+        Genre genre = genreRepository.findByName(genrename);
+        Autor autor = autorRepository.findByName(autorname);
+        book.setAutor(autor);
+        book.setGenre(genre);
+        book.setName(name);
+        book = bookRepository.updateBook(book);
+
+        return book;
+
     }
 
     public Note addNoteToBookById(long id, String noteText){

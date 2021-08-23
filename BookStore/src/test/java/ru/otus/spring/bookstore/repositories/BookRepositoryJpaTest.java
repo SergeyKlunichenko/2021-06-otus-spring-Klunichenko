@@ -19,7 +19,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 
 import static org.assertj.core.api.Assertions.assertThatCode;
-import static org.junit.jupiter.api.Assertions.*;
+
 @DisplayName("Репозитория для работы с книгами ")
 @DataJpaTest
 @Import({BookRepositoryJpa.class, GenreRepositoryJpa.class, AutorRepositoryJpa.class})
@@ -34,7 +34,10 @@ class BookRepositoryJpaTest {
     public static final String NEW_BOOK_GENRE = "драма";
     public static final String NEW_BOOK_AUTOR = "Булгаков Михаил Афанасьевич";
 
-
+    public static final String UPDATE_BOOK_NAME = "Мастер и Маргарита";
+    public static final String UPDATE_BOOK_GENRE = "фантастика";
+    public static final String UPDATE_BOOK_AUTOR = "Булгаков Михаил Афанасьевич";
+    public static final long   UPDATE_BOOK_ID = 1;
 
     private static final long EXPECTED_BOOK_ID = 1;
     private static final int EXPECTED_COUNT_NOTE_OF_BOOK = 1;
@@ -75,13 +78,42 @@ class BookRepositoryJpaTest {
         Autor autor = autorRepository.findByName(NEW_BOOK_AUTOR);
         List<Note> notes = new ArrayList<>();
         Book book = new Book(0, NEW_BOOK_NAME, autor, genre, notes);
-        book  = bookRepositoryJpa.addBook(book);
+        book  = bookRepositoryJpa.updateBook(book);
         Book  expectedBook = bookRepositoryJpa.findById(book.getId());
 
         assertThat(book).usingRecursiveComparison().isEqualTo(expectedBook);
 
 
     }
+
+    @DisplayName("Книга должна быть изменена")
+    @Test
+    void updateBookTest(){
+        Book book = bookRepositoryJpa.findById(UPDATE_BOOK_ID);
+        Genre genre = genreRepository.findByName(UPDATE_BOOK_GENRE);
+        Autor autor = autorRepository.findByName(UPDATE_BOOK_AUTOR);
+
+        System.out.printf("\n\n\n\0 book.name=%s\n", book.getName());
+
+
+        book.setGenre(genre);
+        book.setAutor(autor);
+        book.setName(UPDATE_BOOK_NAME);
+
+        System.out.printf("1 book.name=%s\n", book.getName());
+
+        Book updatedBook = bookRepositoryJpa.updateBook(book);
+
+        System.out.printf("2 book.name=%s\n", book.getName());
+        System.out.printf("2 updatedBook.name=%s\n\n\n\n\n",updatedBook.getName());
+
+
+        assertThat(book).usingRecursiveComparison().isEqualTo(updatedBook);
+
+
+    }
+
+
     @DisplayName("Количество примечаний должно быть 2 штуки")
     @Test
     void addNoteToBookByIdTest() {

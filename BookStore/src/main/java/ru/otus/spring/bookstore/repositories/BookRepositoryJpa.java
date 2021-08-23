@@ -34,7 +34,7 @@ public class BookRepositoryJpa implements BookRepository{
 
     @Override
     @Transactional
-    public Book addBook(Book book) {
+    public Book updateBook(Book book) {
         if(book.getId() == 0){
             em.persist(book);
             return book;

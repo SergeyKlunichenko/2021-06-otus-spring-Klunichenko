@@ -9,7 +9,7 @@ public interface BookRepository {
     List<Book> findAll();
 
     Book findById(long id);
-    Book addBook(Book book);
+    Book updateBook(Book book);
     Note addNoteToBookById(long id, String note);
     void deleteBookById(long id);
     void deleteNoteFromBookById(long id);
