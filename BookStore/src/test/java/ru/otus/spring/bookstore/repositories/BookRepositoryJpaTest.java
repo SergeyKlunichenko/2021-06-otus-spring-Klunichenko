@@ -27,16 +27,16 @@ class BookRepositoryJpaTest {
 
     private static final long EXPECTED_NOTE_ID = 1;
     private static final String NEW_NOTE_TEXT = "Второй коммент к белой гвардии";
-    public static final int NEW_NUMBER_OF_NOTES = 2;
+    private static final int NEW_NUMBER_OF_NOTES = 2;
 
-    public static final String NEW_BOOK_NAME = "Мастер и Маргарита";
-    public static final String NEW_BOOK_GENRE = "драма";
-    public static final String NEW_BOOK_AUTOR = "Булгаков Михаил Афанасьевич";
+    private static final String NEW_BOOK_NAME = "Мастер и Маргарита";
+    private static final String NEW_BOOK_GENRE = "драма";
+    private static final String NEW_BOOK_AUTOR = "Булгаков Михаил Афанасьевич";
 
-    public static final String UPDATE_BOOK_NAME = "Мастер и Маргарита";
-    public static final String UPDATE_BOOK_GENRE = "фантастика";
-    public static final String UPDATE_BOOK_AUTOR = "Булгаков Михаил Афанасьевич";
-    public static final long   UPDATE_BOOK_ID = 1;
+    private static final String UPDATE_BOOK_NAME = "Мастер и Маргарита";
+    private static final String UPDATE_BOOK_GENRE = "фантастика";
+    private static final String UPDATE_BOOK_AUTOR = "Булгаков Михаил Афанасьевич";
+    private static final long   UPDATE_BOOK_ID = 1;
 
     private static final long EXPECTED_BOOK_ID = 1;
     private static final int EXPECTED_NUMBER_OF_BOOKS = 2;
