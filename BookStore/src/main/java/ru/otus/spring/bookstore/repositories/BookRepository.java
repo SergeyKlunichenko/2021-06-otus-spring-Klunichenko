@@ -18,6 +18,6 @@ public interface BookRepository extends JpaRepository<Book, Long> {
     @Query("select b from Book b where b.autor.name = :autor and b.genre.name = :genre")
     List<Book> findByAutorAndGenre(@Param("autor") String nameAutor, @Param("genre") String nameGenre);
 
-    void deteteNoteById(long id);
+    //void deteteNoteById(long id);
 
 }

@@ -77,8 +77,9 @@ public class BookStoreShell {
 
     @ShellMethod(key={"abn", "addnotetobook"} , value="Add a note to the book (abn 1  \"text with a note\")")
     public String addNoteToBook(long id, String noteText){
-        List<Note> notes = bookStoreService.addNoteToBookById(id, noteText);
-        return notes.stream().map(Note::toString).collect(Collectors.joining("\n"));
+//        List<Note> notes = bookStoreService.addNoteToBookById(id, noteText);
+//        return notes.stream().map(Note::toString).collect(Collectors.joining("\n"));
+        return bookStoreService.addNoteToBookById(id, noteText).toString();
     }
 
     @ShellMethod(key={"ub", "updatebook"} , value="Update a book(id, \"название\", \"жанр\", \"автор\")")

@@ -1,30 +1,32 @@
 package ru.otus.spring.bookstore.services;
 
 import org.springframework.stereotype.Service;
+import ru.otus.spring.bookstore.dto.BookDto;
 import ru.otus.spring.bookstore.models.*;
-import ru.otus.spring.bookstore.repositories.AutorRepository;
-import ru.otus.spring.bookstore.repositories.BookRepository;
-import ru.otus.spring.bookstore.repositories.GenreRepository;
+import ru.otus.spring.bookstore.repositories.*;
 import ru.otus.spring.bookstore.tools.IOService;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
 @Service
 public class BookStoreService {
 
+    private final BookDtoRepository bookDtoRepository;
     private final BookRepository bookRepository;
     private final AutorRepository autorRepository;
     private final GenreRepository genreRepository;
+    private final NoteRepository noteRepository;
     private final IOService ioService;
 
 
 
-    public BookStoreService(BookRepository bookRepository, AutorRepository autorRepository, GenreRepository genreRepository, IOService ioService) {
+    public BookStoreService(BookRepository bookRepository, BookDtoRepositoryImpl bookDtoRepository, AutorRepository autorRepository, GenreRepository genreRepository, NoteRepository noteRepository, IOService ioService) {
         this.bookRepository = bookRepository;
+        this.bookDtoRepository = bookDtoRepository;
         this.autorRepository = autorRepository;
         this.genreRepository = genreRepository;
+        this.noteRepository = noteRepository;
         this.ioService = ioService;
     }
 
@@ -44,16 +46,19 @@ public class BookStoreService {
 
 
     public List<Note> getNotesBookById(long id){
-        Book book = bookRepository.findById(id);
-        return book.getNotes();
+        //BookDto book = new BookDto(bookRepository.findById(id), noteRepository);
+        //BookDto book = MapperService.mapToDto(bookDtoRepository.findById(id), )
+        //return book.getNotes();
+
+        BookDto bookDto = bookDtoRepository.findById(id);
+        return bookDto.getNotes();
     }
 
     public Book addBook(String name, String genrename, String autorname) {
         Genre genre = genreRepository.findByName(genrename).get(0);
         Autor autor = autorRepository.findByName(autorname).get(0);
-        List<Note> notes = new ArrayList<>();
-        Book book = new Book(0, name, autor, genre, notes);
-        bookRepository.save(book);
+        Book book = new Book(0, name, autor, genre);
+        book = bookRepository.save(book);
         return book;
     }
 
@@ -69,19 +74,20 @@ public class BookStoreService {
 
     }
 
-    public List<Note> addNoteToBookById(long id, String noteText){
-        Book book = bookRepository.findById(id);
-        Note note = new Note(0, noteText);
-        book.getNotes().add(note);
-        return bookRepository.saveAndFlush(book).getNotes();
+    public Note addNoteToBookById(long id, String value){
+        //BookDto book = bookDtoRepository.findById(id);//new BookDto(bookDtoRepository.findById(id), noteRepository);
+        //return book.addNote(noteText);
+        Note note = new Note(0, id, value);
+        note = noteRepository.save(note);
+        return note;
     }
 
     public void deleteBookById(long id){
-        bookRepository.deleteById(id);
+        noteRepository.deleteById(id);
     }
 
     public void deleteNoteById(long id){
-        bookRepository.deteteNoteById(id);
+        noteRepository.deleteById(id);
     }
 
     //**************************************************************//

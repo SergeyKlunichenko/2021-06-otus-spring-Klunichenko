@@ -29,9 +29,9 @@ public class Book {
     @JoinColumn(name = "genreid")
     private Genre genre;
 
-    @Fetch(FetchMode.SUBSELECT)
-    @OneToMany(targetEntity = Note.class, cascade = CascadeType.ALL,  orphanRemoval = true, fetch = FetchType.EAGER)
-    @JoinColumn(name="bookid")
-    private List<Note> notes;
+//    @Fetch(FetchMode.SUBSELECT)
+//    @OneToMany(targetEntity = Note.class, cascade = CascadeType.ALL,  orphanRemoval = true, fetch = FetchType.LAZY)
+//    @JoinColumn(name="bookid")
+//    private List<Note> notes;
 
 }

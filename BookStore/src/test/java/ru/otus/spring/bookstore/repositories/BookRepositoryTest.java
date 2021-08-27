@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import ru.otus.spring.bookstore.dto.BookDto;
 import ru.otus.spring.bookstore.models.Autor;
 import ru.otus.spring.bookstore.models.Book;
 import ru.otus.spring.bookstore.models.Genre;
@@ -45,6 +46,8 @@ class BookRepositoryTest {
     private AutorRepository autorRepository;
 
     @Autowired
+    private NoteRepository noteRepository;
+    @Autowired
     private TestEntityManager em;
 
     @Test
@@ -81,8 +84,8 @@ class BookRepositoryTest {
     void  addTest(){
         Genre genre = genreRepository.findByName(NEW_BOOK_GENRE).get(0);
         Autor autor = autorRepository.findByName(NEW_BOOK_AUTOR).get(0);
-        Book  newBook  = new Book(0, NEW_BOOK_NAME,  autor, genre, new ArrayList<Note>());
-        Book  checkBook = new Book(0, NEW_BOOK_NAME,  autor, genre, new ArrayList<Note>());
+        Book  newBook  = new Book(0, NEW_BOOK_NAME,  autor, genre);
+        Book  checkBook = new Book(0, NEW_BOOK_NAME,  autor, genre);
         newBook = bookRepository.saveAndFlush(newBook);
         checkBook.setId(newBook.getId());
 
@@ -101,20 +104,9 @@ class BookRepositoryTest {
         book.setAutor(autor);
         book.setGenre(genre);
 
-        Book checkBook = new Book(book.getId(), book.getName(), book.getAutor(), book.getGenre(), book.getNotes());
-        bookRepository.flush();
+        Book checkBook = new Book(book.getId(), book.getName(), book.getAutor(), book.getGenre());
         assertThat(checkBook).usingRecursiveComparison().isEqualTo(bookRepository.findById(checkBook.getId()));
 
-        /*
-        Book  newBook  = new Book(0, NEW_BOOK_NAME,  autor, genre, new ArrayList<Note>());
-        Book  checkBook = new Book(0, NEW_BOOK_NAME,  autor, genre, new ArrayList<Note>());
-        newBook = bookRepository.saveAndFlush(newBook);
-        checkBook.setId(newBook.getId());
-
-        //newBook.setId(savedBook.getId());
-        assertThat(checkBook).usingRecursiveComparison().isEqualTo(bookRepository.findById(checkBook.getId()));
-
-         */
     }
 
 
@@ -164,18 +156,19 @@ class BookRepositoryTest {
     @Test
     @DisplayName("получить один комментарий")
     void getNotesBookByIdTest(){
-        Book book  = bookRepository.getById(EXPECTED_BOOK_ID);
-        assertThat(book.getNotes().size()).isEqualTo(EXPECTED_NOTE_COUNT);
+        List<Note> notes = noteRepository.findAllForBook(EXPECTED_BOOK_ID);
+        assertThat(notes.size()).isEqualTo(EXPECTED_NOTE_COUNT);
     }
 
     @Test
     @DisplayName("добавит  второй комментари в  книгу ")
     void addNoteToBook(){
-        Book book = bookRepository.findById(EXPECTED_BOOK_ID);
-        Note note = new Note(0, NEW_BOOK_NOTE);
-        book.getNotes().add(note);
-        bookRepository.flush();
-        assertThat(book.getNotes().size()).isEqualTo(COUNT_NOTE_AFTER_ADD_NOTE);
+        Note note = new Note(0, EXPECTED_BOOK_ID, NEW_BOOK_NOTE);
+        note = noteRepository.save(note);
+        List<Note> notes = noteRepository.findAllForBook(EXPECTED_BOOK_ID);//new BookDto(bookRepository.findById(EXPECTED_BOOK_ID), noteRepository);
+
+
+        assertThat(notes.size()).isEqualTo(COUNT_NOTE_AFTER_ADD_NOTE);
 
 
     }

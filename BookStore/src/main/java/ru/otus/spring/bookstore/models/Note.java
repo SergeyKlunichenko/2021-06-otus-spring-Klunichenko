@@ -15,5 +15,6 @@ public class Note {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+    private long bookid;
     private String note;
 }
