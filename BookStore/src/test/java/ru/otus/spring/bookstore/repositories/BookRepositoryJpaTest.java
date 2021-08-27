@@ -22,7 +22,7 @@ import static org.assertj.core.api.Assertions.assertThatCode;
 
 @DisplayName("Репозитория для работы с книгами ")
 @DataJpaTest
-@Import({BookRepositoryJpa.class, GenreRepositoryJpa.class, AutorRepositoryJpa.class})
+@Import({BookRepositoryJpa.class, GenreRepositoryJpa.class, AutorRepositoryJpa.class, NoteRepositoryJpa.class})
 class BookRepositoryJpaTest {
 
     private static final long EXPECTED_NOTE_ID = 1;
@@ -42,6 +42,9 @@ class BookRepositoryJpaTest {
     private static final int EXPECTED_NUMBER_OF_BOOKS = 2;
 
     @Autowired
+    private NoteRepositoryJpa noteRepository;
+
+    @Autowired
     private BookRepositoryJpa bookRepositoryJpa;
 
     @Autowired
@@ -49,6 +52,7 @@ class BookRepositoryJpaTest {
 
     @Autowired
     private AutorRepositoryJpa autorRepository;
+
 
     @Autowired
     private TestEntityManager   em;
@@ -74,9 +78,8 @@ class BookRepositoryJpaTest {
     void addBookTest(){
         Genre genre = genreRepository.findByName(NEW_BOOK_GENRE);
         Autor autor = autorRepository.findByName(NEW_BOOK_AUTOR);
-        List<Note> notes = new ArrayList<>();
-        Book book = new Book(0, NEW_BOOK_NAME, autor, genre, notes);
-        book  = bookRepositoryJpa.updateBook(book);
+        Book book = new Book(0, NEW_BOOK_NAME, autor, genre);
+        book  = bookRepositoryJpa.save(book);
         Book  expectedBook = bookRepositoryJpa.findById(book.getId());
 
         assertThat(book).usingRecursiveComparison().isEqualTo(expectedBook);
@@ -95,19 +98,12 @@ class BookRepositoryJpaTest {
         book.setAutor(autor);
         book.setName(UPDATE_BOOK_NAME);
 
-        Book updatedBook = bookRepositoryJpa.updateBook(book);
+        Book updatedBook = bookRepositoryJpa.save(book);
 
         assertThat(book).usingRecursiveComparison().isEqualTo(updatedBook);
     }
 
 
-    @DisplayName("Количество примечаний должно быть 2 штуки")
-    @Test
-    void addNoteToBookByIdTest() {
-        bookRepositoryJpa.addNoteToBookById(EXPECTED_BOOK_ID, NEW_NOTE_TEXT);
-        Book book = bookRepositoryJpa.findById(EXPECTED_BOOK_ID);
-        assertThat(book.getNotes().size()).isEqualTo(NEW_NUMBER_OF_NOTES);
-    }
 
     @DisplayName("После удаления книги книги не должно быть в базе")
     @Test
@@ -117,11 +113,18 @@ class BookRepositoryJpaTest {
         assertThatCode(()->bookRepositoryJpa.findById(EXPECTED_BOOK_ID)).withThreadDumpOnError();
     }
 
+
+    @DisplayName("Количество примечаний должно быть 2 штуки")
+    @Test
+    void addNoteToBookByIdTest() {
+          Note note = bookRepositoryJpa.addNoteByBookId(EXPECTED_BOOK_ID, NEW_NOTE_TEXT);
+          assertThat(note).usingRecursiveComparison().isEqualTo(noteRepository.findById(note.getId()));
+    }
+
     @DisplayName("после удаления примечания список примечаний должен стать пустым")
     @Test
     void deleteNoteFromBookById() {
-        bookRepositoryJpa.deleteNoteFromBookById(EXPECTED_NOTE_ID);
-        Book book =  bookRepositoryJpa.findById(EXPECTED_BOOK_ID);
-        assertThat(book.getNotes().size()).isEqualTo(0);
+        noteRepository.deteteById(EXPECTED_NOTE_ID);
+        assertThat(bookRepositoryJpa.getNotesByBookId(EXPECTED_NOTE_ID).size()).isEqualTo(0);
     }
 }

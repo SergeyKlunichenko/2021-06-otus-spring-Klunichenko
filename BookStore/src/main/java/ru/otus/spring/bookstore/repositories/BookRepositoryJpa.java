@@ -1,5 +1,6 @@
 package ru.otus.spring.bookstore.repositories;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import ru.otus.spring.bookstore.models.Book;
@@ -14,27 +15,32 @@ public class BookRepositoryJpa implements BookRepository{
     @PersistenceContext
     private final EntityManager em;
 
-    public BookRepositoryJpa(EntityManager em){
+    //@Autowired
+    private final NoteRepository noteRepository;
+
+//    public BookRepositoryJpa(EntityManager em){
+//        this.em = em;
+//    }
+
+    public BookRepositoryJpa(EntityManager em, NoteRepository noteRepository){
         this.em = em;
+        this.noteRepository = noteRepository;
     }
 
     @Override
-    @Transactional(readOnly = true)
     public List<Book> findAll() {
-        TypedQuery query = em.createQuery("Select b from Book b join fetch b.genre join fetch b.autor", Book.class);
+        TypedQuery<Book> query = em.createQuery("Select b from Book b join fetch b.genre join fetch b.autor", Book.class);
 
         return query.getResultList();
     }
 
     @Override
-    @Transactional(readOnly = true)
     public Book findById(long id) {
         return Optional.ofNullable(em.find(Book.class, id)).get();
     }
 
     @Override
-    @Transactional
-    public Book updateBook(Book book) {
+    public Book save(Book book) {
         if(book.getId() == 0){
             em.persist(book);
             return book;
@@ -44,30 +50,22 @@ public class BookRepositoryJpa implements BookRepository{
     }
 
 
-    @Override
-    @Transactional
-    public Note addNoteToBookById(long id, String noteText) {
-        Book book = findById(id);
-        Note note = new Note(0, noteText);
-        book.getNotes().add(note);
-        em.flush();
-        return note;
-    }
 
     @Override
-    @Transactional
     public void deleteBookById(long id) {
         Query query = em.createQuery("delete from Book b where b.id = :id");
         query.setParameter("id", id);
         query.executeUpdate();
     }
+    @Override
+    public List<Note> getNotesByBookId(long id) {
+        return noteRepository.findAllByBookId(id);
+    }
 
     @Override
-    @Transactional
-    public void deleteNoteFromBookById(long id) {
-        Query  query = em.createQuery("delete from Note n where n.id = :id");
-        query.setParameter("id", id);
-        query.executeUpdate();
+    public Note addNoteByBookId(long id, String value) {
+        Note note = new Note(0, id, value);
+        return noteRepository.save(note);
     }
 
 

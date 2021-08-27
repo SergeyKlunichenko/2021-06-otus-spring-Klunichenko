@@ -23,16 +23,14 @@ public class AutorRepositoryJpa implements AutorRepository{
 
 
     @Override
-    @Transactional(readOnly = true)
     public List<Autor> findAll() {
-        TypedQuery query = em.createQuery("Select a from Autor a", Autor.class);
+        TypedQuery<Autor> query = em.createQuery("Select a from Autor a", Autor.class);
         return query.getResultList();
     }
 
     @Override
-    @Transactional(readOnly = true)
     public Autor findById(long id) {
-        return Optional.ofNullable(em.find(Autor.class, id)).get();
+        return em.find(Autor.class, id);
     }
 
     @Override
@@ -44,7 +42,6 @@ public class AutorRepositoryJpa implements AutorRepository{
 
 
     @Override
-    @Transactional
     public Autor save(Autor autor) {
         if(autor.getId() == 0){
             em.persist(autor);
@@ -55,7 +52,6 @@ public class AutorRepositoryJpa implements AutorRepository{
     }
 
     @Override
-    @Transactional
     public void deleteById(long id) {
         Query query = em.createQuery("delete from Autor a where a.id = :id");
         query.setParameter("id", id);

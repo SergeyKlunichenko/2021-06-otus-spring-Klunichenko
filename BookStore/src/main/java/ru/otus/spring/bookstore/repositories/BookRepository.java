@@ -7,10 +7,9 @@ import java.util.List;
 
 public interface BookRepository {
     List<Book> findAll();
-
     Book findById(long id);
-    Book updateBook(Book book);
-    Note addNoteToBookById(long id, String note);
+    Book save(Book book);
     void deleteBookById(long id);
-    void deleteNoteFromBookById(long id);
+    List<Note> getNotesByBookId(long id);
+    Note addNoteByBookId(long id, String value);
 }

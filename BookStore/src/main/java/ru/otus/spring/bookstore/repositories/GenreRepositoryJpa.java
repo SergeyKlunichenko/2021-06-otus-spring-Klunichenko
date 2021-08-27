@@ -22,14 +22,12 @@ public class GenreRepositoryJpa implements GenreRepository{
 
 
     @Override
-    @Transactional(readOnly = true)
     public List<Genre> findAll() {
-        TypedQuery query = em.createQuery("Select a from Genre a", Genre.class);
+        TypedQuery<Genre> query = em.createQuery("Select a from Genre a", Genre.class);
         return query.getResultList();
     }
 
     @Override
-    @Transactional(readOnly = true)
     public Genre findById(long id) {
         return Optional.ofNullable(em.find(Genre.class, id)).get();
     }
@@ -43,7 +41,6 @@ public class GenreRepositoryJpa implements GenreRepository{
 
 
     @Override
-    @Transactional
     public Genre save(Genre genre) {
         if(genre.getId() == 0){
             em.persist(genre);
@@ -53,7 +50,6 @@ public class GenreRepositoryJpa implements GenreRepository{
     }
 
     @Override
-    @Transactional
     public void deleteById(long id) {
         Query query = em.createQuery("delete from Genre a where a.id = :id");
         query.setParameter("id", id);

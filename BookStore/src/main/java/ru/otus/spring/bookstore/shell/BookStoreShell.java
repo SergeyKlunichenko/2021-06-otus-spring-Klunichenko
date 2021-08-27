@@ -45,12 +45,6 @@ public class BookStoreShell {
         return "OK";
     }
 
-    @ShellMethod(key={"lbn", "listofnotesbooks"} , value="List of notes from books by id")
-    public String listOfNotesById(long id){
-        List<Note> notes = bookStoreService.getNotesBookById(id);
-        ioService.println(notes.stream().map(Note::toString).collect(Collectors.joining("\n")));
-        return "OK";
-    }
 
     @ShellMethod(key={"ab", "addbook"} , value="Add a book")
     public String addBook(String name, String genrename, String autorname){
@@ -59,12 +53,6 @@ public class BookStoreShell {
         return "OK";
     }
 
-    @ShellMethod(key={"abn", "addnotetobook"} , value="Add a note to the book (abn 1  \"text with a note\")")
-    public String addNoteToBook(long id, String noteText){
-        Note note = bookStoreService.addNoteToBookById(id, noteText);
-        ioService.println(note);
-        return "OK";
-    }
 
     @ShellMethod(key={"ub", "updatebook"} , value="Update a book(id, \"название\", \"жанр\", \"автор\")")
     public String updateBook(long id, String name, String genrename, String autorname){
@@ -80,6 +68,17 @@ public class BookStoreShell {
         return "OK";
     }
 
+    @ShellMethod(key={"lbn", "listofnotesbooks"} , value="List of notes from books by id")
+    public String listOfNotesById(long id){
+        List<Note> notes = bookStoreService.getNotesByBookId(id);
+        ioService.println(notes.stream().map(Note::toString).collect(Collectors.joining("\n")));
+        return "OK";
+    }
+
+    @ShellMethod(key={"abn", "addnotetobook"} , value="Add a note to the book ")
+    public String addNoteByBookId(long id, String value){
+        return bookStoreService.addNoteByBookId(id, value).toString();
+    }
     @ShellMethod(key={"dbni", "delnotefrombookbyid"} , value="Delete a note from a book by id")
     public String deleteNoteById(long id){
         bookStoreService.deleteNoteById(id);
