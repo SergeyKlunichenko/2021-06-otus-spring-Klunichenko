@@ -7,13 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.context.annotation.Import;
+import ru.otus.spring.bookstore.dto.BookDto;
 import ru.otus.spring.bookstore.models.Autor;
 import ru.otus.spring.bookstore.models.Book;
 import ru.otus.spring.bookstore.models.Genre;
 import ru.otus.spring.bookstore.models.Note;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -22,7 +20,7 @@ import static org.assertj.core.api.Assertions.assertThatCode;
 
 @DisplayName("Репозитория для работы с книгами ")
 @DataJpaTest
-@Import({BookRepositoryJpa.class, GenreRepositoryJpa.class, AutorRepositoryJpa.class, NoteRepositoryJpa.class})
+@Import({BookRepositoryJpa.class, GenreRepositoryJpa.class, AutorRepositoryJpa.class, NoteRepositoryJpa.class, BookDtoRepositoryImpl.class })
 class BookRepositoryJpaTest {
 
     private static final long EXPECTED_NOTE_ID = 1;
@@ -53,6 +51,8 @@ class BookRepositoryJpaTest {
     @Autowired
     private AutorRepositoryJpa autorRepository;
 
+    @Autowired
+    private BookDtoRepositoryImpl bookDtoRepositroy;
 
     @Autowired
     private TestEntityManager   em;
@@ -117,14 +117,18 @@ class BookRepositoryJpaTest {
     @DisplayName("Количество примечаний должно быть 2 штуки")
     @Test
     void addNoteToBookByIdTest() {
-          Note note = bookRepositoryJpa.addNoteByBookId(EXPECTED_BOOK_ID, NEW_NOTE_TEXT);
-          assertThat(note).usingRecursiveComparison().isEqualTo(noteRepository.findById(note.getId()));
+
+        BookDto bookDto = bookDtoRepositroy.findById(EXPECTED_BOOK_ID);
+        Note note = bookDtoRepositroy.addNote(bookDto, NEW_NOTE_TEXT);
+        assertThat(note).usingRecursiveComparison().isEqualTo(noteRepository.findById(note.getId()));
     }
 
     @DisplayName("после удаления примечания список примечаний должен стать пустым")
     @Test
     void deleteNoteFromBookById() {
-        noteRepository.deteteById(EXPECTED_NOTE_ID);
-        assertThat(bookRepositoryJpa.getNotesByBookId(EXPECTED_NOTE_ID).size()).isEqualTo(0);
+        BookDto bookDto = bookDtoRepositroy.findById(EXPECTED_BOOK_ID);
+        bookDtoRepositroy.deteleNoteById(bookDto, EXPECTED_NOTE_ID);
+
+        assertThat(bookDto.getNotes().size()).isEqualTo(0);
     }
 }

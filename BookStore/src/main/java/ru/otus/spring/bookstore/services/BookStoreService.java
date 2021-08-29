@@ -2,14 +2,11 @@ package ru.otus.spring.bookstore.services;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.otus.spring.bookstore.dto.BookDto;
 import ru.otus.spring.bookstore.models.*;
-import ru.otus.spring.bookstore.repositories.AutorRepository;
-import ru.otus.spring.bookstore.repositories.BookRepository;
-import ru.otus.spring.bookstore.repositories.GenreRepository;
-import ru.otus.spring.bookstore.repositories.NoteRepository;
+import ru.otus.spring.bookstore.repositories.*;
 import ru.otus.spring.bookstore.tools.IOService;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -19,10 +16,12 @@ public class BookStoreService {
     private final AutorRepository autorRepository;
     private  final GenreRepository genreRepository;
     private  final NoteRepository noteRepository;
+    private  final BookDtoRepository bookDtoRepositroy;
     private final IOService ioService;
 
-    public BookStoreService(BookRepository bookRepository, AutorRepository autorRepository, GenreRepository genreRepository, NoteRepository noteRepository, IOService ioService) {
+    public BookStoreService(BookRepository bookRepository, BookDtoRepository bookDtoRepositroy, AutorRepository autorRepository, GenreRepository genreRepository, NoteRepository noteRepository, IOService ioService) {
         this.bookRepository = bookRepository;
+        this.bookDtoRepositroy = bookDtoRepositroy;
         this.autorRepository = autorRepository;
         this.genreRepository = genreRepository;
         this.noteRepository = noteRepository;
@@ -40,7 +39,6 @@ public class BookStoreService {
     public Book addBook(String name, String genrename, String autorname) {
         Genre genre = genreRepository.findByName(genrename);
         Autor autor = autorRepository.findByName(autorname);
-        List<Note> notes = new ArrayList<>();
         Book book = new Book(0, name, autor, genre);
         bookRepository.save(book);
         return book;
@@ -57,7 +55,6 @@ public class BookStoreService {
         book = bookRepository.save(book);
 
         return book;
-
     }
 
 
@@ -68,14 +65,15 @@ public class BookStoreService {
 
     @Transactional
     public Note addNoteByBookId(long id, String value){
-        Note note = new Note(0, id, value);
-        return noteRepository.save(note);
+        BookDto bookDto = bookDtoRepositroy.findById(id);
+        return bookDtoRepositroy.addNote(bookDto, value);
     }
 
 
     @Transactional(readOnly = true)
     public List<Note> getNotesByBookId(long id){
-        return noteRepository.findAllByBookId(id);
+        BookDto book = bookDtoRepositroy.findById(id);
+        return book.getNotes();
     }
 
     public void deleteNoteById(long id){

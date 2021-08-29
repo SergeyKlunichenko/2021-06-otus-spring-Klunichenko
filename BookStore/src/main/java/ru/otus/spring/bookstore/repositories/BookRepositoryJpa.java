@@ -3,6 +3,7 @@ package ru.otus.spring.bookstore.repositories;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+import ru.otus.spring.bookstore.dto.BookDto;
 import ru.otus.spring.bookstore.models.Book;
 import ru.otus.spring.bookstore.models.Note;
 
@@ -15,12 +16,7 @@ public class BookRepositoryJpa implements BookRepository{
     @PersistenceContext
     private final EntityManager em;
 
-    //@Autowired
     private final NoteRepository noteRepository;
-
-//    public BookRepositoryJpa(EntityManager em){
-//        this.em = em;
-//    }
 
     public BookRepositoryJpa(EntityManager em, NoteRepository noteRepository){
         this.em = em;
@@ -36,7 +32,8 @@ public class BookRepositoryJpa implements BookRepository{
 
     @Override
     public Book findById(long id) {
-        return Optional.ofNullable(em.find(Book.class, id)).get();
+        Book book = em.find(Book.class, id);
+        return book;
     }
 
     @Override
@@ -49,25 +46,12 @@ public class BookRepositoryJpa implements BookRepository{
         return em.merge(book);
     }
 
-
-
     @Override
     public void deleteBookById(long id) {
         Query query = em.createQuery("delete from Book b where b.id = :id");
         query.setParameter("id", id);
         query.executeUpdate();
     }
-    @Override
-    public List<Note> getNotesByBookId(long id) {
-        return noteRepository.findAllByBookId(id);
-    }
-
-    @Override
-    public Note addNoteByBookId(long id, String value) {
-        Note note = new Note(0, id, value);
-        return noteRepository.save(note);
-    }
-
 
 }
 

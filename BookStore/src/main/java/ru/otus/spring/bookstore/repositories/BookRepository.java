@@ -1,5 +1,6 @@
 package ru.otus.spring.bookstore.repositories;
 
+import ru.otus.spring.bookstore.dto.BookDto;
 import ru.otus.spring.bookstore.models.Book;
 import ru.otus.spring.bookstore.models.Note;
 
@@ -10,6 +11,4 @@ public interface BookRepository {
     Book findById(long id);
     Book save(Book book);
     void deleteBookById(long id);
-    List<Note> getNotesByBookId(long id);
-    Note addNoteByBookId(long id, String value);
 }

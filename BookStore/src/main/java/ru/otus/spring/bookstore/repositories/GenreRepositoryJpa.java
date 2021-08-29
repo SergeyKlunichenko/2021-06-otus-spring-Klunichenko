@@ -20,7 +20,6 @@ public class GenreRepositoryJpa implements GenreRepository{
         this.em = em;
     }
 
-
     @Override
     public List<Genre> findAll() {
         TypedQuery<Genre> query = em.createQuery("Select a from Genre a", Genre.class);
