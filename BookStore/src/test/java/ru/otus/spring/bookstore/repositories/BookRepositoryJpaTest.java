@@ -12,6 +12,7 @@ import ru.otus.spring.bookstore.models.Autor;
 import ru.otus.spring.bookstore.models.Book;
 import ru.otus.spring.bookstore.models.Genre;
 import ru.otus.spring.bookstore.models.Note;
+import ru.otus.spring.bookstore.services.BookDtoService;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -20,7 +21,7 @@ import static org.assertj.core.api.Assertions.assertThatCode;
 
 @DisplayName("Репозитория для работы с книгами ")
 @DataJpaTest
-@Import({BookRepositoryJpa.class, GenreRepositoryJpa.class, AutorRepositoryJpa.class, NoteRepositoryJpa.class, BookDtoRepositoryImpl.class })
+@Import({BookRepositoryJpa.class, GenreRepositoryJpa.class, AutorRepositoryJpa.class, NoteRepositoryJpa.class, BookDtoService.class })
 class BookRepositoryJpaTest {
 
     private static final long EXPECTED_NOTE_ID = 1;
@@ -52,7 +53,7 @@ class BookRepositoryJpaTest {
     private AutorRepositoryJpa autorRepository;
 
     @Autowired
-    private BookDtoRepositoryImpl bookDtoRepositroy;
+    private BookDtoService bookDtoService;
 
     @Autowired
     private TestEntityManager   em;
@@ -117,17 +118,16 @@ class BookRepositoryJpaTest {
     @DisplayName("Количество примечаний должно быть 2 штуки")
     @Test
     void addNoteToBookByIdTest() {
-
-        BookDto bookDto = bookDtoRepositroy.findById(EXPECTED_BOOK_ID);
-        Note note = bookDtoRepositroy.addNote(bookDto, NEW_NOTE_TEXT);
+        BookDto bookDto = bookDtoService.findById(EXPECTED_BOOK_ID);
+        Note note = bookDtoService.addNote(bookDto, NEW_NOTE_TEXT);
         assertThat(note).usingRecursiveComparison().isEqualTo(noteRepository.findById(note.getId()));
     }
 
     @DisplayName("после удаления примечания список примечаний должен стать пустым")
     @Test
     void deleteNoteFromBookById() {
-        BookDto bookDto = bookDtoRepositroy.findById(EXPECTED_BOOK_ID);
-        bookDtoRepositroy.deteleNoteById(bookDto, EXPECTED_NOTE_ID);
+        BookDto bookDto = bookDtoService.findById(EXPECTED_BOOK_ID);
+        bookDtoService.deteleNoteById(bookDto, EXPECTED_NOTE_ID);
 
         assertThat(bookDto.getNotes().size()).isEqualTo(0);
     }

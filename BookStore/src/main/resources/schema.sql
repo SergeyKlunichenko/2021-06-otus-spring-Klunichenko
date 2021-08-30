@@ -12,4 +12,4 @@ CREATE TABLE books(ID BIGINT PRIMARY KEY  auto_increment
 				  );
 
 DROP TABLE IF EXISTS notes;
-CREATE TABLE notes(ID BIGINT PRIMARY KEY  auto_increment, NOTE VARCHAR(255), bookid bigint, foreign key (bookid) references books(id) on delete cascade);
+CREATE TABLE notes(ID BIGINT PRIMARY KEY  auto_increment, NOTE VARCHAR(255), book_id bigint, foreign key (book_id) references books(id) on delete cascade);

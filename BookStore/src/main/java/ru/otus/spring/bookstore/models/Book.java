@@ -28,4 +28,6 @@ public class Book {
     @JoinColumn(name = "genreid")
     private Genre genre;
 
+
+
 }

@@ -15,12 +15,12 @@ import java.util.Optional;
 public class BookRepositoryJpa implements BookRepository{
     @PersistenceContext
     private final EntityManager em;
-
-    private final NoteRepository noteRepository;
+//
+//    private final NoteRepository noteRepository;
 
     public BookRepositoryJpa(EntityManager em, NoteRepository noteRepository){
         this.em = em;
-        this.noteRepository = noteRepository;
+//        this.noteRepository = noteRepository;
     }
 
     @Override

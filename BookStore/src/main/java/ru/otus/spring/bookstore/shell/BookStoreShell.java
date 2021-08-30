@@ -77,8 +77,9 @@ public class BookStoreShell {
 
     @ShellMethod(key={"abn", "addnotetobook"} , value="Add a note to the book ")
     public String addNoteByBookId(long id, String value){
-        return bookStoreService.addNoteByBookId(id, value).toString();
+        return bookStoreService.addNoteForBook(id, value).toString();
     }
+
     @ShellMethod(key={"dbni", "delnotefrombookbyid"} , value="Delete a note from a book by id")
     public String deleteNoteById(long id){
         bookStoreService.deleteNoteById(id);
@@ -102,14 +103,14 @@ public class BookStoreShell {
     }
 
     @ShellMethod(key={"aa", "addautor"} , value="Add the autor")
-    public String addAutor(){
-        Autor autor = bookStoreService.addAutor();
+    public String addAutor(String name){
+        Autor autor = bookStoreService.addAutor(name);
         return autor.toString();
     }
 
     @ShellMethod(key={"ea", "editautorbyid"} , value="Edit the autor")
-    public String editAutor(long id){
-        Autor autor = bookStoreService.editAutor(id);
+    public String editAutor(long id, String name){
+        Autor autor = bookStoreService.editAutor(id, name);
         return autor.toString();
     }
 
@@ -136,14 +137,14 @@ public class BookStoreShell {
     }
 
     @ShellMethod(key={"ag", "addgenre"} , value="Add the genre")
-    public String addGenre(){
-        Genre genre = bookStoreService.addGenre();
+    public String addGenre(String name){
+        Genre genre = bookStoreService.addGenre(name);
         return genre.toString();
     }
 
     @ShellMethod(key={"eg", "editgenrebyid"} , value="Edit the genre")
-    public String editGenre(long id){
-        Genre genre = bookStoreService.editGenre(id);
+    public String editGenre(long id, String name){
+        Genre genre = bookStoreService.editGenre(id, name);
         return genre.toString();
     }
 

@@ -16,16 +16,16 @@ public class BookStoreService {
     private final AutorRepository autorRepository;
     private  final GenreRepository genreRepository;
     private  final NoteRepository noteRepository;
-    private  final BookDtoRepository bookDtoRepositroy;
-    private final IOService ioService;
+    private  final BookDtoService bookDtoService;
+    //private final IOService ioService;
 
-    public BookStoreService(BookRepository bookRepository, BookDtoRepository bookDtoRepositroy, AutorRepository autorRepository, GenreRepository genreRepository, NoteRepository noteRepository, IOService ioService) {
+    public BookStoreService(BookRepository bookRepository, BookDtoService bookDtoRepositroy, AutorRepository autorRepository, GenreRepository genreRepository, NoteRepository noteRepository) { //}, IOService ioService) {
         this.bookRepository = bookRepository;
-        this.bookDtoRepositroy = bookDtoRepositroy;
+        this.bookDtoService = bookDtoRepositroy;
         this.autorRepository = autorRepository;
         this.genreRepository = genreRepository;
         this.noteRepository = noteRepository;
-        this.ioService = ioService;
+        //this.ioService = ioService;
     }
 
     //**************************************************************//
@@ -64,17 +64,17 @@ public class BookStoreService {
     }
 
     @Transactional
-    public Note addNoteByBookId(long id, String value){
-        BookDto bookDto = bookDtoRepositroy.findById(id);
-        return bookDtoRepositroy.addNote(bookDto, value);
+    public Note addNoteForBook(long id, String value){
+        BookDto bookDto = bookDtoService.findById(id);
+        return bookDtoService.addNote(bookDto, value);
     }
 
-
-    @Transactional(readOnly = true)
-    public List<Note> getNotesByBookId(long id){
-        BookDto book = bookDtoRepositroy.findById(id);
-        return book.getNotes();
+      @Transactional(readOnly = true)
+      public List<Note> getNotesByBookId(long id){
+        BookDto bookDto = bookDtoService.findById(id);
+        return bookDto.getNotes();
     }
+
 
     public void deleteNoteById(long id){
         noteRepository.deteteById(id);
@@ -93,16 +93,16 @@ public class BookStoreService {
     }
 
     @Transactional
-    public Autor addAutor(){
-        String name = ioService.readLine("Автор:");
+    public Autor addAutor(String name){
+        //String name = ioService.readLine("Автор:");
         Autor  autor = new Autor(0, name);
         return autorRepository.save(autor);
     }
 
     @Transactional
-    public Autor editAutor(long id){
+    public Autor editAutor(long id, String name){
         Autor autor = autorRepository.findById(id);
-        String name = ioService.readLine("Изменить автора \""+autor.getName()+"\":");
+        //String name = ioService.readLine("Изменить автора \""+autor.getName()+"\":");
         autor.setName(name);
         return autorRepository.save(autor);
     }
@@ -125,16 +125,16 @@ public class BookStoreService {
     }
 
     @Transactional
-    public Genre addGenre(){
-        String name = ioService.readLine("Жанр:");
+    public Genre addGenre(String name){
+        //String name = ioService.readLine("Жанр:");
         Genre  genre = new Genre(0, name);
         return genreRepository.save(genre);
     }
 
     @Transactional
-    public Genre editGenre(long id){
+    public Genre editGenre(long id, String name){
         Genre genre = genreRepository.findById(id);
-        String name = ioService.readLine("Изменить жанр \""+genre.getName()+"\":");
+        //String name = ioService.readLine("Изменить жанр \""+genre.getName()+"\":");
         genre.setName(name);
         return genreRepository.save(genre);
     }
