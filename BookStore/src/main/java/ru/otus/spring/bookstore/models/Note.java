@@ -15,6 +15,15 @@ public class Note {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    private long bookid;
+    @ManyToOne(targetEntity = Book.class, fetch = FetchType.LAZY)
+    private Book book ;
     private String note;
+
+    @Override
+    public String toString() {
+        return "Note{" +
+                "id=" + id +
+                ", note='" + note + '\'' +
+                '}';
+    }
 }

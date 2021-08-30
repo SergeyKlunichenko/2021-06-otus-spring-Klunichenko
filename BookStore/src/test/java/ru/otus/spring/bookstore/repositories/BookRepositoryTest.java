@@ -156,16 +156,18 @@ class BookRepositoryTest {
     @Test
     @DisplayName("получить один комментарий")
     void getNotesBookByIdTest(){
-        List<Note> notes = noteRepository.findAllForBook(EXPECTED_BOOK_ID);
+        Book book = bookRepository.findById(EXPECTED_BOOK_ID);
+        List<Note> notes = noteRepository.findAllForBook(book);
         assertThat(notes.size()).isEqualTo(EXPECTED_NOTE_COUNT);
     }
 
     @Test
     @DisplayName("добавит  второй комментари в  книгу ")
     void addNoteToBook(){
-        Note note = new Note(0, EXPECTED_BOOK_ID, NEW_BOOK_NOTE);
+        Book book = bookRepository.findById(EXPECTED_BOOK_ID);
+        Note note = new Note(0, book, NEW_BOOK_NOTE);
         note = noteRepository.save(note);
-        List<Note> notes = noteRepository.findAllForBook(EXPECTED_BOOK_ID);//new BookDto(bookRepository.findById(EXPECTED_BOOK_ID), noteRepository);
+        List<Note> notes = noteRepository.findAllForBook(book);//new BookDto(bookRepository.findById(EXPECTED_BOOK_ID), noteRepository);
 
 
         assertThat(notes.size()).isEqualTo(COUNT_NOTE_AFTER_ADD_NOTE);

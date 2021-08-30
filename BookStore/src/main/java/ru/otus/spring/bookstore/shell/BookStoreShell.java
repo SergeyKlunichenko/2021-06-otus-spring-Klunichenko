@@ -41,8 +41,8 @@ public class BookStoreShell {
     @ShellMethod(key={"lb", "listofbooks"} , value="List of books")
     public String listOfBooks(){
         List<Book> books = bookStoreService.getAllBooks();
-        ioService.println(books.stream().map(Book::toString).collect(Collectors.joining("\n")));
-        return "OK";
+        //ioService.println(books.stream().map(Book::toString).collect(Collectors.joining("\n")));
+        return books.stream().map(Book::toString).collect(Collectors.joining("\n"));
     }
 
     @ShellMethod(key={"fbi", "findbookbyid"} , value="Find a books by id")
@@ -52,27 +52,33 @@ public class BookStoreShell {
         return book.toString();
     }
 
-    @ShellMethod(key={"fbn", "findbookbyname"} , value="List of books by id")
+    @ShellMethod(key={"fbn", "findbookbyname"} , value="Get list of books by book name ")
     public String findBookByName(String name){
         List<Book> books = bookStoreService.findBookByName(name);
         //ioService.println(books.stream().map(Book::toString).collect(Collectors.joining("\n")));
         return books.stream().map(Book::toString).collect(Collectors.joining("\n"));
     }
 
+    @ShellMethod(key={"fbg", "findbookbygenrename"} , value="Get list of books by genre name")
+    public String findBookByGenreName(String name){
+        List<Book> books = bookStoreService.findBookByGenreName(name);
+        //ioService.println(books.stream().map(Book::toString).collect(Collectors.joining("\n")));
+        return books.stream().map(Book::toString).collect(Collectors.joining("\n"));
+    }
 
 
     @ShellMethod(key={"lbn", "listofnotesbooks"} , value="List of notes from books by id")
     public String listOfNotesById(long id){
         List<Note> notes = bookStoreService.getNotesBookById(id);
-        ioService.println(notes.stream().map(Note::toString).collect(Collectors.joining("\n")));
-        return "OK";
+        //ioService.println(notes.stream().map(Note::toString).collect(Collectors.joining("\n")));
+        return notes.stream().map(Note::toString).collect(Collectors.joining("\n"));
     }
 
     @ShellMethod(key={"ab", "addbook"} , value="Add a book")
     public String addBook(String name, String genrename, String autorname){
         Book book =  bookStoreService.addBook(name, genrename, autorname);
-        ioService.println(book);
-        return "OK";
+        //ioService.println(book);
+        return book.toString();
     }
 
     @ShellMethod(key={"abn", "addnotetobook"} , value="Add a note to the book (abn 1  \"text with a note\")")
@@ -85,8 +91,8 @@ public class BookStoreShell {
     @ShellMethod(key={"ub", "updatebook"} , value="Update a book(id, \"название\", \"жанр\", \"автор\")")
     public String updateBook(long id, String name, String genrename, String autorname){
         Book book =  bookStoreService.updateBook(id, name, genrename, autorname);
-        ioService.println(book);
-        return "OK";
+        //ioService.println(book);
+        return book.toString();
     }
 
 
@@ -108,8 +114,8 @@ public class BookStoreShell {
     @ShellMethod(key={"la", "listofautors"} , value="List of autors")
     public String listOfAutrors(){
         List<Autor> autors = bookStoreService.getAllAutors();
-        ioService.println(autors.stream().map(Autor::toString).collect(Collectors.joining("\n")));
-        return "OK";
+        //ioService.println(autors.stream().map(Autor::toString).collect(Collectors.joining("\n")));
+        return autors.stream().map(Autor::toString).collect(Collectors.joining("\n"));
     }
 //
     @ShellMethod(key={"faid", "findautorbyid"} , value="Finding an autor by id")
@@ -142,8 +148,8 @@ public class BookStoreShell {
     @ShellMethod(key={"lg", "listofgenres"} , value="List of genres")
     public String listOfGenres(){
         List<Genre> genres = bookStoreService.getAllGenres();
-        ioService.println(genres.stream().map(Genre::toString).collect(Collectors.joining("\n")));
-        return "OK";
+        //ioService.println(genres.stream().map(Genre::toString).collect(Collectors.joining("\n")));
+        return genres.stream().map(Genre::toString).collect(Collectors.joining("\n"));
     }
 
     @ShellMethod(key={"fgid", "findgenrebyid"} , value="Finding an genre by id")
@@ -153,14 +159,14 @@ public class BookStoreShell {
     }
 
     @ShellMethod(key={"ag", "addgenre"} , value="Add the genre")
-    public String addGenre(){
-        Genre genre = bookStoreService.addGenre();
+    public String addGenre(String name){
+        Genre genre = bookStoreService.addGenre(name);
         return genre.toString();
     }
 
     @ShellMethod(key={"eg", "editgenrebyid"} , value="Edit the genre")
-    public String editGenre(long id){
-        Genre genre = bookStoreService.editGenre(id);
+    public String editGenre(long id, String name){
+        Genre genre = bookStoreService.editGenre(id, name);
         return genre.toString();
     }
 

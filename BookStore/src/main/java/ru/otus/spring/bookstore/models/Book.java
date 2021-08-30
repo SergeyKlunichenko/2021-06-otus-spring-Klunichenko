@@ -14,7 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 @Entity
 @Table(name = "books")
-@NamedEntityGraph(name="genres-entity-graph", attributeNodes = {@NamedAttributeNode("genre"), @NamedAttributeNode("autor") })
+//@NamedEntityGraph(name="genres-entity-graph", attributeNodes = {@NamedAttributeNode("genre"), @NamedAttributeNode("autor") })
 public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,9 +29,5 @@ public class Book {
     @JoinColumn(name = "genreid")
     private Genre genre;
 
-//    @Fetch(FetchMode.SUBSELECT)
-//    @OneToMany(targetEntity = Note.class, cascade = CascadeType.ALL,  orphanRemoval = true, fetch = FetchType.LAZY)
-//    @JoinColumn(name="bookid")
-//    private List<Note> notes;
 
 }
