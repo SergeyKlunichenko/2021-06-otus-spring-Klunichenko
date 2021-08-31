@@ -17,7 +17,6 @@ public class BookStoreService {
     private  final GenreRepository genreRepository;
     private  final NoteRepository noteRepository;
     private  final BookDtoService bookDtoService;
-    //private final IOService ioService;
 
     public BookStoreService(BookRepository bookRepository, BookDtoService bookDtoRepositroy, AutorRepository autorRepository, GenreRepository genreRepository, NoteRepository noteRepository) { //}, IOService ioService) {
         this.bookRepository = bookRepository;
@@ -25,7 +24,6 @@ public class BookStoreService {
         this.autorRepository = autorRepository;
         this.genreRepository = genreRepository;
         this.noteRepository = noteRepository;
-        //this.ioService = ioService;
     }
 
     //**************************************************************//
@@ -71,8 +69,10 @@ public class BookStoreService {
 
       @Transactional(readOnly = true)
       public List<Note> getNotesByBookId(long id){
-        BookDto bookDto = bookDtoService.findById(id);
-        return bookDto.getNotes();
+
+//        BookDto bookDto = bookDtoService.findById(id);
+//        return bookDto.getNotes();
+          return bookDtoService.getNotesByBookId(id);
     }
 
 
@@ -94,7 +94,6 @@ public class BookStoreService {
 
     @Transactional
     public Autor addAutor(String name){
-        //String name = ioService.readLine("Автор:");
         Autor  autor = new Autor(0, name);
         return autorRepository.save(autor);
     }
@@ -102,7 +101,6 @@ public class BookStoreService {
     @Transactional
     public Autor editAutor(long id, String name){
         Autor autor = autorRepository.findById(id);
-        //String name = ioService.readLine("Изменить автора \""+autor.getName()+"\":");
         autor.setName(name);
         return autorRepository.save(autor);
     }
@@ -126,7 +124,6 @@ public class BookStoreService {
 
     @Transactional
     public Genre addGenre(String name){
-        //String name = ioService.readLine("Жанр:");
         Genre  genre = new Genre(0, name);
         return genreRepository.save(genre);
     }
@@ -134,7 +131,6 @@ public class BookStoreService {
     @Transactional
     public Genre editGenre(long id, String name){
         Genre genre = genreRepository.findById(id);
-        //String name = ioService.readLine("Изменить жанр \""+genre.getName()+"\":");
         genre.setName(name);
         return genreRepository.save(genre);
     }

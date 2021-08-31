@@ -115,7 +115,7 @@ class BookRepositoryJpaTest {
     }
 
 
-    @DisplayName("Количество примечаний должно быть 2 штуки")
+    @DisplayName("Примечание должно быть добавлено")
     @Test
     void addNoteToBookByIdTest() {
         BookDto bookDto = bookDtoService.findById(EXPECTED_BOOK_ID);

@@ -8,6 +8,8 @@ import ru.otus.spring.bookstore.models.Note;
 import ru.otus.spring.bookstore.repositories.BookRepository;
 import ru.otus.spring.bookstore.repositories.NoteRepository;
 
+import java.util.List;
+
 @Service
 public class BookDtoService  {
     private final BookRepository bookRepository;
@@ -29,6 +31,11 @@ public class BookDtoService  {
         bookDto.setNotes(noteRepository.findAllForBook(book));
 
         return bookDto;
+    }
+
+    public List<Note> getNotesByBookId(long id){
+        Book    book    =   bookRepository.findById(id);
+        return  noteRepository.findAllForBook(book);
     }
 
     public Note addNote(BookDto bookDto, String noteValue) {
