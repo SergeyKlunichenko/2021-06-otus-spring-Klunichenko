@@ -85,8 +85,7 @@ public class BookStoreService {
 
     @Transactional(readOnly = true)
     public List<Note> getNotesBookById(long id){
-        BookDto bookDto = bookDtoService.findById(id);
-        return bookDto.getNotes();
+        return bookDtoService.getNotesBookById(id);
     }
 
     @Transactional
