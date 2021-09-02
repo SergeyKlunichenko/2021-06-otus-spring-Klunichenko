@@ -7,21 +7,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.context.annotation.Import;
-import ru.otus.spring.bookstore.dto.BookDto;
 import ru.otus.spring.bookstore.models.Autor;
 import ru.otus.spring.bookstore.models.Book;
 import ru.otus.spring.bookstore.models.Genre;
 import ru.otus.spring.bookstore.models.Note;
-import ru.otus.spring.bookstore.services.BookDtoService;
 
 import static org.assertj.core.api.Assertions.assertThat;
-
-
 import static org.assertj.core.api.Assertions.assertThatCode;
 
 @DisplayName("Репозитория для работы с книгами ")
 @DataJpaTest
-@Import({BookRepositoryJpa.class, GenreRepositoryJpa.class, AutorRepositoryJpa.class, NoteRepositoryJpa.class, BookDtoService.class })
+@Import({BookRepositoryJpa.class, GenreRepositoryJpa.class, AutorRepositoryJpa.class, NoteRepositoryJpa.class })
 class BookRepositoryJpaTest {
 
     private static final long EXPECTED_NOTE_ID = 1;
@@ -51,9 +47,6 @@ class BookRepositoryJpaTest {
 
     @Autowired
     private AutorRepositoryJpa autorRepository;
-
-    @Autowired
-    private BookDtoService bookDtoService;
 
     @Autowired
     private TestEntityManager   em;
@@ -118,17 +111,19 @@ class BookRepositoryJpaTest {
     @DisplayName("Примечание должно быть добавлено")
     @Test
     void addNoteToBookByIdTest() {
-        BookDto bookDto = bookDtoService.findById(EXPECTED_BOOK_ID);
-        Note note = bookDtoService.addNote(bookDto, NEW_NOTE_TEXT);
+        Book book =  bookRepositoryJpa.findById(EXPECTED_BOOK_ID);
+        Note note = new Note(0, book, NEW_NOTE_TEXT);
+        noteRepository.save(note);
+
         assertThat(note).usingRecursiveComparison().isEqualTo(noteRepository.findById(note.getId()));
     }
 
     @DisplayName("после удаления примечания список примечаний должен стать пустым")
     @Test
     void deleteNoteFromBookById() {
-        BookDto bookDto = bookDtoService.findById(EXPECTED_BOOK_ID);
-        bookDtoService.deteleNoteById(bookDto, EXPECTED_NOTE_ID);
+        noteRepository.deteteById(EXPECTED_NOTE_ID);
+        Book book = bookRepositoryJpa.findById(EXPECTED_BOOK_ID);
 
-        assertThat(bookDto.getNotes().size()).isEqualTo(0);
+        assertThat(noteRepository.findAllForBook(book).size()).isEqualTo(0);
     }
 }

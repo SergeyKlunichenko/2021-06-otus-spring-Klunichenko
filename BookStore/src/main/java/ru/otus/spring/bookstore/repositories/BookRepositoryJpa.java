@@ -1,15 +1,10 @@
 package ru.otus.spring.bookstore.repositories;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
-import ru.otus.spring.bookstore.dto.BookDto;
 import ru.otus.spring.bookstore.models.Book;
-import ru.otus.spring.bookstore.models.Note;
 
 import javax.persistence.*;
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 public class BookRepositoryJpa implements BookRepository{

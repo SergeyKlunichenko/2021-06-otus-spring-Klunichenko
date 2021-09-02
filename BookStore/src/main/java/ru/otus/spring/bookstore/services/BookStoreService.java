@@ -2,10 +2,8 @@ package ru.otus.spring.bookstore.services;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.otus.spring.bookstore.dto.BookDto;
 import ru.otus.spring.bookstore.models.*;
 import ru.otus.spring.bookstore.repositories.*;
-import ru.otus.spring.bookstore.tools.IOService;
 
 import java.util.List;
 
@@ -16,11 +14,9 @@ public class BookStoreService {
     private final AutorRepository autorRepository;
     private  final GenreRepository genreRepository;
     private  final NoteRepository noteRepository;
-    private  final BookDtoService bookDtoService;
 
-    public BookStoreService(BookRepository bookRepository, BookDtoService bookDtoRepositroy, AutorRepository autorRepository, GenreRepository genreRepository, NoteRepository noteRepository) { //}, IOService ioService) {
+    public BookStoreService(BookRepository bookRepository,  AutorRepository autorRepository, GenreRepository genreRepository, NoteRepository noteRepository) { //}, IOService ioService) {
         this.bookRepository = bookRepository;
-        this.bookDtoService = bookDtoRepositroy;
         this.autorRepository = autorRepository;
         this.genreRepository = genreRepository;
         this.noteRepository = noteRepository;
@@ -63,16 +59,15 @@ public class BookStoreService {
 
     @Transactional
     public Note addNoteForBook(long id, String value){
-        BookDto bookDto = bookDtoService.findById(id);
-        return bookDtoService.addNote(bookDto, value);
+        Book book = bookRepository.findById(id);
+        Note note = new Note(0, book, value);
+        return noteRepository.save(note);
     }
 
-      @Transactional(readOnly = true)
-      public List<Note> getNotesByBookId(long id){
-
-//        BookDto bookDto = bookDtoService.findById(id);
-//        return bookDto.getNotes();
-          return bookDtoService.getNotesByBookId(id);
+    @Transactional(readOnly = true)
+    public List<Note> getNotesByBookId(long id){
+          Book book = bookRepository.findById(id);
+          return noteRepository.findAllForBook(book);
     }
 
 
