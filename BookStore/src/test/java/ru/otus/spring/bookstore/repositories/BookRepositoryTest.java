@@ -5,18 +5,15 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
-import ru.otus.spring.bookstore.dto.BookDto;
 import ru.otus.spring.bookstore.models.Autor;
 import ru.otus.spring.bookstore.models.Book;
 import ru.otus.spring.bookstore.models.Genre;
 import ru.otus.spring.bookstore.models.Note;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
-import static org.junit.jupiter.api.Assertions.*;
 
 @DisplayName("Репозитарий для работы с книгами")
 @DataJpaTest

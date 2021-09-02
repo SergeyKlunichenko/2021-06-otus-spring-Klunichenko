@@ -2,7 +2,6 @@ package ru.otus.spring.bookstore.services;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.otus.spring.bookstore.dto.BookDto;
 import ru.otus.spring.bookstore.models.*;
 import ru.otus.spring.bookstore.repositories.*;
 import ru.otus.spring.bookstore.tools.IOService;
@@ -13,22 +12,18 @@ import java.util.List;
 @Service
 public class BookStoreService {
 
-    private final BookDtoService bookDtoService;
     private final BookRepository bookRepository;
     private final AutorRepository autorRepository;
     private final GenreRepository genreRepository;
     private final NoteRepository noteRepository;
-    private final IOService ioService;
 
 
 
-    public BookStoreService(BookRepository bookRepository, BookDtoService bookDtoService, AutorRepository autorRepository, GenreRepository genreRepository, NoteRepository noteRepository, IOService ioService) {
+    public BookStoreService(BookRepository bookRepository,  AutorRepository autorRepository, GenreRepository genreRepository, NoteRepository noteRepository) {
         this.bookRepository = bookRepository;
-        this.bookDtoService = bookDtoService;
         this.autorRepository = autorRepository;
         this.genreRepository = genreRepository;
         this.noteRepository = noteRepository;
-        this.ioService = ioService;
     }
 
     //**************************************************************//
@@ -50,7 +45,6 @@ public class BookStoreService {
 
     @Transactional(readOnly = true)
     public List<Book> findBookByGenreName(String name){
-    //    return bookRepository.findByName(name);
         return bookRepository.findByGenre_Name(name);
     }
 
@@ -85,13 +79,15 @@ public class BookStoreService {
 
     @Transactional(readOnly = true)
     public List<Note> getNotesBookById(long id){
-        return bookDtoService.getNotesBookById(id);
+        Book book = bookRepository.findById(id);
+        return noteRepository.findAllForBook(book);
     }
 
     @Transactional
     public Note addNoteToBookById(long id, String value){
-        BookDto bookDto = bookDtoService.findById(id);//new BookDto(bookDtoRepository.findById(id), noteRepository);
-        return bookDtoService.addNote(bookDto, value);
+        Book book = bookRepository.findById(id);
+        Note note = new Note(0, book, value);
+        return noteRepository.save(note);
     }
 
     @Transactional
