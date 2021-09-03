@@ -1,0 +1,9 @@
+properties: 
+   delim: ;
+   filequest: questlist-{locale}.csv
+   locale: ru
+
+spring:
+    messages:
+        basename: i18n/messages
+
