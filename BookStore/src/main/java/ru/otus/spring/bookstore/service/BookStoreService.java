@@ -1,6 +1,7 @@
 package ru.otus.spring.bookstore.service;
 
 import org.springframework.stereotype.Service;
+import ru.otus.spring.bookstore.exceptions.BookStoreException;
 import ru.otus.spring.bookstore.model.Autor;
 import ru.otus.spring.bookstore.model.Book;
 import ru.otus.spring.bookstore.model.Genre;
@@ -32,12 +33,12 @@ public class BookStoreService {
         return bookRepository.findAll();
     }
 
-    public List<Book> findBookByName(String name){
+    public Book findBookByName(String name){
         return bookRepository.findByName(name);
     }
 
     public List<Book> findBookByGenre(String name){
-        return bookRepository.findByGenre(name);
+        return bookRepository.findByGenreName(name);
     }
 
     public List<Book> findBookByGenreId(String id){
@@ -46,7 +47,7 @@ public class BookStoreService {
     }
 
     public List<Book> findBookByAutor(String name){
-        return bookRepository.findByAutor(name);
+        return bookRepository.findByAutorName(name);
     }
 
     public List<Book> findBookByAutorId(String id){
@@ -118,7 +119,7 @@ public class BookStoreService {
     }
 
     public Autor editAutor(String id, String name){
-        Autor autor = autorRepository.findById(id).get();
+        Autor autor = autorRepository.findById(id).orElseThrow(() -> new BookStoreException("Автор по ид %s не найден", id));
         autor.setName(name);
         return autorRepository.save(autor);
     }
@@ -140,7 +141,7 @@ public class BookStoreService {
     }
 
     public Genre findGenreById(String id){
-        return genreRepository.findById(id).get();
+        return genreRepository.findById(id).orElseThrow(()-> new BookStoreException("Жанр по ид %s не найден", id));
     }
 
     public Genre addGenre(String name){
@@ -158,7 +159,7 @@ public class BookStoreService {
     }
 
     public Genre editGenreById(String id, String name){
-        Genre genre = genreRepository.findById(id).get();
+        Genre genre = genreRepository.findById(id).orElseThrow(()-> new BookStoreException("Жанр по ид %s не найден", id));
         genre.setName(name);
         return genreRepository.save(genre);
     }

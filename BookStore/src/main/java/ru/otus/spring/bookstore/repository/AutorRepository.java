@@ -6,11 +6,5 @@ import ru.otus.spring.bookstore.model.Autor;
 import java.util.List;
 
 public interface AutorRepository extends MongoRepository <Autor, String>{
-    List<Autor> findAll();
-
     Autor findByName(String name);
-
-    void deleteByName(String name);
-    void deleteById(String id);
-
 }

@@ -12,7 +12,6 @@ import java.util.List;
 
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatCode;
 
 
 @DataMongoTest
@@ -32,9 +31,8 @@ class NoteRepositoryTest {
 
     @DisplayName("должен получить "+EXPECTED_NOTE_COUNT+ " примечания для книги "+ EXPECTED_BOOK_NAME)
     @Test
-    @Order(1)
     void findAllByBook() {
-        Book book = bookRepository.findByName(EXPECTED_BOOK_NAME).get(0);
+        Book book = bookRepository.findByName(EXPECTED_BOOK_NAME);
         List<Note> notes = noteRepository.findAllByBook(book);
         assertThat(notes.size()).isEqualTo(EXPECTED_NOTE_COUNT);
 
@@ -42,9 +40,8 @@ class NoteRepositoryTest {
 
     @Test
     @DisplayName("должен удалить все примечания для "+OTHER_BOOK_NAME)
-    @Order(2)
     void deleteByBook() {
-        Book book = bookRepository.findByName(OTHER_BOOK_NAME).get(0);
+        Book book = bookRepository.findByName(OTHER_BOOK_NAME);
         noteRepository.deleteByBook(book);
         assertThat(noteRepository.findAllByBook(book).size()).isEqualTo(0);
 

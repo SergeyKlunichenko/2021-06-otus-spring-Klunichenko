@@ -20,27 +20,6 @@ public class BookStoreApplication {
 
 	public static void main(String[] args) throws InterruptedException{
 		ApplicationContext context = SpringApplication.run(BookStoreApplication.class, args);
-
-//		AutorRepository autorRepository = context.getBean(AutorRepository.class);
-//		GenreRepository	genreRepository = context.getBean(GenreRepository.class);
-//		BookRepository	bookRepository	= context.getBean(BookRepository.class);
-//
-//		System.out.println("----------------------------------------------");
-//		System.out.println("Авторы в БД:");
-//		autorRepository.findAll().forEach(p -> System.out.println(p.getName()));
-//		System.out.println("----------------------------------------------");
-//		System.out.println("Жанры в БД:");
-//		genreRepository.findAll().forEach(p -> System.out.println(p.getName()));
-//
-//		System.out.println("----------------------------------------------");
-//		System.out.println("Книги в БД:");
-//		bookRepository.findAll().forEach(p -> System.out.println(p));
-
-
-
-
-
-
 	}
 
 }

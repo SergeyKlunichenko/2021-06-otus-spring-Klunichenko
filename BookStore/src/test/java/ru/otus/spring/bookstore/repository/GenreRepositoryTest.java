@@ -7,7 +7,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 import org.springframework.context.annotation.Import;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import ru.otus.spring.bookstore.events.GenreEventListener;
 import ru.otus.spring.bookstore.model.Genre;
 
@@ -28,22 +27,18 @@ class GenreRepositoryTest {
     @Autowired
     private GenreRepository genreRepository;
 
-    @Order(2)
     @Test
     @DisplayName("должен добавить жанр "+NEW_GENRE_NAME)
     void shouldAddNewGenre(){
         Genre genre = new Genre(NEW_GENRE_NAME);
         genre = genreRepository.save(genre);
-
         assertThat(genre.getName()).isEqualTo(NEW_GENRE_NAME);
-
         genreRepository.delete(genre);
 
     }
 
     @Test
     @DisplayName("должны получить список из "+EXPECTED_GENRE_COUNT + " жанров")
-    @Order(1)
     void shoulGetListOfTwoGenred() {
         List<Genre> genres = genreRepository.findAll();
         assertThat(genres.size()).isEqualTo(EXPECTED_GENRE_COUNT);
@@ -51,7 +46,6 @@ class GenreRepositoryTest {
 
     @Test
     @DisplayName("должны получить объект с жанром "+EXPECTED_GENRE_NAME)
-    @Order(3)
     void shoulGetAnObjectWithGenre() {
         Genre genre = genreRepository.findByName(EXPECTED_GENRE_NAME);
         assertThat(genre).isNotNull();
@@ -61,7 +55,6 @@ class GenreRepositoryTest {
 
     @Test
     @DisplayName("не должны удалить жанр у которого есть ссылка на книгу")
-    @Order(4)
     void shouldNotDeleteGenreWithBook(){
         Genre genre = genreRepository.findByName(EXPECTED_GENRE_NAME);
         assertThat(genre).isNotNull();
@@ -71,7 +64,6 @@ class GenreRepositoryTest {
 
     @Test
     @DisplayName("должен удалиться жанр, т.к. на него нет ссылок")
-    @Order(5)
     void shouldDeleteGenreWithoutBook(){
         Genre genre = new Genre(NEW_GENRE_NAME);
         genre = genreRepository.save(genre);
@@ -79,6 +71,14 @@ class GenreRepositoryTest {
         String id = genre.getId();
         genreRepository.deleteById(id);
 
+    }
+
+    @Test
+    @DisplayName("жанр не должен изменится, т.к. в магазине есть книги с таким жанром")
+    void shouldNotEditGenreBecauseThereIsBooks(){
+        Genre genre = genreRepository.findByName(EXPECTED_GENRE_NAME);
+        genre.setName(NEW_GENRE_NAME);
+        assertThatCode(()->genreRepository.save(genre)).hasNoSuppressedExceptions();
     }
 
 

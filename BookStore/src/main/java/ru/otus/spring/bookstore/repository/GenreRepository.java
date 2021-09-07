@@ -6,10 +6,5 @@ import ru.otus.spring.bookstore.model.Genre;
 import java.util.List;
 
 public interface GenreRepository extends MongoRepository<Genre, String> {
-    List<Genre> findAll();
-
     Genre findByName(String name);
-
-
-
 }

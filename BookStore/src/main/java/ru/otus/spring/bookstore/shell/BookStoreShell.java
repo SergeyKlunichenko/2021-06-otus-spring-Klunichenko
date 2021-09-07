@@ -30,8 +30,7 @@ public class BookStoreShell {
 
     @ShellMethod(key={"fbn", "findbookbyname"} , value="Get list of books by book name ")
     public String findBookByName(String name){
-        List<Book> books = bookStoreService.findBookByName(name);
-        return books.stream().map(Book::toString).collect(Collectors.joining("\n"));
+        return bookStoreService.findBookByName(name).toString();
     }
 
     @ShellMethod(key={"fbg", "findbookbygenrename"} , value="Get list of books by genre name")

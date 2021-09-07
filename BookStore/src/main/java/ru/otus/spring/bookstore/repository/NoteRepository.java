@@ -8,6 +8,5 @@ import java.util.List;
 
 public interface NoteRepository extends MongoRepository <Note, String> {
     List<Note> findAllByBook(Book book);
-
     void deleteByBook(Book book);
 }

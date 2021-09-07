@@ -2,13 +2,10 @@ package ru.otus.spring.bookstore.repository;
 
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 import org.springframework.context.annotation.Import;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import ru.otus.spring.bookstore.events.AutorEventListener;
 import ru.otus.spring.bookstore.model.Autor;
 
@@ -26,13 +23,10 @@ class AutorRepositoryTest {
     private  final String NEW_AUTOR_NAME="Лев Николаевич Толстой";
 
     @Autowired
-    private   BookRepository bookRepository;
-    @Autowired
     public    AutorRepository autorRepository;
 
     @Test
     @DisplayName("Должны получить  авторов в количестве "+EXPECTED_COUNT + " штук")
-    @Order(1)
     void findAllTest() {
         List<Autor> autors = autorRepository.findAll();
         assertThat(autors.size()).isEqualTo(EXPECTED_COUNT);
@@ -40,7 +34,6 @@ class AutorRepositoryTest {
 
     @Test
     @DisplayName("Должен найтись автор "+EXPECTED_AUTOR_NAME)
-    @Order(2)
     void findByNameTest() {
 
         Autor autor = autorRepository.findByName(EXPECTED_AUTOR_NAME);
@@ -48,9 +41,10 @@ class AutorRepositoryTest {
         assertThat(autor.getName()).isEqualTo(EXPECTED_AUTOR_NAME);
 
     }
+
+
     @DisplayName("Автор "+EXPECTED_AUTOR_NAME+" не должен быть удален т.к. имеются его книги")
     @Test
-    @Order(3)
     void shoulNotDeleteAutorBecausThereHisBooks() {
         Autor autor = autorRepository.findByName(EXPECTED_AUTOR_NAME);
         assertThat(autor).isNotNull();
@@ -60,7 +54,6 @@ class AutorRepositoryTest {
 
     @DisplayName("Автор "+NEW_AUTOR_NAME + " должен удалиться, т.к. у него нет книг")
     @Test
-    @Order(4)
     void shoulDeleteAutorWithEmptyListOfBooks() {
         //добавить автора
         Autor autor = new Autor(NEW_AUTOR_NAME);
@@ -75,11 +68,20 @@ class AutorRepositoryTest {
 
     @DisplayName("Должен добавиться автор "+NEW_AUTOR_NAME)
     @Test
-    @Order(5)
     void addAutorTest(){
         Autor autor = new Autor(NEW_AUTOR_NAME);
         autor = autorRepository.save(autor);
         assertThat(autorRepository.findByName(NEW_AUTOR_NAME)).usingRecursiveComparison().isEqualTo(autor);
+    }
+
+    @Test
+    @DisplayName("автор не должен изменится, т.к. в магазине есть книги автора")
+    void shouldNotEditAutorBecauseThereIsBooks(){
+        Autor autor = autorRepository.findByName(EXPECTED_AUTOR_NAME);
+        autor.setName(NEW_AUTOR_NAME);
+        assertThatCode(()->autorRepository.save(autor)).hasNoSuppressedExceptions();
+        //autorRepository.save(autor);
+
     }
 
 
