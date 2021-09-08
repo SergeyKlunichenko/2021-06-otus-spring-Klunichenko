@@ -1,0 +1,23 @@
+spring:
+  data:
+    mongodb:
+      #uri: mongodb://localhost
+      #uri: localhost
+      host: localhost
+      port: 27017
+      #port: 0
+      database: bookstore
+
+mongock:
+  #runner-type: "ApplicationRunner" # default
+  runner-type: "InitializingBean"
+  change-logs-scan-package:
+    - ru.otus.spring.bookstore.changelogs
+  mongo-db:
+    write-concern:
+      journal: false
+    read-concern: local
+
+logging:
+  level:
+    root: ERROR
