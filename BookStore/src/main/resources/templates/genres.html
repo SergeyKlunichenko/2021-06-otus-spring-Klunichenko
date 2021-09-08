@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>List of all genres</title>
+    <style type="text/css">
+        body {
+            padding: 50px;
+        }
+
+        .genres, .genres td {
+            border: 1px solid lightgray;
+            padding: 5px;
+        }
+    </style>
+</head>
+<body>
+<h1>Жанры:</h1>
+
+<table class="genres">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Наименование</th>
+        <th></th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="genre : ${genres}">
+        <td th:text="${genre.id}">1</td>
+        <td th:text="${genre.name}">Book</td>
+        <td><a th:href="@{/editGenre(id=${genre.id})}" href="editGenre.html">Изменить</a></td>
+        <td><a th:href="@{/deleteGenre(id=${genre.id})}" href="delete.html">Удалить</a></td>
+    </tr>
+    </tbody>
+</table>
+<!--<a th:href="@{/editGenre(id=0)}" href="editGenre.html">Добавить</a>  -->
+
+<button onclick="window.location.href = 'editGenre?id=0'">Добавить</button>
+<button onclick="window.location.href = '/';">Книги</button>
+<button onclick="window.location.href = 'autors';">Авторы</button>
+
+</body>
+</html>
