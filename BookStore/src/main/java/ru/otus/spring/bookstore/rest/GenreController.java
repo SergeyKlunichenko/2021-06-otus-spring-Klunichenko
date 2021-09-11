@@ -6,43 +6,43 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import ru.otus.spring.bookstore.models.Genre;
-import ru.otus.spring.bookstore.repositories.GenreRepository;
+import ru.otus.spring.bookstore.services.BookStoreService;
 
 import java.util.List;
 
 @Controller
 public class GenreController {
-    private  final GenreRepository genreRepository;
+    public final BookStoreService bookStoreService;
 
-    public GenreController(GenreRepository genreRepository){
-        this.genreRepository = genreRepository;
+    public GenreController(BookStoreService bookStoreService) {
+        this.bookStoreService = bookStoreService;
     }
 
     @GetMapping("/genres")
-    public String listGenres(Model model){
-        List<Genre> genres = genreRepository.findAll();
+    public String listGenres(Model model) {
+        List<Genre> genres = bookStoreService.findAllGenre();
         model.addAttribute("genres", genres);
 
         return "genres";
     }
 
     @GetMapping("/editGenre")
-    public String editGenre(@RequestParam("id") long id, Model model){
-        Genre genre ;
-        if(id== 0) {
+    public String editGenre(@RequestParam("id") long id, Model model) {
+        Genre genre;
+        if (id == 0) {
             genre = new Genre(0, "");
         } else {
-            genre = genreRepository.findById(id);
+            genre = bookStoreService.findGenreById(id);
         }
         model.addAttribute("genre", genre);
         return "editGenre";
     }
 
     @PostMapping("/editGenre")
-    public String editGenre(Genre genre, Model model){
-        genre = genreRepository.save(genre);
+    public String editGenre(Genre genre, Model model) {
+        genre = bookStoreService.saveGenre(genre);
         model.addAttribute("genre", genre);
-        return "editGenre";
+        return "redirect:/genres";
 
     }
 

@@ -9,24 +9,23 @@ import ru.otus.spring.bookstore.models.Book;
 import ru.otus.spring.bookstore.models.Note;
 import ru.otus.spring.bookstore.repositories.BookRepository;
 import ru.otus.spring.bookstore.repositories.NoteRepository;
+import ru.otus.spring.bookstore.services.BookStoreService;
 
 import java.util.List;
 
 @Controller
 public class NoteController {
-    private final  NoteRepository noteRepository;
-    public  final BookRepository bookRepository;
+    BookStoreService bookStoreService;
 
     @Autowired
-    public NoteController(NoteRepository noteRepository, BookRepository bookRepository){
-        this.noteRepository = noteRepository;
-        this.bookRepository = bookRepository;
+    public NoteController(BookStoreService bookStoreService) {
+        this.bookStoreService = bookStoreService;
     }
 
     @GetMapping("/notes")
-    public String getList(@RequestParam("bookid") long bookid, Model model){
-        Book book = bookRepository.findById(bookid);
-        List<Note> notes = noteRepository.findAllForBook(book);
+    public String getList(@RequestParam("bookid") long bookid, Model model) {
+        Book book = bookStoreService.findBookById(bookid);
+        List<Note> notes = bookStoreService.findNotesByBook(book);
         model.addAttribute("notes", notes);
         model.addAttribute("book", book);
         return "notes";

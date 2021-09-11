@@ -16,7 +16,7 @@ public class Note {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     @ManyToOne(targetEntity = Book.class, fetch = FetchType.LAZY)
-    private Book book ;
+    private Book book;
     private String note;
 
     @Override

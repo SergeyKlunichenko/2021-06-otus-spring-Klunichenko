@@ -19,7 +19,7 @@ public class Book {
     private String name;
 
     @ManyToOne(targetEntity = Autor.class)
-    @JoinColumn(name="autorid")
+    @JoinColumn(name = "autorid")
     private Autor autor;
 
     @ManyToOne(targetEntity = Genre.class)
