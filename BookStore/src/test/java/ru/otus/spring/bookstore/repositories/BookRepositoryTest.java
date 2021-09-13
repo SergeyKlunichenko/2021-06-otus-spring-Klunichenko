@@ -79,8 +79,8 @@ class BookRepositoryTest {
     @Test
     @DisplayName("добавит новую книгу "+ NEW_BOOK_NAME)
     void  addTest(){
-        Genre genre = genreRepository.findByName(NEW_BOOK_GENRE).get(0);
-        Autor autor = autorRepository.findByName(NEW_BOOK_AUTOR).get(0);
+        Genre genre = genreRepository.findByName(NEW_BOOK_GENRE);
+        Autor autor = autorRepository.findByName(NEW_BOOK_AUTOR);
         Book  newBook  = new Book(0, NEW_BOOK_NAME,  autor, genre);
         Book  checkBook = new Book(0, NEW_BOOK_NAME,  autor, genre);
         newBook = bookRepository.saveAndFlush(newBook);
@@ -94,8 +94,8 @@ class BookRepositoryTest {
     @Test
     @DisplayName("изменить книгу на"+NEW_BOOK_NAME)
     void  editTest(){
-        Genre genre =   genreRepository.findByName(NEW_BOOK_GENRE).get(0);
-        Autor autor =   autorRepository.findByName(NEW_BOOK_AUTOR).get(0);
+        Genre genre =   genreRepository.findByName(NEW_BOOK_GENRE);
+        Autor autor =   autorRepository.findByName(NEW_BOOK_AUTOR);
         Book  book  =   bookRepository.findById(EXPECTED_BOOK_ID);
         book.setName(NEW_BOOK_NAME);
         book.setAutor(autor);

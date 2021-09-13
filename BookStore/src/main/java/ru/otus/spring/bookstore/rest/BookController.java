@@ -16,7 +16,7 @@ import java.util.List;
 
 @Controller
 public class BookController {
-    BookStoreService bookStoreService;
+    private final BookStoreService bookStoreService;
 
     @Autowired
     public BookController(BookStoreService bookStoreService) {
@@ -32,7 +32,7 @@ public class BookController {
 
     @GetMapping("/editBook")
     public String edit(@RequestParam("id") long id, Model model) {
-        Book book;
+        Book book = null;
         if (id == 0) {
             Autor autor = new Autor(0, "");
             Genre genre = new Genre(0, "");
@@ -52,7 +52,7 @@ public class BookController {
 
 
     @PostMapping("/editBook")
-    public String edit(Book book, long genreid, long autorid, Model model) {
+    public String edit(Book book, long genreid, long autorid) {
         System.out.println("genreid=" + genreid);
         Genre genre = bookStoreService.findGenreById(genreid);
         Autor autor = bookStoreService.findAutorById(autorid);
@@ -70,11 +70,8 @@ public class BookController {
     }
 
     @PostMapping("/deleteBook")
-    public String delete(Book book, Model model) {
+    public String delete(Book book) {
         bookStoreService.deleteBook(book);
-        book.setId(0);
-        List<Book> books = bookStoreService.findAllBooks();
-        model.addAttribute("books", books);
         return "redirect:/";
     }
 

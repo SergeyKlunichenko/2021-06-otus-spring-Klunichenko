@@ -34,7 +34,7 @@ class AutorRepositoryTest {
     @Test
     @DisplayName("должен загрузщиться массив с автором "+EXPECTED_AUTOR_NAME)
     void findByNameTest(){
-        Autor autor = autorRepository.findByName(EXPECTED_AUTOR_NAME).get(0);
+        Autor autor = autorRepository.findByName(EXPECTED_AUTOR_NAME);
         assertThat(autor).usingRecursiveComparison().isEqualTo(autorRepository.findById(autor.getId()));
     }
 

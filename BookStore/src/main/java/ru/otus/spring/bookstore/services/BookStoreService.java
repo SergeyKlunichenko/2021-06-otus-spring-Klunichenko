@@ -53,9 +53,10 @@ public class BookStoreService {
 
     @Transactional
     public Book addBook(String name, String genrename, String autorname) {
-        Genre genre = genreRepository.findByName(genrename).get(0);
-        Autor autor = autorRepository.findByName(autorname).get(0);
-        Book book = new Book(0, name, autor, genre);
+        long id = 0;
+        Genre genre = genreRepository.findByName(genrename);
+        Autor autor = autorRepository.findByName(autorname);
+        Book book = new Book(id, name, autor, genre);
         book = bookRepository.save(book);
         return book;
     }
@@ -63,8 +64,8 @@ public class BookStoreService {
     @Transactional
     public Book updateBook(long id, String name, String genrename, String autorname) {
         Book book = bookRepository.findById(id);
-        Genre genre = genreRepository.findByName(genrename).get(0);
-        Autor autor = autorRepository.findByName(autorname).get(0);
+        Genre genre = genreRepository.findByName(genrename);
+        Autor autor = autorRepository.findByName(autorname);
         book.setAutor(autor);
         book.setGenre(genre);
         book.setName(name);
@@ -139,9 +140,15 @@ public class BookStoreService {
     }
 
     @Transactional
-    public void delAutorById(long id) {
+    public void deleteAutorById(long id) {
         autorRepository.deleteById(id);
     }
+
+    @Transactional
+    public void deleteAutor(Autor autor) {
+        autorRepository.delete(autor);
+    }
+
 
     //**************************************************************//
     //************************** Жанры  ****************************//
@@ -174,8 +181,14 @@ public class BookStoreService {
     }
 
     @Transactional
-    public void delGenreById(long id) {
+    public void deleteGenreById(long id) {
         genreRepository.deleteById(id);
     }
+
+    @Transactional
+    public void deleteGenre(Genre genre) {
+        genreRepository.delete(genre);
+    }
+
 
 }

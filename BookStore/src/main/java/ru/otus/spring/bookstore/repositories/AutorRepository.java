@@ -8,7 +8,8 @@ import java.util.List;
 public interface AutorRepository extends JpaRepository <Autor, Long> {
     List<Autor> findAll();
     Autor findById(long id);
-    List<Autor> findByName(String name);
+    Autor findByName(String name);
     Autor save(Autor autor);
     void deleteById(long id);
+    //void delete(Autor autor);
 }

@@ -35,7 +35,7 @@ class GenreRepositoryTest {
     @Test
     @DisplayName("должен загрузиться массив с жанрами по имени жанра "+ EXPECTED_GENRE_NAME)
     void findByNameTest(){
-        Genre genre = genreRepository.findByName(EXPECTED_GENRE_NAME).get(0);
+        Genre genre = genreRepository.findByName(EXPECTED_GENRE_NAME);
         assertThat(genre).usingRecursiveComparison().isEqualTo(genreRepository.findById(genre.getId()));
     }
 

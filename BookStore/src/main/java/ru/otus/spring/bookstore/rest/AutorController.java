@@ -1,12 +1,17 @@
 package ru.otus.spring.bookstore.rest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import ru.otus.spring.bookstore.exceptions.BookStoreException;
 import ru.otus.spring.bookstore.models.Autor;
+import ru.otus.spring.bookstore.models.Genre;
 import ru.otus.spring.bookstore.services.BookStoreService;
 
 import java.util.List;
@@ -42,11 +47,35 @@ public class AutorController {
     }
 
     @PostMapping("/editAutor")
-    public String edit(Autor autor, Model model) {
+    public String edit(Autor autor) {
         autor = bookStoreService.saveAutor(autor);
-        model.addAttribute("autor", autor);
         return "redirect:/autors";
     }
 
+    @GetMapping("/deleteAutor")
+    public String deleteGenre(@RequestParam("id") long id, Model model) {
+        Autor autor;
+        autor = bookStoreService.findAutorById(id);
+        model.addAttribute("autor", autor);
+        return "deleteAutor";
+    }
+
+
+    @PostMapping("/deleteAutor")
+    public String delete(Autor autor) {
+        try {
+            bookStoreService.deleteAutor(autor);
+        } catch (DataIntegrityViolationException ce) {
+            throw new BookStoreException("Ошибка удаления автора: имеются книги с таким автором");
+        } catch (Exception e) {
+            throw new BookStoreException("Ошибка удаления жанра: " + e.getMessage());
+        }
+        return "redirect:/autors";
+    }
+
+    @ExceptionHandler(BookStoreException.class)
+    public ResponseEntity<String> handleNotFound(BookStoreException ex) {
+        return ResponseEntity.badRequest().body(ex.getMessage());
+    }
 
 }
