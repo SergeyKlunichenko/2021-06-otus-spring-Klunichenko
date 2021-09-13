@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Список примечаний для книги</title>
+    <style type="text/css">
+        body {
+            padding: 50px;
+        }
+
+        .notes, .notes td {
+            border: 1px solid lightgray;
+            padding: 5px;
+        }
+    </style>
+</head>
+<body>
+<h1 th:text="'Примечания для книги:'+${book.name}">Примечания:</h1>
+
+<table class="notes">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Примечание</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="note : ${notes}">
+        <td th:text="${note.id}">1</td>
+        <td th:text="${note.note}">Book</td>
+    </tr>
+    </tbody>
+</table>
+
+<button onclick="window.location.href = '/';">Книги</button>
+
+</body>
+</html>
