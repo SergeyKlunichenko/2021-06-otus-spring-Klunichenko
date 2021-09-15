@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>List of autors</title>
+    <style type="text/css">
+        body {
+            padding: 50px;
+        }
+
+        .autors, .autors td {
+            border: 1px solid lightgray;
+            padding: 5px;
+        }
+    </style>
+    <script src="/webjars/jquery/3.3.1/jquery.min.js"></script>
+</head>
+<body>
+<h1>Авторы:</h1>
+
+<table class="autors">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Имя</th>
+    </tr>
+    </thead>
+    <tbody>
+<!--
+    <tr th:each="autor : ${autors}">
+        <td th:text="${autor.id}">1</td>
+        <td th:text="${autor.name}">Book</td>
+        <td><a th:href="@{/editAutor(id=${autor.id})}" href="editAutor.html">Изменить</a></td>
+        <td><a th:href="@{/deleteAutor(id=${autor.id})}" href="deleteAutor.html">Удалить</a></td>
+    </tr>
+-->
+    </tbody>
+</table>
+<script>
+    $(function () {
+        $.get('/api/autor').done(function(autors) {
+            autors.forEach( function(autor){
+                $('tbody').append(`
+                    <tr>
+                        <td>${autor.id}</td>
+                        <td>${autor.name}</td>
+                    </tr>
+                `)
+            })
+
+        })
+    })
+</script>
+<!-- <a th:href="@{/edit(id=0)}" href="edit.html">Добавить</a> -->
+<br>
+<button onclick="window.location.href = 'editAutor?id=0'">Добавить</button>
+<button onclick="window.location.href = '/';">Книги</button>
+<button onclick="window.location.href = 'genres';">Жанры</button>
+</body>
+</html>
