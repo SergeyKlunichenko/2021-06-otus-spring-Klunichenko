@@ -23,6 +23,7 @@
     <tr>
         <th>ID</th>
         <th>Имя</th>
+        <th></th>
     </tr>
     </thead>
     <tbody>
@@ -44,6 +45,7 @@
                     <tr>
                         <td>${autor.id}</td>
                         <td>${autor.name}</td>
+                        <td><a href="/autor/${autor.id}">Изменить</a></td>
                     </tr>
                 `)
             })
@@ -53,8 +55,8 @@
 </script>
 <!-- <a th:href="@{/edit(id=0)}" href="edit.html">Добавить</a> -->
 <br>
-<button onclick="window.location.href = 'editAutor?id=0'">Добавить</button>
+<button onclick="window.location.href = '/api/autor/0'">Добавить</button>
 <button onclick="window.location.href = '/';">Книги</button>
-<button onclick="window.location.href = 'genres';">Жанры</button>
+<button onclick="window.location.href = '/api/genre';">Жанры</button>
 </body>
 </html>

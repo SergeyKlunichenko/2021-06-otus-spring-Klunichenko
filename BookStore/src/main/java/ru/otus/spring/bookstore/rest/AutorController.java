@@ -31,11 +31,20 @@ public class AutorController {
 
 
     @GetMapping("/api/autor")
-    public List<AutorDto> getAllAutors(Model model) {
+    public List<AutorDto> getAllAutors() {
         List<Autor> autors = autorService.findAll();
         List<AutorDto> autorDtos = autors.stream().map(AutorDto::toDto).collect(Collectors.toList());
         return  autorDtos;
     }
+
+    @GetMapping("/api/autor/{id}")
+    public AutorDto getAutorById(@PathVariable long id){
+        return AutorDto.toDto(autorService.findById(id));
+    }
+
+
+
+
 
 /*
     @GetMapping("/autors")

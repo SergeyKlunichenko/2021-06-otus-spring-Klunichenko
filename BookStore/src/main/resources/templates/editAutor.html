@@ -21,28 +21,42 @@
             margin-top: 10px;
         }
     </style>
+    <script src="/webjars/jquery/3.3.1/jquery.min.js"></script>
+
 </head>
 <body>
 
-<!-- Person edition -->
-<form id="edit-form" th:action="@{/editAutor(id=${autor.id})}" th:method="post" action="editAutor.html">
-    <h1>Genre Info:</h1>
 
+<form id="edit-form" method="post" action="/autor/">
+    <h1>Редактирование автора:</h1>
     <div class="row">
         <label for="id-input">ID:</label>
-        <input id="id-input" type="text" readonly="readonly" th:value="${autor.id}" value="1"/>
+        <input id="id-input" name= "id" type="text" readonly="readonly"  value="1"/>
     </div>
 
     <div class="row">
         <label for="holder-input">Имя:</label>
-        <input id="holder-input" name="name" type="text" th:value="${autor.name}" value="John Doe"/>
+        <input id="holder-input" name="name" type="text" value="John Doe"/>
     </div>
 
     <div class="row">
-        <button type="submit">Save</button>
+        <button type="submit">Записать</button>
     </div>
 </form>
-<button onclick="window.location.href = 'autors';">Вернуться</button>
+
+<button onclick="window.location.href = '/autor';">Вернуться</button>
+
+<script>
+    $(function () {
+        var  ahref = window.location.href.split("/")
+        $.get('/api/autor/'+ahref[ahref.length-1]).done(function(autor) {
+            //alert(autor.name)
+            $('#id-input').val(autor.id)
+            $('#holder-input').val(autor.name)
+        })
+    })
+</script>
+
 
 </body>
 </html>

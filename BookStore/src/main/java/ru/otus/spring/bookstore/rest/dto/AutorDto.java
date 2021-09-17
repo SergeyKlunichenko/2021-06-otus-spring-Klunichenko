@@ -33,6 +33,10 @@ public class AutorDto {
 
     public static AutorDto toDto(Autor autor){
         return new AutorDto(autor.getId(), autor.getName());
-
     }
+
+    public static  Autor toAutor(AutorDto autorDto){
+        return new Autor(autorDto.getId(), autorDto.getName() );
+    }
+
 }
