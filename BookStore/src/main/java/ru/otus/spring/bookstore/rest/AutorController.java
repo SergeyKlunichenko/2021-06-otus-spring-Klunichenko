@@ -18,13 +18,9 @@ import java.util.stream.Collectors;
 
 @RestController
 public class AutorController {
-    //private final BookStoreService bookStoreService;
     private final AutorService autorService;
 
     @Autowired
-//    public AutorController(BookStoreService bookStoreService) {
-//        this.bookStoreService = bookStoreService;
-//    }
     public AutorController(AutorService autorService) {
         this.autorService  = autorService;
     }
@@ -33,6 +29,9 @@ public class AutorController {
     @GetMapping("/api/autor")
     public List<AutorDto> getAllAutors() {
         List<Autor> autors = autorService.findAll();
+
+        System.out.println("autors=>"+autors.toString());
+
         List<AutorDto> autorDtos = autors.stream().map(AutorDto::toDto).collect(Collectors.toList());
         return  autorDtos;
     }

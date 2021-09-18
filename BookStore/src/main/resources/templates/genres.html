@@ -13,6 +13,7 @@
             padding: 5px;
         }
     </style>
+    <script src="/webjars/jquery/3.3.1/jquery.min.js"></script>
 </head>
 <body>
 <h1>Жанры:</h1>
@@ -27,19 +28,31 @@
     </tr>
     </thead>
     <tbody>
-    <tr th:each="genre : ${genres}">
-        <td th:text="${genre.id}">1</td>
-        <td th:text="${genre.name}">Book</td>
-        <td><a th:href="@{/editGenre(id=${genre.id})}" href="editGenre.html">Изменить</a></td>
-        <td><a th:href="@{/deleteGenre(id=${genre.id})}" href="deleteGenre.html">Удалить</a></td>
-    </tr>
     </tbody>
 </table>
+<script>
+    $(function () {
+        $.get('/api/genre').done(function(genres) {
+            genres.forEach( function(genre){
+                $('tbody').append(`
+                    <tr>
+                        <td>${genre.id}</td>
+                        <td>${genre.name}</td>
+                        <td><a href="/genre/${genre.id}">Изменить</a></td>
+                    </tr>
+                `)
+            })
+
+        })
+    })
+</script>
+
+
 <!--<a th:href="@{/editGenre(id=0)}" href="editGenre.html">Добавить</a>  -->
 
 <button onclick="window.location.href = 'editGenre?id=0'">Добавить</button>
 <button onclick="window.location.href = '/';">Книги</button>
-<button onclick="window.location.href = 'autors';">Авторы</button>
+<button onclick="window.location.href = '/autor';">Авторы</button>
 
 </body>
 </html>

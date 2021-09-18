@@ -27,14 +27,6 @@
     </tr>
     </thead>
     <tbody>
-<!--
-    <tr th:each="autor : ${autors}">
-        <td th:text="${autor.id}">1</td>
-        <td th:text="${autor.name}">Book</td>
-        <td><a th:href="@{/editAutor(id=${autor.id})}" href="editAutor.html">Изменить</a></td>
-        <td><a th:href="@{/deleteAutor(id=${autor.id})}" href="deleteAutor.html">Удалить</a></td>
-    </tr>
--->
     </tbody>
 </table>
 <script>
@@ -57,6 +49,6 @@
 <br>
 <button onclick="window.location.href = '/api/autor/0'">Добавить</button>
 <button onclick="window.location.href = '/';">Книги</button>
-<button onclick="window.location.href = '/api/genre';">Жанры</button>
+<button onclick="window.location.href = '/genre';">Жанры</button>
 </body>
 </html>

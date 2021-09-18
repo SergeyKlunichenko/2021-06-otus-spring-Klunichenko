@@ -26,6 +26,9 @@ public class AutorPageController {
     }
     @PostMapping("/autor/")
     public String save(AutorDto autorDto){
+
+        System.out.println("Put "+ autorDto.getId() + " " + autorDto.getName());
+
         autorService.save(AutorDto.toAutor(autorDto));
         return "redirect:/autor";
     }
