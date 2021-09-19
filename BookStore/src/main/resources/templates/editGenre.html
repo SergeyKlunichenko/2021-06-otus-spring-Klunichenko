@@ -26,23 +26,25 @@
 <body>
 
 <!-- Person edition -->
-<form id="edit-form" method="post" action="/genre/">
+<form id="edit-form" name="editForm"method="post" action="/genre/">
     <h1>Редактирование жанра:</h1>
     <div class="row">
         <label for="id-input">ID:</label>
-        <input id="id-input" name= "id" type="text" readonly="readonly"  value="1"/>
+        <input id="id-input" name= "id" type="text" readonly="readonly"  value=""/>
     </div>
 
     <div class="row">
         <label for="holder-input">Наименование:</label>
-        <input id="holder-input" name="name" type="text" value="John Doe"/>
+        <input id="holder-input" name="name" type="text" value=""/>
     </div>
-
+<!--
     <div class="row">
         <button type="submit">Записать</button>
     </div>
+-->
 </form>
 <button onclick="window.location.href = 'genres';">Вернуться</button>
+<button onclick="javascript:update();">Сохранить</button>
 <script>
     $(function () {
         var  ahref = window.location.href.split("/")
@@ -51,6 +53,17 @@
             $('#holder-input').val(genre.name)
         })
     })
+
+    function update(){
+        var id = $('input[name="id"]').val()
+        var name =  $('input[name="name"]').val()
+        //alert("update "+ id + " " + name)
+        $.post('/api/genre/'
+            , {id:id, name:name}
+            , function(data){
+                window.location.href = "/genre";
+            })
+    }
 </script>
 
 </body>

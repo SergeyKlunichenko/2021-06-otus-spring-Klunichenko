@@ -34,62 +34,11 @@ public class GenreController {
         return GenreDto.toDto(genreService.findById(id));
     }
 
-    /*
-    public final BookStoreService bookStoreService;
 
-    public GenreController(BookStoreService bookStoreService) {
-        this.bookStoreService = bookStoreService;
+    @PostMapping("/api/genre/")
+    public String postGenre(GenreDto genreDto){
+        System.out.println("post genre: name "+genreDto.getName() + " " + genreDto.getId());
+        genreService.save(GenreDto.toGenre(genreDto));
+        return "OK";
     }
-
-    @GetMapping("/genres")
-    public String listGenres(Model model) {
-        List<Genre> genres = bookStoreService.findAllGenre();
-        model.addAttribute("genres", genres);
-
-        return "genres";
-    }
-
-    @GetMapping("/editGenre")
-    public String editGenre(@RequestParam("id") long id, Model model) {
-        Genre genre;
-        if (id == 0) {
-            genre = new Genre(0, "");
-        } else {
-            genre = bookStoreService.findGenreById(id);
-        }
-        model.addAttribute("genre", genre);
-        return "editGenre";
-    }
-
-    @PostMapping("/editGenre")
-    public String editGenre(Genre genre) {
-        bookStoreService.saveGenre(genre);
-        return "redirect:/genres";
-    }
-
-    @GetMapping("/deleteGenre")
-    public String deleteGenre(@RequestParam("id") long id, Model model) {
-        Genre genre;
-        genre = bookStoreService.findGenreById(id);
-        model.addAttribute("genre", genre);
-        return "deleteGenre";
-    }
-
-    @PostMapping("/deleteGenre")
-    public String delete(Genre genre) {
-        try {
-            bookStoreService.deleteGenre(genre);
-        } catch (DataIntegrityViolationException ce) {
-            throw new BookStoreException("Ошибка удаления жанра: имеются книги с таким жанром");
-        } catch (Exception e) {
-            throw new BookStoreException("Ошибка удаления жанра: " + e.getClass().getSimpleName());
-        }
-        return "redirect:/genres";
-    }
-
-    @ExceptionHandler(BookStoreException.class)
-    public ResponseEntity<String> handleNotFound(BookStoreException ex) {
-        return ResponseEntity.badRequest().body(ex.getMessage());
-    }
-    */
 }

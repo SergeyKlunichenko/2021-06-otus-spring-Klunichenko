@@ -24,14 +24,10 @@ public class GenrePageController {
     public String editGenre(){
         return "editGenre";
     }
+
     @PostMapping("/genre/")
-    public String save(GenreDto genreDto){
-
-        //System.out.println("Put "+ genreDto.getId() + " " + genreDto.getName());
-
-        genreService.save(GenreDto.toAutor(genreDto));
-        return "redirect:/genre";
+    public String postGenre(){
+        return "redirect:/genres;";
     }
-
 
 }

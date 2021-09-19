@@ -38,13 +38,15 @@
         <label for="holder-input">Имя:</label>
         <input id="holder-input" name="name" type="text" value="John Doe"/>
     </div>
-
+<!--
     <div class="row">
         <button type="submit">Записать</button>
     </div>
+-->
 </form>
 
 <button onclick="window.location.href = '/autor';">Вернуться</button>
+<button onclick="javascript:update();">Сохранить</button>
 
 <script>
     $(function () {
@@ -55,6 +57,17 @@
             $('#holder-input').val(autor.name)
         })
     })
+
+    function update(){
+        var id = $('input[name="id"]').val()
+        var name =  $('input[name="name"]').val()
+        $.post('/api/autor/'
+            , {id:id, name:name}
+            , function(data){
+                window.location.href = "/autor";
+            })
+    }
+
 </script>
 
 

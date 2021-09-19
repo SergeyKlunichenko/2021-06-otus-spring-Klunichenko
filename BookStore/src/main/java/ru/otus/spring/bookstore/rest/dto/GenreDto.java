@@ -35,7 +35,7 @@ public class GenreDto {
         return new GenreDto(genre.getId(), genre.getName());
     }
 
-    public static  Genre toAutor(GenreDto genreDto){
+    public static  Genre toGenre(GenreDto genreDto){
         return new Genre(genreDto.getId(), genreDto.getName() );
     }
 
