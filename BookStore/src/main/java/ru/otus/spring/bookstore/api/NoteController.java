@@ -1,4 +1,4 @@
-package ru.otus.spring.bookstore.rest;
+package ru.otus.spring.bookstore.api;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -7,8 +7,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import ru.otus.spring.bookstore.models.Book;
 import ru.otus.spring.bookstore.models.Note;
-import ru.otus.spring.bookstore.repositories.BookRepository;
-import ru.otus.spring.bookstore.repositories.NoteRepository;
 import ru.otus.spring.bookstore.services.BookStoreService;
 
 import java.util.List;

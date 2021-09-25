@@ -1,4 +1,4 @@
-package ru.otus.spring.bookstore.rest.dto;
+package ru.otus.spring.bookstore.api.dto;
 
 import ru.otus.spring.bookstore.models.Genre;
 

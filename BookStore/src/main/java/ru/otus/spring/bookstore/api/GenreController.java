@@ -1,10 +1,9 @@
-package ru.otus.spring.bookstore.rest;
+package ru.otus.spring.bookstore.api;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import ru.otus.spring.bookstore.models.Genre;
-import ru.otus.spring.bookstore.rest.dto.GenreDto;
+import ru.otus.spring.bookstore.api.dto.GenreDto;
 import ru.otus.spring.bookstore.services.GenreService;
 
 import java.util.List;

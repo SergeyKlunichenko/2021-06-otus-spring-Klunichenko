@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8"/>
-    <title>Edit genre</title>
+    <title>Новый жанр</title>
     <style type="text/css">
         body {
             padding: 50px;
@@ -27,12 +27,13 @@
 
 <!-- Person edition -->
 <form id="edit-form" name="editForm"method="post" action="/genre/">
-    <h1>Редактирование жанра:</h1>
+    <h1>Новый жанр:</h1>
+<!--
     <div class="row">
         <label for="id-input">ID:</label>
         <input id="id-input" name= "id" type="text" readonly="readonly"  value=""/>
     </div>
-
+-->
     <div class="row">
         <label for="holder-input">Наименование:</label>
         <input id="holder-input" name="name" type="text" value=""/>
@@ -43,21 +44,13 @@
     </div>
 -->
 </form>
-<button onclick="javascript:update();">Сохранить</button>
+<button onclick="javascript:add();">Добавить</button>
 <button onclick="window.location.href = '/genre';">Вернуться</button>
 <script>
-    $(function () {
-        var  ahref = window.location.href.split("/")
-        $.get('/api/genre/'+ahref[ahref.length-1]).done(function(genre) {
-            $('#id-input').val(genre.id)
-            $('#holder-input').val(genre.name)
-        })
-    })
-
-    function update(){
-        var id = $('input[name="id"]').val()
+    function add(){
+        var id = 0
         var name =  $('input[name="name"]').val()
-        //alert("update "+ id + " " + name)
+        //alert("add " + name)
         $.post('/api/genre/'
             , {id:id, name:name}
             , function(data){
