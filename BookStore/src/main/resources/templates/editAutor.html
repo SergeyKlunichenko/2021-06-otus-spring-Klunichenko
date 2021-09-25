@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Edit autor</title>
+    <style type="text/css">
+        body {
+            padding: 50px;
+        }
+
+        label {
+            display: inline-block;
+            width: 100px;
+        }
+
+        input:read-only {
+            background: lightgray;
+        }
+
+        .row {
+            margin-top: 10px;
+        }
+    </style>
+    <script src="/webjars/jquery/3.3.1/jquery.min.js"></script>
+
+</head>
+<body>
+
+
+<form id="edit-form" method="post" action="/autor/">
+    <h1>Редактирование автора:</h1>
+    <div class="row">
+        <label for="id-input">ID:</label>
+        <input id="id-input" name= "id" type="text" readonly="readonly"  value="1"/>
+    </div>
+
+    <div class="row">
+        <label for="holder-input">Имя:</label>
+        <input id="holder-input" name="name" type="text" value="John Doe"/>
+    </div>
+<!--
+    <div class="row">
+        <button type="submit">Записать</button>
+    </div>
+-->
+</form>
+
+<button onclick="javascript:update();">Сохранить</button>
+<button onclick="window.location.href = '/autor';">Вернуться</button>
+
+<script>
+    $(function () {
+        var  ahref = window.location.href.split("/")
+        $.get('/api/autor/'+ahref[ahref.length-1]).done(function(autor) {
+            //alert(autor.name)
+            $('#id-input').val(autor.id)
+            $('#holder-input').val(autor.name)
+        })
+    })
+
+    function update(){
+        var id = $('input[name="id"]').val()
+        var name =  $('input[name="name"]').val()
+        $.post('/api/autor/'
+            , {id:id, name:name}
+            , function(data){
+                window.location.href = "/autor";
+            })
+    }
+
+</script>
+
+
+</body>
+</html>
