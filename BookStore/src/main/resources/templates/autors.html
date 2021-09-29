@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>List of autors</title>
+    <style type="text/css">
+        body {
+            padding: 50px;
+        }
+
+        .autors, .autors td {
+            border: 1px solid lightgray;
+            padding: 5px;
+        }
+    </style>
+    <script src="/webjars/jquery/3.3.1/jquery.min.js"></script>
+    <script src="/ajaxplus.js"></script>
+</head>
+<body>
+<h1>Авторы:</h1>
+
+<table class="autors">
+    <thead>
+    <tr>
+       <!-- <th>ID</th> -->
+        <th>Имя</th>
+        <th></th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    </tbody>
+</table>
+<script>
+    $(function () {
+//                        <td>${autor.id}</td>
+        $.get('/api/autor').done(function(autors) {
+            autors.forEach( function(autor){
+                $('tbody').append(`
+                    <tr>
+                        <td>${autor.name}</td>
+                        <td><button onclick="window.location.href = '/autor/${autor.id}'">Изменить</button></td>
+                        <td><button onclick="javascript:del('${autor.id}', '${autor.name}');">Удалить</button></td>
+
+                    </tr>
+                `)
+            })
+
+        })
+    })
+
+    function del(id, name){
+       var isDel = confirm('Удалить автора "'+name+'"');
+
+       if(!isDel){
+         return;
+       }
+
+        $.delete('/api/autor/'
+            , {id:id, name:name}
+            , function(data){
+                window.location.href = "/autor";
+            })
+
+
+    }
+
+</script>
+<br>
+<button onclick="window.location.href = '/autor/0'">Добавить</button>
+<button onclick="window.location.href = '/genre';">Жанры</button>
+</body>
+</html>

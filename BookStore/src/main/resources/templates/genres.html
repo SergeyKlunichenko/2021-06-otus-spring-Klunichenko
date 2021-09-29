@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>List of all genres</title>
+    <style type="text/css">
+        body {
+            padding: 50px;
+        }
+
+        .genres, .genres td {
+            border: 1px solid lightgray;
+            padding: 5px;
+        }
+    </style>
+    <script src="/webjars/jquery/3.3.1/jquery.min.js"></script>
+    <script src="/ajaxplus.js"></script>
+</head>
+<body>
+<h1>Жанры:</h1>
+
+<table class="genres">
+    <thead>
+    <tr>
+        <th>Наименование</th>
+        <th></th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    </tbody>
+</table>
+<script>
+    $(function () {
+        $.get('/api/genre').done(function(genres) {
+            genres.forEach( function(genre){
+                $('tbody').append(`
+                    <tr>
+                        <td>${genre.name}</td>
+                        <td><button onclick="window.location.href = '/genre/${genre.id}'">Изменить</button></td>
+                        <td><button onclick="javascript:del('${genre.id}', '${genre.name}');">Удалить</button></td>
+                    </tr>
+                `)
+            })
+
+        })
+    })
+
+
+    function del(id, name){
+       var isDel = confirm('Удалить жанр "'+name+'"');
+
+       if(!isDel){
+         return;
+       }
+
+        $.delete('/api/genre/'
+            , {id:id, name:name}
+            , function(data){
+                window.location.href = "/genre";
+            })
+
+
+    }
+
+</script>
+
+<button onclick="window.location.href = '/genre/0'">Добавить</button>
+<button onclick="window.location.href = '/autor';">Авторы</button>
+
+</body>
+</html>
