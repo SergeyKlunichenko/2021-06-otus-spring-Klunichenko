@@ -16,8 +16,6 @@ public class AutorPageControll {
     @GetMapping("/autor/{id}")
     public String findByid(@PathVariable("id") String id){
 
-        //System.out.println("------------------- id="+id);
-
         if (id.equals("0") ){
             return "newAutor";
         }

@@ -35,16 +35,4 @@ public class AutorDto {
         return new Autor(autorDto.getId(), autorDto.getName() );
     }
 
-
-
-/*
-    public  final AutorDto toDto(Mono<Autor> mAutor){
-
-        AtomicReference<AutorDto> autorDto ;
-        mAutor.subscribe(value->{
-            autorDto.set(new AutorDto(value.getId(), value.getName()));
-        });
-        return new AutorDto(autor.getId(), autor.getName())
-    }
- */
 }
