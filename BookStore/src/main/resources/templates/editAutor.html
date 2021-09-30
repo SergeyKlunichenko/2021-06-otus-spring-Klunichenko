@@ -38,11 +38,6 @@
         <label for="holder-input">Имя:</label>
         <input id="holder-input" name="name" type="text" value="John Doe"/>
     </div>
-<!--
-    <div class="row">
-        <button type="submit">Записать</button>
-    </div>
--->
 </form>
 
 <button onclick="javascript:update();">Сохранить</button>
@@ -62,12 +57,16 @@
         var id = $('input[name="id"]').val()
         var name =  $('input[name="name"]').val()
 
-
-        $.put('/api/autor/'
-            , {id:id, name:name}
-            , function(data){
+        $.ajax({
+            url: '/api/autor/',
+            type: 'PUT',
+            data: JSON.stringify({id: id, name: name}),
+            contentType: 'application/json',
+            success: function(data) {
                 window.location.href = "/autor";
-            })
+            }
+        });
+
 
     }
 

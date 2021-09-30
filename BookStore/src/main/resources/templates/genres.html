@@ -36,7 +36,7 @@
             genres.forEach( function(genre){
                 $('tbody').append(`
                     <tr>
-                        <td>${genre.name}</td>
+                        <td>${genre.name}(${genre.id})</td>
                         <td><button onclick="window.location.href = '/genre/${genre.id}'">Изменить</button></td>
                         <td><button onclick="javascript:del('${genre.id}', '${genre.name}');">Удалить</button></td>
                     </tr>
@@ -53,12 +53,15 @@
        if(!isDel){
          return;
        }
-
-        $.delete('/api/genre/'
-            , {id:id, name:name}
-            , function(data){
+        $.ajax({
+            url: '/api/genre/',
+            type: 'DELETE',
+            data: JSON.stringify({id: id, name: name}),
+            contentType: 'application/json',
+            success: function(data) {
                 window.location.href = "/genre";
-            })
+            }
+        });
 
 
     }
@@ -66,6 +69,7 @@
 </script>
 
 <button onclick="window.location.href = '/genre/0'">Добавить</button>
+<button onclick="window.location.href = '/book';">Книги</button>
 <button onclick="window.location.href = '/autor';">Авторы</button>
 
 </body>

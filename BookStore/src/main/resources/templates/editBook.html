@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Редактирование книги</title>
+    <style type="text/css">
+        body {
+            padding: 50px;
+        }
+
+        label {
+            display: inline-block;
+            width: 100px;
+        }
+
+        input:read-only {
+            background: lightgray;
+        }
+
+        .row {
+            margin-top: 10px;
+        }
+    </style>
+    <script src="/webjars/jquery/3.3.1/jquery.min.js"></script>
+    <script src="/bstools.js"></script>
+</head>
+<body>
+
+<!-- Person edition -->
+<form id="edit-form"  method="post" action="editBook.html">
+    <h1>Информация о книге:</h1>
+
+    <div class="row">
+<!--        <label for="id-input">ID:</label> -->
+        <input id="id-input" type="hidden" readonly="readonly" name="id" value="1"/>
+    </div>
+
+    <div class="row">
+        <label for="holder-input">Имя:</label>
+        <input id="holder-input" name="name" type="text" value="John Doe"/>
+    </div>
+    <div class="row">
+        <label for="holder-input">Жанр:</label>
+
+        <select name="genreid" id="genreid">
+            <option value="">---</option>
+        </select>
+
+    </div>
+
+    <div class="row">
+        <label for="holder-input">Автор:</label>
+        <select name="autorid" id="autorid" >
+            <option value="">---</option>
+        </select>
+
+    </div>
+</form>
+<button onclick="javascript:save();">Сохранить</button>
+<button onclick="window.location.href = '/book';">Вернуться</button>
+
+<script>
+    $(function () {
+        var  ahref = window.location.href.split("/")
+        $.get('/api/book/'+ahref[ahref.length-1]).done(function(book) {
+            $('#id-input').val(book.id)
+            $('#holder-input').val(book.name)
+
+            loadOptions("#genreid", "/api/genre", book.genre.id);
+            loadOptions("#autorid", "/api/autor", book.autor.id);
+
+        })
+    })
+
+    function save(){
+        var id = $('input[name="id"]').val()
+        var name =  $('input[name="name"]').val()
+        var genre = {id:$("#genreid").val(), name:$("#genreid option:selected").text()}
+        var autor = {id:$("#autorid").val(), name:$("#autorid option:selected").text()}
+
+
+        if($("#genreid").val()  == ""){
+           alert('Не выбран жанр');
+           return;
+        }
+        if($("#autorid").val()  == ""){
+           alert('Не выбран автор');
+           return;
+        }
+
+
+        $.ajax({
+            url: '/api/book/',
+            type: 'PUT',
+            data: JSON.stringify({id: id, name: name, genre:genre,  autor:autor}),
+            contentType: 'application/json',
+            cache:false,
+            success: function(data) {
+                window.location.href = "/book";
+            },
+            error: function(err, status, msg){
+                alert(msg);
+            }
+        });
+
+    }
+</script>
+
+
+</body>
+</html>

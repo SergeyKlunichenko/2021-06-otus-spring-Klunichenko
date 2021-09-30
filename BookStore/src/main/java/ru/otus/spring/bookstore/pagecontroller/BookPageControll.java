@@ -6,28 +6,24 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 
 @Controller
-public class AutorPageControll {
+public class BookPageControll {
 
-    @GetMapping("/autor")
+    @GetMapping("/book")
     public String findAll(){
-        return "autors";
+        return "books";
     }
 
-
-    @GetMapping("/autor/{id}")
-    public String findByid(@PathVariable("id") String id){
-
-        //System.out.println("------------------- id="+id);
-
+    @GetMapping("/book/{id}")
+    public String editBook(@PathVariable("id") String id){
         if (id.equals("0") ){
-            return "newAutor";
+            return "newBook";
         }
-        return "editAutor";
+        return "editBook";
     }
 
-    @PutMapping("/autor/")
+    @PutMapping("/book/")
     public String save(){
-        return "redirect:/autor";
+        return "redirect:/book";
     }
 
 }

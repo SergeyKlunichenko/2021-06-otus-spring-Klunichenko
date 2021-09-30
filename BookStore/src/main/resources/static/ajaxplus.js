@@ -11,11 +11,6 @@ jQuery.each( [ "put", "delete" ], function( i, method ) {
 			callback = data;
 			data = undefined;
 		}
-/*
-alert(url);
-alert(method);
-alert(data);
-*/
 		// The url can be an options object (which then must have .url)
 		return jQuery.ajax( jQuery.extend( {
 			url: url,
@@ -26,3 +21,5 @@ alert(data);
 		}, jQuery.isPlainObject( url ) && url ) );
 	};
 } );
+
+

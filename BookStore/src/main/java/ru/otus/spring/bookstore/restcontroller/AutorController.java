@@ -15,28 +15,29 @@ public class AutorController {
         this.autorRepository = autorRepository;
     }
 
+    @GetMapping("/api/autor/")
+    public  Mono<Autor> findByName(@RequestParam("name") String name){
+        return autorRepository.findByName(name);
+    }
 
     @GetMapping("/api/autor")
     public Flux<Autor> findAll(){
         return autorRepository.findAll();
     }
+
     @GetMapping("/api/autor/{id}")
     public Mono<Autor> findById(@PathVariable("id") String id){
         return autorRepository.findById(id);
     }
-    @GetMapping("/api/autor/byname")
-    public  Mono<Autor> findByName(@RequestParam("name") String name){
-        return autorRepository.findByName(name);
-    }
 
     @PutMapping("/api/autor")
-    public Mono<Autor> savePut( AutorDto autorDto) {
+    public Mono<Autor> savePut(@RequestBody AutorDto autorDto) {
         Autor autor = AutorDto.toAutor(autorDto);
         return autorRepository.save(autor);
     }
 
     @PostMapping(path="/api/autor")
-    public Mono<Autor> savePost(AutorDto autorDto) {
+    public Mono<Autor> savePost(@RequestBody AutorDto autorDto) {
         Autor autor = AutorDto.toAutor(autorDto);
         autor.setId(null );
         return autorRepository.save(autor);
@@ -44,7 +45,7 @@ public class AutorController {
     }
 
     @DeleteMapping(path="/api/autor")
-    public Mono<Void> delete(AutorDto autorDto){
+    public Mono<Void> delete(@RequestBody AutorDto autorDto){
         Autor autor = AutorDto.toAutor(autorDto);
         return autorRepository.delete(autor);
     }

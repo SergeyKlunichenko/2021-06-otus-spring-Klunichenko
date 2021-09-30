@@ -28,13 +28,13 @@ public class GenreController {
     }
 
     @PutMapping("/api/genre")
-    public Mono<Genre> savePut(GenreDto genreDto) {
+    public Mono<Genre> savePut(@RequestBody  GenreDto genreDto) {
         Genre genre = GenreDto.toGenre(genreDto);
         return genreRepository.save(genre);
     }
 
     @PostMapping(path="/api/genre")
-    public Mono<Genre> savePost(GenreDto genreDto) {
+    public Mono<Genre> savePost(@RequestBody GenreDto genreDto) {
         Genre genre = GenreDto.toGenre(genreDto);
         genre.setId(null );
         return genreRepository.save(genre);
@@ -42,7 +42,7 @@ public class GenreController {
     }
 
     @DeleteMapping(path="/api/genre")
-    public Mono<Void> delete(GenreDto genreDto){
+    public Mono<Void> delete(@RequestBody GenreDto genreDto){
         Genre genre = GenreDto.toGenre(genreDto);
         return genreRepository.delete(genre);
     }

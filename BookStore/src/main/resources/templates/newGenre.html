@@ -50,12 +50,18 @@
     function add(){
         var id = 0
         var name =  $('input[name="name"]').val()
-        //alert("add " + name)
-        $.post('/api/genre/'
-            , {id:id, name:name}
-            , function(data){
+
+        $.ajax({
+            url: '/api/genre/',
+            type: 'POST',
+            data: JSON.stringify({id: id, name: name}),
+            contentType: 'application/json',
+            success: function(data) {
                 window.location.href = "/genre";
-            })
+            }
+        });
+
+
     }
 </script>
 

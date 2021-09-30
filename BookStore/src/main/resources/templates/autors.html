@@ -55,12 +55,15 @@
        if(!isDel){
          return;
        }
-
-        $.delete('/api/autor/'
-            , {id:id, name:name}
-            , function(data){
+        $.ajax({
+            url: '/api/autor/',
+            type: 'DELETE',
+            data: JSON.stringify({id: id, name: name}),
+            contentType: 'application/json',
+            success: function(data) {
                 window.location.href = "/autor";
-            })
+            }
+        });
 
 
     }
@@ -68,6 +71,7 @@
 </script>
 <br>
 <button onclick="window.location.href = '/autor/0'">Добавить</button>
+<button onclick="window.location.href = '/book';">Книги</button>
 <button onclick="window.location.href = '/genre';">Жанры</button>
 </body>
 </html>
