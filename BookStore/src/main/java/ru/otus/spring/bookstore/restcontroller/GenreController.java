@@ -22,7 +22,7 @@ public class GenreController {
     public Mono<Genre> findById(@PathVariable("id") String id){
         return genreRepository.findById(id);
     }
-    @GetMapping("/api/genre/byname")
+    @GetMapping("/api/genre/")
     public Mono<Genre> findByName(@RequestParam("name") String name){
         return genreRepository.findByName(name);
     }

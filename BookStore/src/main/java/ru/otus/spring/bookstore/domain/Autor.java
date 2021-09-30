@@ -1,11 +1,13 @@
 package ru.otus.spring.bookstore.domain;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.ToString;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
 @Document (collection = "autors")
+@ToString
 public class Autor {
     @Id
     private String id;
@@ -39,11 +41,4 @@ public class Autor {
         this.name = name;
     }
 
-    @Override
-    public String toString() {
-        return "Autor{" +
-                "id='" + id + '\'' +
-                ", name='" + name + '\'' +
-                '}';
-    }
 }

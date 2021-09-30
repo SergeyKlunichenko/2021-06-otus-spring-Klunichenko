@@ -3,6 +3,7 @@ package ru.otus.spring.bookstore.restcontroller;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import reactor.util.function.Tuple2;
 import ru.otus.spring.bookstore.domain.Autor;
 import ru.otus.spring.bookstore.domain.Book;
 import ru.otus.spring.bookstore.domain.Genre;
@@ -33,6 +34,12 @@ public class BookController {
         return bookRepository.findAll();
     }
 
+    @GetMapping(value = "/api/book", params = "name")
+    public Flux<Book> findByName(@RequestParam("name") String name){
+        return bookRepository.findByName(name);
+    }
+
+
     @GetMapping("/api/book/{id}")
     public Mono<Book> findById(@PathVariable("id") String id){
         return bookRepository.findById(id);
@@ -40,11 +47,13 @@ public class BookController {
 
     @PutMapping("/api/book")
     public Mono<Book> savePut(@RequestBody BookDto bookDto) {
-
         System.out.printf("Put: id=%s, genreid=%s, autorid=%s", bookDto.getId(), bookDto.getGenre().getId(), bookDto.getAutor().getId());
+        Mono<Genre> genreMono = genreRepository.findById(bookDto.getGenre().getId());
+        Mono<Autor> autorMono = autorRepository.findById(bookDto.getAutor().getId());
+        Mono<Tuple2<Genre, Autor>> gaZip = Mono.zip(genreMono, autorMono);
+        Mono<Book> bookMono = gaZip.map(t-> new Book(bookDto.getId(), bookDto.getName(), t.getT1(), t.getT2()));
 
-        Book book = BookDto.toBook(bookDto);
-        return bookRepository.save(book);
+        return bookMono.flatMap(bookRepository::save);
     }
 
 
@@ -52,9 +61,11 @@ public class BookController {
     public Mono<Book> savePost(@RequestBody BookDto bookDto) {
         System.out.printf("Post: id=%s, genreid=%s, autorid=%s", bookDto.getId(), bookDto.getGenre().getId(), bookDto.getAutor().getId());
 
-        Book book = BookDto.toBook(bookDto);
-        book.setId(null);
-        return bookRepository.save(book);
+        return genreRepository.findById(bookDto.getGenre().getId())
+                .zipWith(autorRepository.findById(bookDto.getAutor().getId()))
+                .map(t -> new Book(null, bookDto.getName(), t.getT1(), t.getT2()))
+                .flatMap(bookRepository::save);
+
     }
 
     @DeleteMapping(path="/api/book")
@@ -62,26 +73,4 @@ public class BookController {
         return bookRepository.deleteById(bookDto.getId());
     }
 
-    /*
-
-    @GetMapping("/api/book/byname")
-    public  Mono<Book> findByName(@RequestParam("name") String name){
-        return bookRepository.findByName(name);
-    }
-
-
-    @PostMapping(path="/api/book")
-    public Mono<Book> savePost(BookDto bookDto) {
-        Book book = BookDto.toBook(bookDto);
-        book.setId(null );
-        return bookRepository.save(book);
-
-    }
-
-    @DeleteMapping(path="/api/book")
-    public Mono<Void> delete(BookDto bookDto){
-        Book book = BookDto.toBook(bookDto);
-        return bookRepository.delete(book);
-    }
-    */
 }

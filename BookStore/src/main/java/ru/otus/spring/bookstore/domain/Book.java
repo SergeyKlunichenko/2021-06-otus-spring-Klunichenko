@@ -38,28 +38,5 @@ public class Book {
         this.genre = genre;
         this.autor = autor;
     }
-/*
-    private Mono<Genre> genre;
-    private Mono<Autor> autor;
-
-    public Book(String id, String name) {
-        this.id = id;
-        this.name = name;
-    }
-
-    public Book(String id, String name, Mono<Genre> genre, Mono<Autor> autor) {
-        this.id   = id;
-        this.name = name;
-        this.genre = genre;
-        this.autor = autor;
-    }
-
-    public Book(String name, Mono<Genre> genre, Mono<Autor> autor) {
-        this.name = name;
-        this.genre = genre;
-        this.autor = autor;
-    }
-*/
-
 
 }

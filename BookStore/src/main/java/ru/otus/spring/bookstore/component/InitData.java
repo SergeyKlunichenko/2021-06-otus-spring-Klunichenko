@@ -47,14 +47,6 @@ public class InitData {
         bookRepository.save(new Book("Мастер и Маргарита", genre, autor)).subscribe();
         bookRepository.save(new Book("Белая гвардия", genre, autor)).subscribe();
 
-        /*
-
-
-        */
-  /*
-
-        */
-
     }
 
 

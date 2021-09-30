@@ -15,7 +15,7 @@ public class AutorController {
         this.autorRepository = autorRepository;
     }
 
-    @GetMapping("/api/autor/")
+    @GetMapping(value = "/api/autor", params = "name")
     public  Mono<Autor> findByName(@RequestParam("name") String name){
         return autorRepository.findByName(name);
     }

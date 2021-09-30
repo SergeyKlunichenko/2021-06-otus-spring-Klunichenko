@@ -8,4 +8,5 @@ import ru.otus.spring.bookstore.domain.Book;
 import ru.otus.spring.bookstore.domain.Genre;
 
 public interface BookRepository extends ReactiveMongoRepository<Book, String > {
+    Flux<Book> findByName(String name);
 }
