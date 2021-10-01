@@ -60,7 +60,15 @@
             contentType: 'application/json',
             success: function(data) {
                 window.location.href = "/genre";
+            },
+            error: function(err, status, msg){
+                if(msg == 'Found'){
+                  alert("Книги этого жанра имеются в магазине");
+                } else {
+                  alert(status + ":" + msg );
+                }
             }
+
         });
 
 

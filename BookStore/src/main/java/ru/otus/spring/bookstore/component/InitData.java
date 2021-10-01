@@ -29,6 +29,7 @@ public class InitData {
         System.out.println("Load autors");
         autorRepository.save(new Autor("Булгаков Михаил Афанасьевич")).subscribe();
         autorRepository.save(new Autor("Стругацкий Аркадий Натанович")).subscribe();
+        autorRepository.save(new Autor("Бормоглот")).subscribe();
 
         System.out.println("Load genres");
         genreRepository.save(new Genre("драма")).subscribe();

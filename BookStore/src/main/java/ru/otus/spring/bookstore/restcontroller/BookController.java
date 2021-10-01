@@ -18,9 +18,6 @@ public class BookController {
     private final GenreRepository genreRepository;
     private final AutorRepository autorRepository;
 
-    Autor autor ;
-    Genre genre ;
-
 
     public BookController(BookRepository bookRepository, GenreRepository genreRepository, AutorRepository autorRepository) {
         this.bookRepository = bookRepository;

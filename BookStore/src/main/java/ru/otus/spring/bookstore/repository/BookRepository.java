@@ -9,4 +9,6 @@ import ru.otus.spring.bookstore.domain.Genre;
 
 public interface BookRepository extends ReactiveMongoRepository<Book, String > {
     Flux<Book> findByName(String name);
+    Mono<Boolean> existsByAutor(Autor autor);
+    Mono<Boolean> existsByGenre(Genre genre);
 }
