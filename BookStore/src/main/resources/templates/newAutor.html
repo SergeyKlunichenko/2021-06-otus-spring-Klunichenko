@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Новый автор</title>
+    <style type="text/css">
+        body {
+            padding: 50px;
+        }
+
+        label {
+            display: inline-block;
+            width: 100px;
+        }
+
+        input:read-only {
+            background: lightgray;
+        }
+
+        .row {
+            margin-top: 10px;
+        }
+    </style>
+    <script src="/webjars/jquery/3.3.1/jquery.min.js"></script>
+</head>
+<body>
+
+<!-- Person edition -->
+<form id="edit-form" name="editForm"method="post" action="/autor/">
+    <h1>Новый автор:</h1>
+    <div class="row">
+        <label for="holder-input">Имя автора:</label>
+        <input id="holder-input" name="name" type="text" value=""/>
+    </div>
+</form>
+<button onclick="javascript:add();">Добавить</button>
+<button onclick="window.location.href = '/autor';">Вернуться</button>
+<script>
+    function add(){
+        var id = 0
+        var name =  $('input[name="name"]').val()
+
+        $.ajax({
+            url: '/api/autor/',
+            type: 'POST',
+            data: JSON.stringify({id: id, name: name}),
+            contentType: 'application/json',
+            success: function(data) {
+                window.location.href = "/autor";
+            }
+        });
+
+    }
+</script>
+
+</body>
+</html>

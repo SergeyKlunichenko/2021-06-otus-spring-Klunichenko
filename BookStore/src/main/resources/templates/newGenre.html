@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Новый жанр</title>
+    <style type="text/css">
+        body {
+            padding: 50px;
+        }
+
+        label {
+            display: inline-block;
+            width: 100px;
+        }
+
+        input:read-only {
+            background: lightgray;
+        }
+
+        .row {
+            margin-top: 10px;
+        }
+    </style>
+    <script src="/webjars/jquery/3.3.1/jquery.min.js"></script>
+</head>
+<body>
+
+<!-- Person edition -->
+<form id="edit-form" name="editForm"method="post" action="/genre/">
+    <h1>Новый жанр:</h1>
+<!--
+    <div class="row">
+        <label for="id-input">ID:</label>
+        <input id="id-input" name= "id" type="text" readonly="readonly"  value=""/>
+    </div>
+-->
+    <div class="row">
+        <label for="holder-input">Наименование:</label>
+        <input id="holder-input" name="name" type="text" value=""/>
+    </div>
+<!--
+    <div class="row">
+        <button type="submit">Записать</button>
+    </div>
+-->
+</form>
+<button onclick="javascript:add();">Добавить</button>
+<button onclick="window.location.href = '/genre';">Вернуться</button>
+<script>
+    function add(){
+        var id = 0
+        var name =  $('input[name="name"]').val()
+
+        $.ajax({
+            url: '/api/genre/',
+            type: 'POST',
+            data: JSON.stringify({id: id, name: name}),
+            contentType: 'application/json',
+            success: function(data) {
+                window.location.href = "/genre";
+            }
+        });
+
+
+    }
+</script>
+
+</body>
+</html>

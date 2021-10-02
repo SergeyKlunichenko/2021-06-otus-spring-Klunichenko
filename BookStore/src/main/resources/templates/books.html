@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>List of all books</title>
+    <style type="text/css">
+        body {
+            padding: 50px;
+        }
+
+        .books, .books td {
+            border: 1px solid lightgray;
+            padding: 5px;
+        }
+    </style>
+    <script src="/webjars/jquery/3.3.1/jquery.min.js"></script>
+    <script src="/ajaxplus.js"></script>
+</head>
+<body>
+<h1>Книги:</h1>
+
+<table class="books">
+    <thead>
+    <tr>
+<!--        <th>ID</th>  -->
+        <th>Наименование</th>
+        <th>Автор</th>
+        <th>Жанр</th>
+        <th></th>
+        <th></th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    <!--
+    <tr th:each="book : ${books}">
+        <td th:text="${book.id}">1</td>
+        <td th:text="${book.name}">Book</td>
+        <td th:text="${book.autor.name}">John Doe</td>
+        <td th:text="${book.genre.name}">fantasy</td>
+        <td><a th:href="@{editBook(id=${book.id})}" href="edit.html">Изменить</a></td>
+        <td><a th:href="@{deleteBook(id=${book.id})}" href="delete.html">Удалить</a></td>
+        <td><a th:href="@{notes(bookid=${book.id})}" href="notes.html">Примечания</a></td>
+    </tr>
+    -->
+    </tbody>
+</table>
+<!-- <a th:href="@{/editBook(id=0)}" href="edit.html">Добавить</a> -->
+<br>
+<button onclick="window.location.href = '/book/0';">Добавить</button>
+<button onclick="window.location.href = '/genre';">Жанры</button>
+<button onclick="window.location.href = '/autor';">Авторы</button>
+
+<script>
+    $(function () {
+        $.get('/api/book').done(function(books) {
+            books.forEach( function(book){
+                $('tbody').append(`
+                    <tr>
+                        <td>${book.name}</td>
+                        <td>${book.autor.name}</td>
+                        <td>${book.genre.name}</td>
+                        <td><button onclick="window.location.href = '/book/${book.id}'">Изменить</button></td>
+                        <td><button onclick="javascript:del('${book.id}', '${book.name}');">Удалить</button></td>
+                    </tr>
+                `)
+            })
+
+        })
+    })
+
+    function del(id, name){
+       var isDel = confirm('Удалить книгу "'+name+'"');
+
+       if(!isDel){
+         return;
+       }
+
+        $.ajax({
+            url: '/api/book/',
+            type: 'DELETE',
+            data: JSON.stringify({id: id, name: name, genre:{id:0, name:""}, autor:{id:0, name:""}}),
+            contentType: 'application/json',
+            success: function(data) {
+                window.location.href = "/book";
+            },
+            error: function(err, status, msg){
+                alert(msg);
+            }
+        });
+
+
+
+    }
+
+</script>
+
+</body>
+</html>
