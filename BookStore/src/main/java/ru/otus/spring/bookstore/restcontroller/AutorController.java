@@ -58,13 +58,14 @@ public class AutorController {
     @DeleteMapping(path="/api/autor")
     public Mono<Void> delete(@RequestBody AutorDto autorDto){
         Autor autor = AutorDto.toAutor(autorDto);
+
         return bookRepository.existsByAutor(autor).flatMap(b -> {
-                                                                    if(!b) {
-                                                                        return autorRepository.delete(autor);
-                                                                    }else {
-                                                                       throw new ResponseStatusException(HttpStatus.FOUND, "У автора имеются книги");
-                                                                    }
-                                                                } );
+                if(!b) {
+                    return autorRepository.delete(autor);
+                } else {
+                    return Mono.error(new ResponseStatusException(HttpStatus.FOUND, "У автора имеются книги"));
+                }
+        });
     }
 
 }

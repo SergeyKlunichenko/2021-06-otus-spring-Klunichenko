@@ -52,7 +52,13 @@ public class GenreController {
     @DeleteMapping(path="/api/genre")
     public Mono<Void> delete(@RequestBody GenreDto genreDto){
         Genre genre = GenreDto.toGenre(genreDto);
-        return bookRepository.existsByGenre(genre).flatMap(b -> {if(!b) return genreRepository.delete(genre); else  throw new ResponseStatusException(HttpStatus.FOUND, "У жанра имеются книги");   } );
+        return bookRepository.existsByGenre(genre).flatMap(b -> {
+            if(!b) {
+                return genreRepository.delete(genre);
+            }else{
+                return Mono.error(new ResponseStatusException(HttpStatus.FOUND, "У жанра имеются книги"));
+            }
+        });
     }
     
     
