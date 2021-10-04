@@ -14,12 +14,6 @@ import javax.sql.DataSource;
 
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
-    /*
-    @Override
-    public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/");
-    }
-    */
 
     @Autowired
     private DataSource dataSource;
@@ -27,9 +21,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
-                //.authorizeRequests().antMatchers( "/public" ).anonymous()
-                //.and()
-//                .authorizeRequests().antMatchers( "/", "/book/**", "/autor/**", "/user/**", "/genre/**" ).authenticated()
                 .authorizeRequests().antMatchers( "/**").authenticated()
 
                 .and()
@@ -47,17 +38,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Autowired
     public void configure( AuthenticationManagerBuilder auth ) throws Exception {
-        /*
-        auth.inMemoryAuthentication()
-                .withUser( "admin" ).password( "password" ).roles( "ADMIN" );
-        */
         auth.jdbcAuthentication()
                 .dataSource(dataSource)
                 .usersByUsernameQuery("select login, password, 'true' from users where login =?")
                 .authoritiesByUsernameQuery("select login, role  from users where login =?");
-
-
-
     }
 
 }
