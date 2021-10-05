@@ -1,6 +1,7 @@
 package ru.otus.spring.bookstore.restcontrollers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,12 +16,13 @@ import java.util.List;
 
 @Controller
 public class BookController {
-    private final BookStoreService bookStoreService;
-
     @Autowired
+    private  BookStoreService bookStoreService  ;
+
     public BookController(BookStoreService bookStoreService) {
         this.bookStoreService = bookStoreService;
     }
+
 
     @GetMapping("/")
     public String listBooks(Model model) {

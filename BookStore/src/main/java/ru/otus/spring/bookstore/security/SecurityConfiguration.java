@@ -9,6 +9,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import ru.otus.spring.bookstore.services.UserDetailServiceBS;
 
 import javax.sql.DataSource;
 
@@ -16,7 +17,7 @@ import javax.sql.DataSource;
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    private DataSource dataSource;
+    UserDetailServiceBS userDetailServiceBS;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -26,7 +27,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and()
                 // Включает Form-based аутентификацию
                 .formLogin();
-
     }
 
     @SuppressWarnings("deprecation")
@@ -38,10 +38,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Autowired
     public void configure( AuthenticationManagerBuilder auth ) throws Exception {
-        auth.jdbcAuthentication()
-                .dataSource(dataSource)
-                .usersByUsernameQuery("select login, password, 'true' from users where login =?")
-                .authoritiesByUsernameQuery("select login, role  from users where login =?");
+        auth.userDetailsService(userDetailServiceBS);
     }
 
 }

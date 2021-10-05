@@ -1,5 +1,6 @@
 package ru.otus.spring.bookstore.services;
 
+import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.otus.spring.bookstore.models.*;
@@ -11,11 +12,10 @@ import java.util.List;
 @Service
 public class BookStoreService {
 
-    private final BookRepository bookRepository;
-    private final AutorRepository autorRepository;
-    private final GenreRepository genreRepository;
-    private final NoteRepository noteRepository;
-
+    private  BookRepository bookRepository;
+    private  AutorRepository autorRepository;
+    private  GenreRepository genreRepository;
+    private  NoteRepository noteRepository;
 
     public BookStoreService(BookRepository bookRepository, AutorRepository autorRepository, GenreRepository genreRepository, NoteRepository noteRepository) {
         this.bookRepository = bookRepository;
