@@ -16,8 +16,12 @@ import javax.sql.DataSource;
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-    @Autowired
-    UserDetailServiceBS userDetailServiceBS;
+    //@Autowired
+    private final UserDetailServiceBS userDetailServiceBS;
+
+    public SecurityConfiguration(UserDetailServiceBS userDetailServiceBS){
+        this.userDetailServiceBS = userDetailServiceBS;
+    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -27,6 +31,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and()
                 // Включает Form-based аутентификацию
                 .formLogin();
+
     }
 
     @SuppressWarnings("deprecation")
@@ -34,7 +39,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     public PasswordEncoder passwordEncoder() {
         return NoOpPasswordEncoder.getInstance();
     }
-
 
     @Autowired
     public void configure( AuthenticationManagerBuilder auth ) throws Exception {
