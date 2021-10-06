@@ -12,7 +12,7 @@ import ru.otus.spring.bookstore.repositories.UserRepository;
 @Service
 public class UserDetailServiceBS implements UserDetailsService{
 
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
     public UserDetailServiceBS(UserRepository userRepository) {
         this.userRepository = userRepository;

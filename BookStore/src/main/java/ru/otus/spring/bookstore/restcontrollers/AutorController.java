@@ -19,7 +19,6 @@ import java.util.List;
 public class AutorController {
     private final BookStoreService bookStoreService;
 
-    @Autowired
     public AutorController(BookStoreService bookStoreService) {
         this.bookStoreService = bookStoreService;
     }

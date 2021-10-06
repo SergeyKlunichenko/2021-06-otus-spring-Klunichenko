@@ -12,10 +12,10 @@ import java.util.List;
 @Service
 public class BookStoreService {
 
-    private  BookRepository bookRepository;
-    private  AutorRepository autorRepository;
-    private  GenreRepository genreRepository;
-    private  NoteRepository noteRepository;
+    private final BookRepository bookRepository;
+    private final AutorRepository autorRepository;
+    private final GenreRepository genreRepository;
+    private final NoteRepository noteRepository;
 
     public BookStoreService(BookRepository bookRepository, AutorRepository autorRepository, GenreRepository genreRepository, NoteRepository noteRepository) {
         this.bookRepository = bookRepository;
