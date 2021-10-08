@@ -9,6 +9,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import ru.otus.spring.bookstore.services.UserDetailServiceBS;
@@ -19,10 +20,10 @@ import javax.sql.DataSource;
 @Configuration
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-    private  final  UserDetailServiceBS userDetailServiceBS;
+    private  final UserDetailsService userDetailService;
 
-    public SecurityConfiguration(UserDetailServiceBS userDetailServiceBS) {
-        this.userDetailServiceBS = userDetailServiceBS;
+    public SecurityConfiguration(UserDetailsService userDetailService) {
+        this.userDetailService = userDetailService;
     }
 
     @Override
@@ -48,7 +49,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests().antMatchers("/editGenre").hasAnyRole("MANAGER")
                 .and()
-                .authorizeRequests().antMatchers("/note").hasAnyRole("READER")
+                .authorizeRequests().antMatchers("/notes").hasAnyRole("READER")
                 .and()
                 .formLogin()
                 .and()
@@ -66,7 +67,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Autowired
     public void configure( AuthenticationManagerBuilder auth ) throws Exception {
 
-        auth.userDetailsService(userDetailServiceBS);
+        auth.userDetailsService(userDetailService);
 
 
 
