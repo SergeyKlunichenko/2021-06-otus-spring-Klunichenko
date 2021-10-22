@@ -29,6 +29,9 @@ management:
   endpoint:
     health:
       show-details: always
+      logging:
+        file:
+          name: "health.log"
     docs:
       enabled: true
   health:
