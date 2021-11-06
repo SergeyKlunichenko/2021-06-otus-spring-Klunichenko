@@ -1,0 +1,29 @@
+spring:
+  datasource:
+    platform: postgres
+    url: jdbc:postgresql://localhost:5432/autorep
+    username: admin
+    password: admin
+
+  jpa:
+    generate-ddl: true
+    hibernate:
+      ddl-auto: update
+
+    properties:
+      hibernate:
+        format_sql: false
+
+    show-sql: true
+
+
+logging:
+    level:
+      #root: error
+      org.springframwork: debug
+
+#  h2:
+#    console:
+#      path: /h2-console
+#      settings:
+#        web-allow-others: true

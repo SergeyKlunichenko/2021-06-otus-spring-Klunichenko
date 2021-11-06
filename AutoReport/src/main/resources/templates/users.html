@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Users</title>
+    <style type="text/css">
+        body {
+            padding: 50px;
+        }
+
+        .users, .users td {
+            border: 1px solid lightgray;
+            padding: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h3>Пользователи</h3>
+    <table class="users">
+        <thead>
+            <tr>
+                <th>id</th>
+                <th>login</th>
+                <th>Имя</th>
+                <th>Список ролей</th>
+                <th>Пароль</th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+            <tr th:each="user : ${users}">
+                <td th:text="${user.id}">1</td>
+                <td th:text="${user.login}">Book</td>
+                <td th:text="${user.name}">Book</td>
+                <td th:text="${user.roles}">1</td>
+                <td th:text="${user.password}">1</td>
+
+                <td><button onclick='' th:onclick="|window.location.href='/user/*{user.id}'|">Изменить</button></td>
+                <td><button onclick='' th:onclick="|window.location.href='/password/*{user.id}'|">Пароль</button></td>
+                <td><button onclick="javascript:del('${user.id}', '${user.name}');">Удалить</button></td>
+            </tr>
+            </tr>
+        </tbody>
+
+    </table>
+
+    <button onclick="window.location.href = '/user/0'">Добавить</button>
+    <button onclick="window.location.href = '/';">Назад</button>
+
+
+</body>
+</html>
