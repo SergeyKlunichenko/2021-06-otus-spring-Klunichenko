@@ -1,9 +1,36 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Users</title>
     <style type="text/css">
+
+.container{
+  margin: 0 auto;
+}
+
+.content{
+  width: 100px;
+  float: left;
+  margin-right: 5px;
+  border: 1px solid gray;
+  border-radius: 3px;
+  padding: 5px;
+}
+
+/* Delete */
+.content span{
+  border: 2px solid red;
+  display: inline-block;
+  width: 99%;
+  text-align: center;
+  color: red;
+}
+.content span:hover{
+  cursor: pointer;
+}
+
+
         body {
             padding: 50px;
         }
@@ -13,6 +40,9 @@
             padding: 5px;
         }
     </style>
+    <script src="/webjars/jquery/3.3.1/jquery.min.js"></script>
+
+
 </head>
 <body>
     <h3>Пользователи</h3>
@@ -24,6 +54,7 @@
                 <th>Имя</th>
                 <th>Список ролей</th>
                 <th>Пароль</th>
+                <th></th>
                 <th></th>
                 <th></th>
             </tr>
@@ -39,7 +70,9 @@
 
                 <td><button onclick='' th:onclick="|window.location.href='/user/*{user.id}'|">Изменить</button></td>
                 <td><button onclick='' th:onclick="|window.location.href='/password/*{user.id}'|">Пароль</button></td>
-                <td><button onclick="javascript:del('${user.id}', '${user.name}');">Удалить</button></td>
+                <td><button onclick='' th:onclick="deluser([[${user.id}]], [[${user.name}]]);">Удалить</button></td>
+<!--                <td><button onclick='' th:onclick="|javascript:delete(|+${user.name}+|);|">Удалить</button></td> -->
+<!--                <td><button onclick='' th:onclick="|javascript:delete(|+${user.id}+|,'|+${user.name}+|');|">Удалить</button></td> -->
             </tr>
             </tr>
         </tbody>
@@ -48,6 +81,33 @@
 
     <button onclick="window.location.href = '/user/0'">Добавить</button>
     <button onclick="window.location.href = '/';">Назад</button>
+
+    <script>
+    function deluser(id, name){
+        var URL = '/rest/user/'+id
+        //var data = {'id': id, 'name':name};
+
+        if(!confirm("Удалять пользователя "+name+"?")){
+            return;
+        }
+
+        $.ajax({
+                 url:URL,
+                 type:'delete',
+                 success:function(msg){
+                    //alert(msg);
+                    window.location.href = '/user';
+                 },
+                 error:function(err){
+                    alert('Error status:'+err.status + ","+err.error);
+                 }
+
+               })
+/*
+*/
+    }
+
+    </script>
 
 
 </body>

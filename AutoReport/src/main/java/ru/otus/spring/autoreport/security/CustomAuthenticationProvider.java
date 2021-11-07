@@ -20,22 +20,12 @@ import java.util.List;
 
 @Component
 public class CustomAuthenticationProvider implements AuthenticationProvider {
-    //private final UserDetailsService userDetailsService;
     private UserDetailsService userDetailsService;
     private UserRepository userRepository;
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     public CustomAuthenticationProvider(UserDetailsService userDetailsService, UserRepository userRepository) {
         this.userDetailsService = userDetailsService;
         this.userRepository = userRepository;
-    }
-
-    public BCryptPasswordEncoder getbCryptPasswordEncoder() {
-        return bCryptPasswordEncoder;
-    }
-
-    public void setbCryptPasswordEncoder(BCryptPasswordEncoder bCryptPasswordEncoder) {
-        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
     @Override
@@ -45,6 +35,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         String userName = authentication.getName();
 
         UserDetails userDetails = userDetailsService.loadUserByUsername(userName);
+        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
 
         if(!bCryptPasswordEncoder.matches(password, userDetails.getPassword() )){
             throw new BadCredentialsException("Ошибка в пароле или имени пользователя");

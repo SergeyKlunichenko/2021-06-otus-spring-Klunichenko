@@ -1,47 +1,51 @@
-package ru.otus.spring.autoreport.config;
+package ru.otus.spring.autoreport.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import ru.otus.spring.autoreport.security.CustomAuthenticationProvider;
-import ru.otus.spring.autoreport.security.CustomUserDetailsService;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @EnableWebSecurity
-public class SecurityConfiguration {
+public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-    //private  final CustomUserDetailsService userDetailService;
-    @Autowired
-    private CustomAuthenticationProvider authenticationProvider;
-    @Autowired
-    private   BCryptPasswordEncoder bCryptPasswordEncoder;
-    @Autowired
-    private   CustomUserDetailsService customUserDetailsService;
+    private final CustomAuthenticationProvider authenticationProvider;
+    private final CustomUserDetailsService customUserDetailsService;
 
+    public SecurityConfiguration(CustomAuthenticationProvider authenticationProvider, CustomUserDetailsService customUserDetailsService) {
+        this.authenticationProvider = authenticationProvider;
+        this.customUserDetailsService = customUserDetailsService;
+    }
+
+    @Override
+    public void configure(WebSecurity web) throws Exception {
+        super.configure(web);
+    }
+
+    @Override
     public void configure(HttpSecurity http) throws Exception{
         http.csrf().disable()
-                .authorizeRequests().antMatchers("/").hasAnyRole("ADMIN")
+                .authorizeRequests().antMatchers("/").hasAnyRole("READER")
                 .and()
-                .authorizeRequests().antMatchers("/useredit").hasAnyRole("ADMIN")
+                .authorizeRequests().antMatchers("/user/**").hasAnyRole("ADMIN")
                 .and()
                 .formLogin()
                 ;
     }
 
-    @Autowired
+    @Override
     public void configure( AuthenticationManagerBuilder auth ) throws Exception {
-        authenticationProvider.setbCryptPasswordEncoder(bCryptPasswordEncoder);
         auth.userDetailsService(customUserDetailsService);
         auth.authenticationProvider(authenticationProvider);
     }
 
-
-    @SuppressWarnings("deprecation")
     @Bean
-    public BCryptPasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
+    public PasswordEncoder passwordEncoder() {
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        return passwordEncoder;
     }
-
 }

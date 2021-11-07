@@ -1,5 +1,6 @@
 package ru.otus.spring.autoreport.controller;
 
+//import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,9 +14,9 @@ public class UserController {
     private final UserService userService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    public UserController(UserService userService, BCryptPasswordEncoder bCryptPasswordEncoder) {
+    public UserController(UserService userService) {
         this.userService = userService;
-        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+        this.bCryptPasswordEncoder = new BCryptPasswordEncoder();
     }
 
     @GetMapping("/user")

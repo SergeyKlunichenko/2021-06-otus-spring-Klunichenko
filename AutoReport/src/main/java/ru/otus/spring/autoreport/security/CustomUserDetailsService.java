@@ -9,6 +9,11 @@ import org.springframework.stereotype.Service;
 import ru.otus.spring.autoreport.models.User;
 import ru.otus.spring.autoreport.repositories.UserRepository;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
     private  final UserRepository userRepository;
@@ -27,11 +32,15 @@ public class CustomUserDetailsService implements UserDetailsService {
             throw new UsernameNotFoundException("Не найден пользователь: " + s);
         }
 
+        List roles = Arrays.asList(user.getRoles().split(","));
+
+
         UserDetails userDetails = org.springframework.security.core.userdetails.User.builder()
                 .username(user.getLogin())
                 .password(user.getPassword())
-                .roles(user.getRoles())
+                .roles(user.getRoles().split(","))
                 .build();
+
 
         return userDetails;
     }
